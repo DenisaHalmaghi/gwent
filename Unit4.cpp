@@ -71,3 +71,8 @@ void __fastcall TForm4::passBtnClick(TObject *Sender)
 		 }
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm4::boardImgClick(TObject *Sender)
+{
+    Label1->Caption=Mouse->CursorPos.y;
+}
+//---------------------------------------------------------------------------

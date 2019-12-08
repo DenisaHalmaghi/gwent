@@ -5,6 +5,10 @@
 #include "UnitCard.h"
 #include "UnitCardUI.h"
 #include "NonUnitCardUI.h"
+
+#define C_MyTop 525
+#define C_Left_Start 200
+#define C_Left_End 1700
 class JocGwent
 {
 TImage* board;
@@ -19,6 +23,8 @@ Card* droppedCard;
 bool myTurn;
 bool placedCard;
 int turn;
+vector<pair<int,int>> positions[2];
+int pos_top[2];
 
 public:
  JocGwent(TForm*,TImage*);

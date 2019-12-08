@@ -43,8 +43,8 @@ TCaption pc, Ability* ab,int nrInst){
 		 cardImg->Picture->Assign(img);
 		 cardImg->Stretch=true;
 		 //cardImg->Proportional=true;
-		 cardImg->Height=280;
-		 cardImg->Width=cardImg->Height*0.696629;
+		 cardImg->Height=C_CardHeight;
+		 cardImg->Width=C_CardHeight*C_Ratio;
 		 cardImg->Left =pos.x;
 		 cardImg->Top =pos.y;
 		 cardImg->Tag=nrInst;

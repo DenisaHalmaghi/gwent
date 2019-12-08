@@ -21,7 +21,20 @@ JocGwent::JocGwent(TForm* parent,TImage* boardImg)
 	targetTimer=new TTimer(parent);
 	targetTimer->Enabled=false;
 	Init(parent);
-
+	turn=0;
+	int width=C_CardHeight*C_Ratio;
+	int left=C_Left_Start;
+	//vector<pair<int,int>> temp;
+	while(left+width+5<C_Left_End)
+	{
+	   pair entry=make_pair(left,-1);
+	   positions[0].push_back(entry);
+	   positions[1].push_back(entry);
+	   left=left+width+5;
+	}
+	int c=0;
+	pos_top[0]=C_MyTop;
+	pos_top[1]=C_MyTop+C_CardHeight+7;
 
 }
 
@@ -55,8 +68,14 @@ void JocGwent::Init(TForm* parent)
 	Cards.push_back(card3);
 	card3->buildCardUI(Point(800,500),parent);
 	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-
 	card3->cardInterface->cardImg->OnClick =cardClicked;
+
+	Ability* ab4=new Ability(C_Lock,2,0);
+	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
+	Cards.push_back(card4);
+	card4->buildCardUI(Point(950,500),parent);
+	card4->cardInterface->cardImg->OnMouseDown =cardMouseDown;
+	card4->cardInterface->cardImg->OnClick =cardClicked;
 
 //	CardUI* myUICard2=new UnitCardUI(card2,300+myUICard->getWidth()+20,400,parent);
 //	UICards.push_back(myUICard2);
@@ -80,9 +99,13 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 void __fastcall JocGwent::boardDragOver(TObject *Sender, TObject *Source, int X,
 		  int Y, TDragState State, bool &Accept)
 {
-		 Accept = true;
+	if(Y>C_MyTop)
+	{
+       Accept = true;
 		 TImage *test = (TImage*)Source;
 		 Cards[test->Tag]->cardInterface->Muta(Mouse->CursorPos.x, Mouse->CursorPos.y);
+	}
+
 
 
 //		 test->Left= Mouse->CursorPos.x;
@@ -99,11 +122,33 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  placedCard=1;
 	  Card* card= Cards[currentImage->Tag];
 
+	  int index=(abs(Y-pos_top[0])> abs(Y-pos_top[1]))?1:0;
+	  int minIndex=0;
+	  int dm=1000;
+	  int temp;
+	  for(int i=0;i<positions[index].size();i++)
+	  {
+		  temp=abs(positions[index][i].first-X);
+		 if(temp<dm)
+		 {
+			 minIndex=i;
+			 dm=temp;
+
+		 }
+	  }
+	  //check if position is occupied and if it is move the other cards
+	  //check if possible first(won't pass index 0) and get the min of cards to be moved (left or right)
+	  //parcurgere cu swap pt first +apeleaza muta pentru fiecare carte pt care se face swap
+      //vezi la drop sa se puna unde trebuie cartea
+	  positions[index][minIndex].second=currentImage->Tag;
+	  card->cardInterface-> Muta(positions[index][minIndex].first,pos_top[index]);
+
 	  //FIRST CHECK IF IT S OF TYPE ORDER!! AND IF NOT CONTINUE ELSE WAIT 1 ROUND
 	  //BEFORE TRIGGERING ON CLICK!!!
 
-	  //IF ORDER PUSH IT INTO ORDERS ARRAY(create function)
-	  //IF ORDER AND IS ALREADY INSIDE CHECK IF USED
+	  //IF ORDER PUSH IT INTO ORDERS ARRAY
+	  //IF PLAIN ORDER AND IS ALREADY INSIDE CHECK IF USED
+	  //IF ITS CHARGES OR WITH CD ACT ACORDINGLY
 	  if(!card->getTarget()){
 		card->triggerAbility(card,effects);
 		droppedCard=card;
@@ -129,7 +174,7 @@ void __fastcall JocGwent::targetTimerTimer(TObject *Sender)
 	}
 	else
 	{
-	  droppedCard->cardInterface->cardImg->Left=droppedCard->cardInterface->cardImg->Left+1;
+	  //droppedCard->cardInterface->cardImg->Left=droppedCard->cardInterface->cardImg->Left+1;
 	}
 
 }//---------------------------------------------------------------------------
