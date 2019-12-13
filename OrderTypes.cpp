@@ -52,3 +52,8 @@
  {
 	 contor=++contor%cooldown;
  }
+
+ void  Periodic::prepare(Battlefield* btl,int index)
+ {
+	 btl->pushPeriodic(index);
+ }

@@ -16,11 +16,13 @@ class Battlefield
 {
 	vector<pair<int,int>> positions[2];
 	int pos_top[2];
+	vector<int> periodic;
 	public:
 	Battlefield();
+	void pushPeriodic(int);
 	void freePosition(int);
 	void freeAllPositions();
-	TPoint place(TPoint);
+	TPoint place(TPoint,int);
 
 
 };

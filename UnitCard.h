@@ -11,13 +11,17 @@ class UnitCard:public Card
 	UnitCard();
 	UnitCard(int,TCaption,UnicodeString ,UnicodeString ,int ,bool,Ability*,int,int);
 	void virtual buildCardUI(TPoint,TForm*);
-	void virtual placeOnBattlefield();
+	void virtual placeOnBattlefield(Battlefield*,TPoint);
+	void virtual modificaPower(int);
 };
 
-class Artefact:public Card
+class Special_Card:public Card
 {
-	   Artefact();
-	   void virtual placeOnBattlefield();
+public:
+   Special_Card(int,TCaption,UnicodeString ,UnicodeString ,int,bool,Ability*);
+   void virtual placeOnBattlefield(Battlefield*,TPoint);
+   void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
+//   void virtual buildCardUI(TPoint,TForm*);
 };
 //---------------------------------------------------------------------------
 #endif

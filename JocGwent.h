@@ -5,7 +5,7 @@
 #include "UnitCard.h"
 #include "UnitCardUI.h"
 #include "NonUnitCardUI.h"
-#include "Battlefield.h"
+
 
 class JocGwent
 {

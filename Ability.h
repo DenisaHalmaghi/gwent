@@ -3,6 +3,8 @@
 #ifndef AbilityH
 #define AbilityH
 #include <string>
+#include "Battlefield.h"
+
 #define C_Bleed 0
 #define C_Vitality 1
 #define C_Poison 2
@@ -34,6 +36,7 @@ public:
 	 bool virtual getZeal();
 	 int virtual getCooldown();
 	 int  virtual getNoOfCharges();
+	 void virtual prepare(Battlefield* btl,int){return;};
    //	 ~Ability();
 
 };

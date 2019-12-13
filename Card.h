@@ -23,7 +23,7 @@ protected:
 public:
 	CardUI* cardInterface;
 
-   Card(int,TCaption,UnicodeString ,UnicodeString ,int,UnicodeString,bool,Ability*);
+   Card(int,TCaption,UnicodeString ,UnicodeString ,int,bool,Ability*,UnicodeString cardType="artefact");
    Card();
    ~Card();
    Ability* getAbility();
@@ -32,9 +32,9 @@ public:
    void destroyUI();
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TForm*);
-   void virtual placeOnBattlefield();
-   void triggerAbility(Card*,vector < pair<int,int> > [3]);
-   void modificaPower(int);
+   void virtual placeOnBattlefield(Battlefield*,TPoint);
+   void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
+   void virtual modificaPower(int);
 
 };
 //---------------------------------------------------------------------------

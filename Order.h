@@ -14,6 +14,7 @@ class Order:public Ability{
 	bool virtual canBeUsed()=0;
 	void virtual signalUsed()=0;
 
+
 };
 //---------------------------------------------------------------------------
 #endif

@@ -6,8 +6,8 @@
 
 //int Card::nrInst=0;  //fa-l nul de fiecare data cand se deschide o "fereastra" noua
 
-Card::Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,UnicodeString cardType,
-bool target,Ability* ab)
+Card::Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
+bool target,Ability* ab,UnicodeString cardType)
 {
 	nrInst=index;
 	this->name=name;
@@ -29,8 +29,9 @@ Card::Card(){
 
 	target=0;
 	provisionCost=10;
-	cardType="artefact";
+	cardType="special_card";
 	ability=nullptr;
+	cardInterface=nullptr;
 }
 
 Card::~Card(){
@@ -50,18 +51,15 @@ bool Card::getTarget()
 void Card::buildCardUI(TPoint pos,TForm* parent)
 {
 
-	cardInterface=new NonUnitCardUI(pos,parent,image,faction, provisionCost,ability, cardType,nrInst);
+	cardInterface=new NonUnitCardUI(pos,parent,image,faction, provisionCost,ability,cardType,nrInst);
 }
 
 void Card::modificaPower(int dp)
 {
-
-	UnitCardUI* unit=(UnitCardUI*)cardInterface;
-	int oldPower= unit->getPower();
-	unit->setPower(oldPower+dp);
+	return;
 }
 
-void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3]){
+void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield* btl){
 
 	UnitCardUI* target= (UnitCardUI*)(tg->cardInterface);
 	if(((UnitCardUI*)cardInterface)->hasLock())
@@ -310,6 +308,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3]){
 		{
 			//nu mai exista
 			tg->destroyUI();
+			btl->freePosition(tg->getIndex());
 			return;
 		}
 
@@ -383,9 +382,10 @@ void Card::Bleed_Vitality(int effect,int index,UnitCardUI* target, vector<pair<i
 
 }
 
-void Card::placeOnBattlefield()
+void Card::placeOnBattlefield(Battlefield* btl,TPoint pos)
 {
-	return;
+	TPoint newPos=btl->place(pos,nrInst);
+	cardInterface->Muta(newPos.X,newPos.Y);
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

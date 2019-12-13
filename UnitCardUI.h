@@ -22,7 +22,7 @@ class UnitCardUI:public CardUI{
 	void appendEffect(int,int qt=1);
 	void removeEffect();
 	void modifyEffect(int);
-
+	void setColor(TColor);
 	void appendPoison_Lock(int,int);
 	void removePoison_Lock(int);
 	bool hasPoison();

@@ -30,6 +30,7 @@ class Periodic:public Order
 	Periodic(int,int,int cd=2,bool zeal=0);
 	bool virtual canBeUsed();
 	void virtual signalUsed();
+	void virtual prepare(Battlefield* btl,int );
 };
 //---------------------------------------------------------------------------
 #endif

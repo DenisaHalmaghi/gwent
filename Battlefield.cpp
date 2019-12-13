@@ -24,7 +24,7 @@ Battlefield::Battlefield()
 	pos_top[1]=C_MyTop+C_CardHeight+7;
 }
 
-TPoint Battlefield::place(TPoint currPos)
+TPoint Battlefield::place(TPoint currPos,int cardIndex)
 {
 	  int index=(abs(currPos.Y-pos_top[0])> abs(currPos.Y-pos_top[1]))?1:0;
 	  int minIndex=0;
@@ -43,6 +43,7 @@ TPoint Battlefield::place(TPoint currPos)
 		 }
 	  }
 
+	  positions[index][minIndex].second= cardIndex;//punem indexul cartii in vector
 	  return Point(positions[index][minIndex].first,pos_top[index]);
 }
 
@@ -73,5 +74,11 @@ void Battlefield::freeAllPositions()
 
 		   }
 	   }
+}
+
+void Battlefield::pushPeriodic(int index)
+{
+
+	periodic.push_back(index);
 }
 

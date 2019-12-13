@@ -81,6 +81,11 @@ int UnitCardUI::getPower()
 	return StrToInt(power->Caption);
 }
 
+void UnitCardUI::setColor(TColor cl)
+{
+	power->Font->Color=cl;
+}
+
 //
 //void UnitCardUI::triggerAbility(CardUI* tg){
 //	UnitCardUI* target= dynamic_cast<UnitCardUI*>(tg);
