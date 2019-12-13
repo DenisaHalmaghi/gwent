@@ -22,19 +22,21 @@ JocGwent::JocGwent(TForm* parent,TImage* boardImg)
 	targetTimer->Enabled=false;
 	Init(parent);
 	turn=0;
-	int width=C_CardHeight*C_Ratio;
-	int left=C_Left_Start;
-	//vector<pair<int,int>> temp;
-	while(left+width+5<C_Left_End)
-	{
-	   pair entry=make_pair(left,-1);
-	   positions[0].push_back(entry);
-	   positions[1].push_back(entry);
-	   left=left+width+5;
-	}
-	int c=0;
-	pos_top[0]=C_MyTop;
-	pos_top[1]=C_MyTop+C_CardHeight+7;
+//	int width=C_CardHeight*C_Ratio;
+//	int left=C_Left_Start;
+//	//vector<pair<int,int>> temp;
+//	while(left+width+5<C_Left_End)
+//	{
+//	   pair entry=make_pair(left,-1);
+//	   positions[0].push_back(entry);
+//	   positions[1].push_back(entry);
+//	   left=left+width+5;
+//	}
+//	int c=0;
+//	pos_top[0]=C_MyTop;
+//	pos_top[1]=C_MyTop+C_CardHeight+7;
+
+	btl=new Battlefield();
 
 }
 
@@ -46,7 +48,7 @@ void JocGwent::Init(TForm* parent)
 	targetTimer->OnTimer=targetTimerTimer;
 
 	Ability* ab1=new Ability(C_Poison,3,0);
-	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,0,ab1,6,0);
+	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,0,ab1,1,0);
 	Cards.push_back(card1);
 	card1->buildCardUI(Point(300,300),parent);
 
@@ -70,7 +72,7 @@ void JocGwent::Init(TForm* parent)
 	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
 	card3->cardInterface->cardImg->OnClick =cardClicked;
 
-	Ability* ab4=new Ability(C_Lock,2,0);
+	Ability* ab4=new Ability(C_Destroy,2,0);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
 	Cards.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
@@ -122,26 +124,34 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  placedCard=1;
 	  Card* card= Cards[currentImage->Tag];
 
-	  int index=(abs(Y-pos_top[0])> abs(Y-pos_top[1]))?1:0;
-	  int minIndex=0;
-	  int dm=1000;
-	  int temp;
-	  for(int i=0;i<positions[index].size();i++)
-	  {
-		  temp=abs(positions[index][i].first-X);
-		 if(temp<dm)
-		 {
-			 minIndex=i;
-			 dm=temp;
+//	  int index=(abs(Y-pos_top[0])> abs(Y-pos_top[1]))?1:0;
+//	  int minIndex=0;
+//	  int dm=1000;
+//	  int temp;
+//	  for(int i=0;i<positions[index].size();i++)
+//	  {
+//		  pair current= positions[index][i];
+//		  temp=abs(current.first-X);
+//		 if(temp<dm&&current.second==-1)  //if you move cards around second becomes occupied!!!
+//
+//		 {
+//			 minIndex=i;
+//			 dm=temp;
+//
+//		 }
+//	  }
 
-		 }
-	  }
+	  TPoint pos=btl->place(Point(X,Y));
+
+		 int x=pos.X;
+
+
 	  //check if position is occupied and if it is move the other cards
 	  //check if possible first(won't pass index 0) and get the min of cards to be moved (left or right)
 	  //parcurgere cu swap pt first +apeleaza muta pentru fiecare carte pt care se face swap
       //vezi la drop sa se puna unde trebuie cartea
-	  positions[index][minIndex].second=currentImage->Tag;
-	  card->cardInterface-> Muta(positions[index][minIndex].first,pos_top[index]);
+	 // positions[index][minIndex].second=currentImage->Tag;//cand o carte e distrusa -sterge!!!
+	  card->cardInterface-> Muta(pos.X,pos.Y);
 
 	  //FIRST CHECK IF IT S OF TYPE ORDER!! AND IF NOT CONTINUE ELSE WAIT 1 ROUND
 	  //BEFORE TRIGGERING ON CLICK!!!
@@ -151,7 +161,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  //IF ITS CHARGES OR WITH CD ACT ACORDINGLY
 	  if(!card->getTarget()){
 		card->triggerAbility(card,effects);
-		droppedCard=card;
+	   //	droppedCard=card;
 	  }
 	  else{
 		  //hightlightCards() and triggerCard()
@@ -171,6 +181,7 @@ void __fastcall JocGwent::targetTimerTimer(TObject *Sender)
 	{
 	  targetTimer->Enabled=false;
 	  droppedCard->triggerAbility(targetedCard,effects);
+	  droppedCard=nullptr;
 	}
 	else
 	{
@@ -236,6 +247,7 @@ bool JocGwent::switchTurn()
 				{
 					carte->destroyUI();
 					effects[i].erase( effects[i].begin()+j);
+                    //aici stergi pozitia
 				}
 				else
 				{

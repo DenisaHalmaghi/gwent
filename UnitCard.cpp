@@ -24,5 +24,24 @@ void UnitCard::buildCardUI(TPoint pos,TForm* parent)
 {
 	cardInterface=new UnitCardUI(pos,parent,image, faction, provisionCost, ability, power,nrInst);
 }
+
+void UnitCard::placeOnBattlefield()
+{
+	return;
+
+}
+
+
 //---------------------------------------------------------------------------
+
+void Artefact::placeOnBattlefield()
+{
+	return;
+}
+
+Artefact::Artefact()
+{
+
+
+}
 #pragma package(smart_init)

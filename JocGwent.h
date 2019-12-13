@@ -5,17 +5,15 @@
 #include "UnitCard.h"
 #include "UnitCardUI.h"
 #include "NonUnitCardUI.h"
+#include "Battlefield.h"
 
-#define C_MyTop 525
-#define C_Left_Start 200
-#define C_Left_End 1700
 class JocGwent
 {
 TImage* board;
 TTimer* targetTimer;
 vector<Card*> Cards;
 vector<pair<int,int>> effects[3];
-
+Battlefield* btl;
 //game logic vars
 bool targetWasSelected;
 Card* targetedCard;

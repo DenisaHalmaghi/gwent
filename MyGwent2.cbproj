@@ -135,6 +135,10 @@
             <DependentOn>Ability.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Battlefield.cpp">
+            <DependentOn>Battlefield.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Card.cpp">
             <DependentOn>Card.h</DependentOn>
             <BuildOrder>4</BuildOrder>
@@ -142,6 +146,10 @@
         <CppCompile Include="CardUI.cpp">
             <DependentOn>CardUI.h</DependentOn>
             <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Deck.cpp">
+            <DependentOn>Deck.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
         </CppCompile>
         <PCHCompile Include="Gwent_v2.h">
             <BuildOrder>1</BuildOrder>
@@ -157,6 +165,14 @@
         <CppCompile Include="NonUnitCardUI.cpp">
             <DependentOn>NonUnitCardUI.h</DependentOn>
             <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Order.cpp">
+            <DependentOn>Order.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="OrderTypes.cpp">
+            <DependentOn>OrderTypes.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
         </CppCompile>
         <CppCompile Include="Unit4.cpp">
             <Form>Form4</Form>
@@ -252,14 +268,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\MyGwent2.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>MyGwent2.tds</RemoteName>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName=".\Win32\Debug\MyGwent2.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>MyGwent2.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

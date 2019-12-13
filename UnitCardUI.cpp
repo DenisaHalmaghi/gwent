@@ -119,7 +119,7 @@ void UnitCardUI::appendEffect(int effect,int qt)
 		 case C_Bleed:font->Color=clRed;break;
 		 case C_Vitality:font->Color=clLime;break;
 	 }
-	 font->Size = 15;
+	 font->Size = 14;
 	 font->Style = TFontStyles() << fsBold;
 	 effectLabel->Font=font;
 	 delete font;

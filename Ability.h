@@ -11,6 +11,7 @@
 #define C_Purify 5
 #define C_Lock 6
 #define C_Destroy 7
+#define C_GiveCharges 8
 
 using namespace std;
 

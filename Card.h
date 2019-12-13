@@ -3,7 +3,7 @@
 #ifndef CardH
 #define CardH
 #include <string>
-#include "Ability.h"
+#include "OrderTypes.h"
 #include "UnitCardUI.h"
 #include "NonUnitCardUI.h"
 #include <vector>
@@ -32,6 +32,7 @@ public:
    void destroyUI();
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TForm*);
+   void virtual placeOnBattlefield();
    void triggerAbility(Card*,vector < pair<int,int> > [3]);
    void modificaPower(int);
 

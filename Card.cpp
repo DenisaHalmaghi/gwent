@@ -297,8 +297,8 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3]){
 		target->getPower();
 		   if(target->getPower()>8)
 		   {
-				tg->destroyUI();
-				return;
+				target->setPower(0);
+			   //	return;
 			  // target->appendPoison_Lock(C_Lock,25);
 		   }
 
@@ -381,6 +381,11 @@ void Card::Bleed_Vitality(int effect,int index,UnitCardUI* target, vector<pair<i
 		 //add something to signal this for the user
 		 target->appendEffect(effect,quantum);
 
+}
+
+void Card::placeOnBattlefield()
+{
+	return;
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
