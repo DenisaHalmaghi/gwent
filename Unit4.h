@@ -26,6 +26,8 @@ __published:	// IDE-managed Components
 	void __fastcall turnTimerTimer(TObject *Sender);
 	void __fastcall passBtnClick(TObject *Sender);
 	void __fastcall boardImgClick(TObject *Sender);
+	void __fastcall boardImgMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm4(TComponent* Owner);

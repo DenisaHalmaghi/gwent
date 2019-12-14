@@ -62,6 +62,25 @@ void Battlefield::freePosition(int card)
 	   }
 }
 
+bool Battlefield::onBoard(int card)
+{
+	for(int j=0;j<2;j++)
+	{
+
+		for(int i=0;i< positions[j].size();i++)
+		{
+			if(positions[j][i].second==card)
+			{
+			   return true;
+			}
+
+		}
+
+    }
+
+	return false;
+}
+
 
 void Battlefield::freeAllPositions()
 {
@@ -80,5 +99,36 @@ void Battlefield::pushPeriodic(int index)
 {
 
 	periodic.push_back(index);
+}
+
+bool Battlefield::inOnHold(int index)
+{
+	for(int i=0;i< onHold.size();i++)
+	{
+		if(onHold[i]==index)
+		{
+		   return true;
+		}
+
+	}
+	return false;
+}
+
+void Battlefield::clearOnHold()
+{
+
+	onHold.clear();
+}
+
+void Battlefield::adToOnHold(int index)
+{
+
+	onHold.push_back(index);
+}
+
+vector<int>  Battlefield::getPeriodic()
+{
+
+	return periodic;
 }
 

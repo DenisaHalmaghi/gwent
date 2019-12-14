@@ -13,9 +13,10 @@ Order::Order(){
 
 Order::Order(int name,int qt,bool zeal):Ability(name,qt,"order"){
    this->zeal=zeal;
+
 }
 
-bool Order::getZeal(){
+int Order::getZeal(){
 	return zeal;
 }
 

@@ -47,37 +47,37 @@ void JocGwent::Init(TForm* parent)
 	board->OnDragDrop= boardDragDrop;
 	targetTimer->OnTimer=targetTimerTimer;
 
-	Ability* ab1=new Periodic(C_Vitality,3,2,0);
+	Ability* ab1=new Charges(C_Vitality,3,3);
 	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,0,ab1,2,0);
 	Cards.push_back(card1);
 	card1->buildCardUI(Point(300,300),parent);
 
 	//CardUI* myUICard=new UnitCardUI(card1,300,300,parent);
 	card1->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card1->cardInterface->cardImg->OnClick =cardClicked;
+	card1->cardInterface->cardImg->OnMouseUp =cardClicked;
 	//myUICard->cardImg->OnClick =cardClicked;
 
    //	UICards.push_back(myUICard);
 //
-	Ability* ab2=new Ability(C_Bleed,2,0);
-	Card* card2=new Special_Card(1,"Aglais","monsters","adda_striga",10,1,ab2);
+	Ability* ab2=new Ability(C_Bleed,2);
+	Card* card2=new Card(1,"Aglais","monsters","adda_striga",10,1,ab2);
 	Cards.push_back(card2);
 	card2->buildCardUI(Point(500,500),parent);
 	card2->cardInterface->cardImg->OnMouseDown =cardMouseDown;
 
-	Ability* ab3=new Ability(C_Purify,2,0);
+	Ability* ab3=new Ability(C_Purify,2);
 	Card* card3=new UnitCard(2,"Aglais","scoia","milaen",8,1,ab3,10,0);
 	Cards.push_back(card3);
 	card3->buildCardUI(Point(800,500),parent);
 	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card3->cardInterface->cardImg->OnClick =cardClicked;
+	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
 
-	Ability* ab4=new Ability(C_Destroy,2,0);
+	Ability* ab4=new Periodic(C_Damage,2,1);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
 	Cards.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
 	card4->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card4->cardInterface->cardImg->OnClick =cardClicked;
+	card4->cardInterface->cardImg->OnMouseUp =cardClicked;
 
 //	CardUI* myUICard2=new UnitCardUI(card2,300+myUICard->getWidth()+20,400,parent);
 //	UICards.push_back(myUICard2);
@@ -94,7 +94,8 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 {
 
 	TImage *test = (TImage*)Sender;
-	test->BeginDrag(true);
+	test->BeginDrag(false,-2);
+	//if right button show ui for details
 
 }
 
@@ -103,11 +104,10 @@ void __fastcall JocGwent::boardDragOver(TObject *Sender, TObject *Source, int X,
 {
 	if(Y>C_MyTop)
 	{
-       Accept = true;
+		 Accept = true;
 		 TImage *test = (TImage*)Source;
 		 Cards[test->Tag]->cardInterface->Muta(Mouse->CursorPos.x, Mouse->CursorPos.y);
 	}
-
 
 
 //		 test->Left= Mouse->CursorPos.x;
@@ -122,7 +122,8 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 {
 	  TImage* currentImage=  (TImage*)Source;
 	  placedCard=1;
-	  Card* card= Cards[currentImage->Tag];
+	  int index=currentImage->Tag;
+	  Card* card= Cards[index];
 
 //	  int index=(abs(Y-pos_top[0])> abs(Y-pos_top[1]))?1:0;
 //	  int minIndex=0;
@@ -161,6 +162,14 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  //IF ORDER PUSH IT INTO ORDERS ARRAY
 	  //IF PLAIN ORDER AND IS ALREADY INSIDE CHECK IF USED
 	  //IF ITS CHARGES OR WITH CD ACT ACORDINGLY
+	  Ability* ab=card->getAbility();
+	  if(!ab->getZeal())
+	  {
+		btl->adToOnHold(index);
+
+			return;
+	  }
+
 	  if(!card->getTarget()){
 		card->triggerAbility(card,effects,btl);
 	   //	droppedCard=card;
@@ -169,8 +178,8 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 		  //hightlightCards() and triggerCard()
 		   droppedCard=card;
 		   targetWasSelected=false;
-		   targetTimer->Interval=200;
-		   targetTimer->Enabled=true;
+//		   targetTimer->Interval=200;
+//		   targetTimer->Enabled=true;
 		 // pt trigger enable timeout save currentlydropped card in a variable to be used
 	  }
 	 // Memo1->Text=card->getCard()->getAbility()->getZeal();
@@ -179,30 +188,67 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 void __fastcall JocGwent::targetTimerTimer(TObject *Sender)
 {
 //check if a card other than the placed one was clicked and if it was stop counting
-	if(targetWasSelected)
-	{
-	  targetTimer->Enabled=false;
-	  droppedCard->triggerAbility(targetedCard,effects,btl);
-	  droppedCard=nullptr;
-	}
-	else
-	{
-	  //droppedCard->cardInterface->cardImg->Left=droppedCard->cardInterface->cardImg->Left+1;
-	}
+//	if(targetWasSelected)
+//	{
+	  //targetTimer->Enabled=false;
+//	  droppedCard->triggerAbility(targetedCard,effects,btl);
+//	  droppedCard=nullptr;
+//	}
+//	else
+//	{
+//	  droppedCard->cardInterface->cardImg->Left=droppedCard->cardInterface->cardImg->Left+1;
+//	}
 
 }//---------------------------------------------------------------------------
 
-void __fastcall JocGwent::cardClicked(TObject *Sender){
+void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
 
 //		//Memo1->Lines->Add("click");
 		TImage* clickedImg=(TImage*) Sender;
-		targetedCard=Cards[clickedImg->Tag];
-		 //targetedCard->Muta(700,700);
-		if(targetedCard!=droppedCard)
-		{
-		   targetWasSelected=true;
-		}
+		int index=  clickedImg->Tag;
+		Card* card= Cards[index];
 
+
+		if(!droppedCard)
+		{
+			if(btl->onBoard(index))
+			{
+
+				Ability* ab=card->getAbility();
+				if(ab->getAbilityType()=="order")
+				{
+				   Order* ord=dynamic_cast<Order*>(ab);
+				   if(ord->canBeUsed()&&!btl->inOnHold(index))
+				   {
+						droppedCard=card;
+						ord->signalUsed();
+						//signalUsed
+					  // targetTimer->Enabled=true;
+				   }
+
+				}
+				else
+				{
+					return;
+                }
+
+			}
+
+		}
+		else
+		{
+			//for targeting
+			targetedCard=card;
+			//targetedCard->Muta(700,700);
+			if(targetedCard!=droppedCard)
+			{
+//			   targetWasSelected=true;
+				droppedCard->triggerAbility(targetedCard,effects,btl);
+				droppedCard=nullptr;
+			}
+		}
 
 }
 
@@ -229,7 +275,8 @@ bool JocGwent::switchTurn()
 {
 
 	turn++;
-	if(turn==2){
+	if(turn==2)
+	{
 		turn=0;
 		//la finalul unui tur pentru ambii playeri
 		//parcurgem vectorul de efecte si le declansam
@@ -272,6 +319,13 @@ bool JocGwent::switchTurn()
                 }
 
 			}
+		}
+		btl->clearOnHold();
+		vector<int> per=  btl->getPeriodic();
+		for(int i=0;i<per.size();i++)
+		{
+			Periodic* current= static_cast<Periodic*>(Cards[per[i]]->getAbility());
+			current->cresteContor();
 		}
 	}
 

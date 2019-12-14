@@ -27,13 +27,13 @@ protected:
 	 bool repeatable;     //wat is dis? :))
 public:
 	 Ability();
-	 Ability(int,int,bool,TCaption tp="deploy");
+	 Ability(int,int,TCaption tp="deploy");
 	 TCaption getAbilityType();
 	 void triggerAbility();
 	 int getName();
 	 bool getRep();
      int getQuantum();
-	 bool virtual getZeal();
+	 int virtual getZeal();
 	 int virtual getCooldown();
 	 int  virtual getNoOfCharges();
 	 void virtual prepare(Battlefield* btl,int){return;};

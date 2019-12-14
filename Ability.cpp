@@ -11,11 +11,11 @@ Ability::Ability(){
 	repeatable=0;
 }
 
-Ability::Ability(int name,int qt,bool rep,TCaption tp){
+Ability::Ability(int name,int qt,TCaption tp){
 	this->name=name;
 	this->type=tp;
 	quantum=qt;
-	repeatable=rep;
+   //	repeatable=rep;
 }
 
 TCaption Ability::getAbilityType(){
@@ -29,8 +29,8 @@ int Ability::getName(){
 	return name;
 }
 
-bool Ability::getZeal(){
-	return false;
+int Ability::getZeal(){
+	return -1;
 }
 
  bool Ability::getRep(){

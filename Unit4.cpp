@@ -54,10 +54,10 @@ void __fastcall TForm4::turnTimerTimer(TObject *Sender)
          	//To do:
 	   //!!!check if any or both players passed and behave accordingly
 	   //!!restrictioneaza in functie de turn
-
+        turnTimer->Enabled=false;
 	   Memo1->Lines->Add(joc->switchTurn());
 	   //introducem un delay
-		turnTimer->Enabled=false;
+
 		turnTimer->Enabled=true;
 }
 //---------------------------------------------------------------------------
@@ -73,6 +73,14 @@ void __fastcall TForm4::passBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm4::boardImgClick(TObject *Sender)
 {
-    Label1->Caption=Mouse->CursorPos.y;
+	Label1->Caption=Mouse->CursorPos.y;
+	 Memo1->Lines->Add("click");
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm4::boardImgMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+		   Memo1->Lines->Add("up");
+}
+//---------------------------------------------------------------------------
+

@@ -70,14 +70,15 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 	{
 		case C_Boost:
 		{
-			int oldPower= target->getPower();
-			target->setPower(oldPower+ability->getQuantum());
+		   //	int oldPower= target->getPower();
+			tg->modificaPower(ability->getQuantum());
+		   //target->setPower(0);
 			break;
 		 }
 		case C_Damage:
 		{
 			int oldPower= target->getPower();
-			target->setPower(oldPower-ability->getQuantum());
+			tg->modificaPower(-ability->getQuantum());
 			break;
 		}
 		case C_Bleed:
@@ -314,6 +315,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 
 		//cartea mai exista
 		target->AranjeazaPower();
+
 }
 
 int Card::getIndex()

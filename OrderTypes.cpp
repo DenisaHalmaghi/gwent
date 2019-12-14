@@ -13,7 +13,7 @@
 
  bool NonRep::canBeUsed()
  {
-	 return used;
+	 return !used;
  }
 
  void NonRep:: signalUsed()
@@ -45,15 +45,22 @@
 
  bool Periodic::canBeUsed()
  {
-	 return !cooldown;
+	int ct=  contor;
+	int cd=cooldown;
+	 return contor>=cooldown;
  }
 
  void Periodic::signalUsed()
  {
-	 contor=++contor%cooldown;
+	 contor=0;
  }
 
  void  Periodic::prepare(Battlefield* btl,int index)
  {
 	 btl->pushPeriodic(index);
+ }
+
+ void Periodic::cresteContor()
+ {
+       contor++;
  }

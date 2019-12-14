@@ -10,7 +10,7 @@ class Order:public Ability{
    public:
 	Order();
 	Order(int,int,bool zeal=0);
-	bool getZeal();
+	int getZeal();
 	bool virtual canBeUsed()=0;
 	void virtual signalUsed()=0;
 

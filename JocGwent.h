@@ -38,7 +38,8 @@ public:
  void __fastcall boardDragDrop(TObject *Sender, TObject *Source, int X,
 		  int Y);
  void __fastcall targetTimerTimer(TObject *Sender);
- void __fastcall cardClicked(TObject *Sender);
+ void __fastcall cardClicked(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
 
 
 };
