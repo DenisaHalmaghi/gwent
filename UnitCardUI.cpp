@@ -196,13 +196,21 @@ void UnitCardUI::removePoison_Lock(int effect)
 {
     if(effect==C_Lock)
 	{
-		delete lock;
-		lock=nullptr;
+		if(lock)
+		{
+			delete lock;
+			lock=nullptr;
+		}
+
 	}
 	else
 	{
-		delete poison;
-		poison=nullptr;
+		if(poison)
+		{
+			delete poison;
+			poison=nullptr;
+        }
+
 	}
 
 }

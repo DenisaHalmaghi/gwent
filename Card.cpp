@@ -247,15 +247,10 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 				}
 			}
 
-			if(target->hasPoison())
-		   {
-			   target->removePoison_Lock(C_Poison);
-		   }
 
-			if(target->hasLock() )
-		   {
+			   target->removePoison_Lock(C_Poison);
 			   target->removePoison_Lock(C_Lock);
-		   }
+
 
 			 break;
 		}
@@ -314,6 +309,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		}
 
 		//cartea mai exista
+		takeCareOfOrder();
 		target->AranjeazaPower();
 
 }
@@ -388,6 +384,16 @@ void Card::placeOnBattlefield(Battlefield* btl,TPoint pos)
 {
 	TPoint newPos=btl->place(pos,nrInst);
 	cardInterface->Muta(newPos.X,newPos.Y);
+}
+
+void  Card::takeCareOfOrder()
+{
+	if(ability->getAbilityType()=="order")
+	{
+		Order* ord=dynamic_cast<Order*>(ability);
+		ord->signalUsed();
+		((OrderCardUI*)cardInterface)->modifyOrderUI(ord->getNoOfCharges());
+	}
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

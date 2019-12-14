@@ -2,7 +2,7 @@
 
 #ifndef CardUIH
 #define CardUIH
-#include "Ability.h"
+#include "OrderTypes.h"
 #include <Vcl.Imaging.pngimage.hpp>
 #define C_CardHeight 190
 #define C_Ratio 0.696629

@@ -37,10 +37,15 @@
 	 charges--;
  }
 
+ int Charges::getNoOfCharges()
+{
+   return charges;
+}
+
   Periodic::Periodic(int name,int qt,int cd,bool zeal):Order(name,qt,zeal)
  {
 	cooldown=cd;
-	contor=zeal?0:-1;
+	contor=zeal?cd:cd-1;
  }
 
  bool Periodic::canBeUsed()
@@ -64,3 +69,7 @@
  {
        contor++;
  }
+
+
+
+

@@ -170,6 +170,10 @@
             <DependentOn>Order.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
+        <CppCompile Include="OrderCardUI.cpp">
+            <DependentOn>OrderCardUI.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
         <CppCompile Include="OrderTypes.cpp">
             <DependentOn>OrderTypes.h</DependentOn>
             <BuildOrder>12</BuildOrder>

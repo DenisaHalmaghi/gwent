@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "JocGwent.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -59,20 +59,20 @@ void JocGwent::Init(TForm* parent)
 
    //	UICards.push_back(myUICard);
 //
-	Ability* ab2=new Ability(C_Bleed,2);
+	Ability* ab2=new Ability(C_Purify,2);
 	Card* card2=new Card(1,"Aglais","monsters","adda_striga",10,1,ab2);
 	Cards.push_back(card2);
 	card2->buildCardUI(Point(500,500),parent);
 	card2->cardInterface->cardImg->OnMouseDown =cardMouseDown;
 
-	Ability* ab3=new Ability(C_Purify,2);
+	Ability* ab3=new Ability(C_Lock,2);
 	Card* card3=new UnitCard(2,"Aglais","scoia","milaen",8,1,ab3,10,0);
 	Cards.push_back(card3);
 	card3->buildCardUI(Point(800,500),parent);
 	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
 	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
 
-	Ability* ab4=new Periodic(C_Damage,2,1);
+	Ability* ab4=new Periodic(C_Poison,2,1);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
 	Cards.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
@@ -210,7 +210,6 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 		int index=  clickedImg->Tag;
 		Card* card= Cards[index];
 
-
 		if(!droppedCard)
 		{
 			if(btl->onBoard(index))
@@ -219,13 +218,12 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 				Ability* ab=card->getAbility();
 				if(ab->getAbilityType()=="order")
 				{
-				   Order* ord=dynamic_cast<Order*>(ab);
+
+					Order* ord=dynamic_cast<Order*>(ab);
 				   if(ord->canBeUsed()&&!btl->inOnHold(index))
 				   {
 						droppedCard=card;
-						ord->signalUsed();
-						//signalUsed
-					  // targetTimer->Enabled=true;
+
 				   }
 
 				}
@@ -244,6 +242,14 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 			//targetedCard->Muta(700,700);
 			if(targetedCard!=droppedCard)
 			{
+//				 Ability* ab=droppedCard->getAbility();
+//				if(droppedCard->getAbility()->getAbilityType()=="order")
+//				{
+//
+//					Order* ord=dynamic_cast<Order*>(ab);
+//					ord->signalUsed();
+//					((OrderCardUI*)droppedCard->cardInterface)->modifyOrderUI(ord->getNoOfCharges());
+//				}
 //			   targetWasSelected=true;
 				droppedCard->triggerAbility(targetedCard,effects,btl);
 				droppedCard=nullptr;
@@ -320,12 +326,27 @@ bool JocGwent::switchTurn()
 
 			}
 		}
+		//semnaleaza ca se pot folosi abilitatile de order
+		vector<int>onHold=btl->getOnHold();
+		for(int i=0;i<onHold.size();i++)
+		{
+			Card* card=Cards[onHold[i]];
+			OrderCardUI* orderUI= (OrderCardUI*)card->cardInterface;
+			orderUI->modifyOrderUI(card->getAbility()->getNoOfCharges());
+		}
 		btl->clearOnHold();
 		vector<int> per=  btl->getPeriodic();
+		//semnaleaza trecerea unui turn pentru periodice
 		for(int i=0;i<per.size();i++)
 		{
-			Periodic* current= static_cast<Periodic*>(Cards[per[i]]->getAbility());
+
+			Card* currCard= Cards[per[i]];
+			OrderCardUI* currentCardUI=(OrderCardUI* ) (currCard->cardInterface);
+
+			Periodic* current= static_cast<Periodic*>(currCard->getAbility());
 			current->cresteContor();
+			currentCardUI->modifyOrderUI(current->getNoOfCharges());
+
 		}
 	}
 

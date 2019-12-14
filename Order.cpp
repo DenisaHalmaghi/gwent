@@ -20,4 +20,9 @@ int Order::getZeal(){
 	return zeal;
 }
 
+int Order::getNoOfCharges()
+{
+   return canBeUsed()?1:0;
+}
+
 

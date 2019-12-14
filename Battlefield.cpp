@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "Battlefield.h"
+#include "JocGwent.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -126,9 +127,13 @@ void Battlefield::adToOnHold(int index)
 	onHold.push_back(index);
 }
 
-vector<int>  Battlefield::getPeriodic()
+vector<int> Battlefield::getPeriodic()
 {
 
 	return periodic;
 }
 
+vector<int> Battlefield::getOnHold()
+{
+    return onHold;
+}

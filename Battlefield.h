@@ -29,7 +29,9 @@ class Battlefield
 	void clearOnHold();
 	void adToOnHold(int);
 	bool onBoard(int);
-    vector<int> getPeriodic();
+	vector<int> getPeriodic();
+	vector<int> getOnHold();
+
 	TPoint place(TPoint,int);
 
 

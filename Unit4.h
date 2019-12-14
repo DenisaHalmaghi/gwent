@@ -21,6 +21,7 @@ __published:	// IDE-managed Components
 	TButton *passBtn;
 	TMemo *Memo1;
 	TLabel *Label1;
+	TShape *Shape1;
 	void __fastcall btnUnuClick(TObject *Sender);
 	void __fastcall exitBtnClick(TObject *Sender);
 	void __fastcall turnTimerTimer(TObject *Sender);
@@ -32,6 +33,7 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TForm4(TComponent* Owner);
 JocGwent* joc;
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm4 *Form4;

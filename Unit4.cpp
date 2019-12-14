@@ -81,6 +81,7 @@ void __fastcall TForm4::boardImgMouseUp(TObject *Sender, TMouseButton Button, TS
 		  int X, int Y)
 {
 		   Memo1->Lines->Add("up");
+
 }
 //---------------------------------------------------------------------------
 

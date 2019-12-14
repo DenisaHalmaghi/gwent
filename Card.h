@@ -3,8 +3,8 @@
 #ifndef CardH
 #define CardH
 #include <string>
-#include "OrderTypes.h"
-#include "UnitCardUI.h"
+//#include "OrderTypes.h"
+#include "OrderCardUI.h"
 #include "NonUnitCardUI.h"
 #include <vector>
 
@@ -30,11 +30,13 @@ public:
    bool getTarget();
    int getIndex();
    void destroyUI();
+   void takeCareOfOrder();
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TForm*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
    void virtual modificaPower(int);
+
 
 };
 //---------------------------------------------------------------------------

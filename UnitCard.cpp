@@ -22,7 +22,15 @@ bool target,Ability* ab,int pw,int rs)
 
 void UnitCard::buildCardUI(TPoint pos,TForm* parent)
 {
-	cardInterface=new UnitCardUI(pos,parent,image, faction, provisionCost, ability, power,nrInst);
+	if(ability->getAbilityType()=="deploy")
+	{
+	   cardInterface=new UnitCardUI(pos,parent,image, faction, provisionCost, ability, power,nrInst);
+	}
+	else
+	{
+		cardInterface=new OrderCardUI(pos,parent,image, faction, provisionCost, ability, power,nrInst);
+    }
+
 }
 
 void UnitCard::placeOnBattlefield(Battlefield* btl,TPoint pos)

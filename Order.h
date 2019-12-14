@@ -13,6 +13,7 @@ class Order:public Ability{
 	int getZeal();
 	bool virtual canBeUsed()=0;
 	void virtual signalUsed()=0;
+	int getNoOfCharges();
 
 
 };

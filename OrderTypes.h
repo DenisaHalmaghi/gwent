@@ -11,6 +11,7 @@ class NonRep:public Order
 	NonRep(int,int,bool zeal=0);
 	bool virtual canBeUsed();
 	void virtual signalUsed();
+
 };
 
 class Charges:public Order
@@ -20,6 +21,7 @@ class Charges:public Order
 	Charges(int,int,int,bool zeal=0);
 	bool virtual canBeUsed();
 	void virtual signalUsed();
+	int  virtual getNoOfCharges();
 };
 
 class Periodic:public Order
@@ -32,6 +34,7 @@ class Periodic:public Order
 	bool virtual canBeUsed();
 	void virtual signalUsed();
 	void virtual prepare(Battlefield* btl,int );
+
 
 };
 //---------------------------------------------------------------------------
