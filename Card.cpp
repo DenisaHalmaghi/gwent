@@ -395,5 +395,10 @@ void  Card::takeCareOfOrder()
 		((OrderCardUI*)cardInterface)->modifyOrderUI(ord->getNoOfCharges());
 	}
 }
+
+void  Card::toggleDescription()
+{
+	 cardInterface->toggleDescription(name, ability->getAbilityDescription());
+}
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

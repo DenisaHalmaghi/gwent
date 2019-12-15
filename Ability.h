@@ -25,6 +25,7 @@ protected:
 	 int quantum;
 	 TCaption type;
 	 bool repeatable;     //wat is dis? :))
+	 UnicodeString description;
 public:
 	 Ability();
 	 Ability(int,int,TCaption tp="deploy");
@@ -37,6 +38,8 @@ public:
 	 int virtual getCooldown();
 	 int  virtual getNoOfCharges();
 	 void virtual prepare(Battlefield* btl,int){return;};
+	 UnicodeString getAbilityDescription();
+
    //	 ~Ability();
 
 };

@@ -13,6 +13,7 @@ protected:
 	TImage* factionTop;
 	TImage* factionBottom;
 	TLabel* provisionCost;
+	TLabel* description;
 
 public:
 	TImage* cardImg;
@@ -22,6 +23,9 @@ public:
 	bool virtual hasLock(){return false;}
 	CardUI(TPoint ,TForm* ,UnicodeString ,UnicodeString ,TCaption , Ability* ,int);
 	void Aranjeaza();
+	void showDescription(bool);
+	void toggleDescription(UnicodeString ,UnicodeString );
+	void toggleDescription();
 	void virtual Muta(int,int);
 };
 

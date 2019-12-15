@@ -15,7 +15,7 @@ OrderCardUI::OrderCardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeStr
  {
 		Order* order=static_cast<Order*>(ab);
 
-		orderBack=new TShape(parent);
+		orderBack=new TShape(cardImg);
 		orderBack->Parent=parent;
 		//test->bringTofront();
 		orderBack->Shape=stCircle;
@@ -24,7 +24,7 @@ OrderCardUI::OrderCardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeStr
 		orderBack->Height=C_OrderHeight;
 		orderBack->Width=C_OrderHeight;
 
-		orderFront=new TLabel(parent);
+		orderFront=new TLabel(cardImg);
 		orderFront->Parent=parent;
 		orderFront->Caption="zzz";
 		orderFront->Font->Color=clWhite;

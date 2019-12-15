@@ -25,6 +25,8 @@
  Charges::Charges(int name,int qt,int charges,bool zeal):Order(name,qt,zeal)
  {
 	this-> charges=charges;
+	description="\nCharges:"+IntToStr(charges)+description;
+	description+="\nCharges:Number of times order can be activated";
  }
 
  bool Charges::canBeUsed()

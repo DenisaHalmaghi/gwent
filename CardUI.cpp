@@ -31,13 +31,12 @@ TCaption pc, Ability* ab,int nrInst){
 		// card=c;
 
 		 //luam cartea corespunzatoare din vectorul de carti
-
+          description=nullptr;
 		 //initializam imaginile corespunzator
 		 cardImg=new TImage(parent);
 		 cardImg->Parent = parent;
 		 TPngImage* img = new TPngImage();
 		 img->LoadFromFile("symbols/"+image+".png");
-
 
 
 		 cardImg->Picture->Assign(img);
@@ -48,7 +47,6 @@ TCaption pc, Ability* ab,int nrInst){
 		 cardImg->Left =pos.x;
 		 cardImg->Top =pos.y;
 		 cardImg->Tag=nrInst;
-
 
 
 		  //initializam faction bannerul de sus(dreapta)
@@ -80,8 +78,69 @@ TCaption pc, Ability* ab,int nrInst){
 		font->Color = clWhite;
 		font->Style = TFontStyles() << fsBold;
 		provisionCost->Font=font;
+		font->Size = 11;
+		font->Style = TFontStyles();
+		//set up description label
+//		description=new TLabel(cardImg);
+//		description->Parent=parent;
+//		description->Height=C_CardHeight*1.2;
+//		description->Color=cl3DDkShadow;
+//		description->Transparent=false;
+//		description->AutoSize=false;
+//		description->Width=cardImg->Width*1.3;
+//		description->Font=font;
+//		description->WordWrap=true;
+
+
+		//delete temps
 		delete font;
 		delete img;
+
+		//set up text
+//		UnicodeString text[]=
+//		{"Give bleeding for","Give vitality for","Boost a unit by","Damage a unit by",
+//		"Poison a unit","Purify a unit","Lock a unit","Destroy a unit if it has at least 8 power"};
+//
+//		UnicodeString abilityDescription[]=
+//		{"Bleeding:Damages a unit by 1 on turn end","Vitality:Boosts a unit by 1 on turn end",
+//		"Boost:Increase a Unit's current Power.","Damage:Decrease a Unit's current Power."
+//		,"Poison:If a unit has two Poison statuses, destroy it.","Purify:Remove all statuses.",
+//		"Lock:Status that disables a card's abilities.","Destroy:Remove a card from the battlefied"
+//
+//		};
+//
+//		UnicodeString desc;
+//		UnicodeString descBody;
+//		UnicodeString type=ab->getAbilityType();
+//		int qt= ab->getQuantum();
+//
+//		int name=ab->getName();
+//		descBody=(type=="order"?"\nOrder:":"\nDeploy:")+text[name]+" "+qt+ (name<2?" rounds":"")
+//		+"\n\n"+abilityDescription[name];
+//		if(type=="order")
+//		{
+//			Order* order=(Order*)ab;
+//			descBody+="\nOrder:Lets the player manually trigger the ability";
+//			if(order->getZeal())
+//			{
+//			   desc+="\nZeal";
+//			   descBody+="\nZeal:Order can be used immediately";
+//			}
+//			int charges=order->getNoOfCharges();
+//			if(charges>1)
+//			{
+//			   desc+="\nCharges:"+IntToStr(charges);
+//			   descBody+="\nCharges:Number of times order can be activated";
+//			}
+//		}
+//		else
+//		{
+//			descBody+="\nDeploy:Trigger this ability when played.";
+//		}
+//		desc+=descBody;
+//
+//
+//		description->Caption= desc;
 		Aranjeaza();
 }
 
@@ -101,12 +160,60 @@ void CardUI::Aranjeaza() //pozitioneaza toate elementele relativ la cardImg
 	//provision cost label
 	provisionCost->Top=factionBottom ->Top+factionBottom ->Height-provisionCost->Height-5;
 	provisionCost->Left=factionBottom ->Left+factionBottom ->Width/2-provisionCost->Width/2;
+
+	//card description
+	if(description)
+	{
+		description->Top=top;
+		description->Left=left+cardImg->Width;
+    }
+
 }
 
 void CardUI::Muta(int x,int y){
 	   this->cardImg->Left =x;     //aici da eroare
 	   this->cardImg->Top =y;
 	   Aranjeaza();
+}
+
+void CardUI::showDescription(bool yes)
+{
+	if(yes)
+	{
+	   description->Transparent=false;
+	   return;
+	}
+
+	description->Transparent=true;
+
+}
+
+void CardUI::toggleDescription(UnicodeString name,UnicodeString abilityDesc)
+{
+	if(!description)
+	{
+		description=new TLabel(cardImg);
+		description->Parent=cardImg->Parent;
+		description->Height=C_CardHeight*1.2;
+		description->Color=cl3DDkShadow;
+		description->Transparent=false;
+		description->AutoSize=false;
+		description->Width=cardImg->Width*1.3;
+		description->Font->Size = 11;
+		description->Font->Color = clWhite;
+		description->WordWrap=true;
+		description->Caption=name+"\n"+abilityDesc;
+		Aranjeaza();
+		return;
+    }
+	if(description->Visible)
+	{
+	   description->Visible=false;
+	   return;
+	}
+
+	description->Visible=true;
+
 }
 
 //---------------------------------------------------------------------------

@@ -93,8 +93,16 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 		  int X, int Y)
 {
 
-	TImage *test = (TImage*)Sender;
-	test->BeginDrag(false,-2);
+	TImage *clickedImg = (TImage*)Sender;
+	int index=  clickedImg->Tag;
+	Card* card= Cards[index];
+	//if right button then toggle description
+	if(Button == mbRight)
+	{
+		card->toggleDescription();
+		return;
+	}
+	clickedImg->BeginDrag(false,-2);
 	//if right button show ui for details
 
 }
@@ -209,7 +217,14 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 		TImage* clickedImg=(TImage*) Sender;
 		int index=  clickedImg->Tag;
 		Card* card= Cards[index];
+		//if right button then toggle description
+		if(Button == mbRight)
+		{
+		  //	card->toggleDescription();
+			return;
+		}
 
+		//handle abilities
 		if(!droppedCard)
 		{
 			if(btl->onBoard(index))

@@ -36,6 +36,7 @@ public:
    void virtual placeOnBattlefield(Battlefield*,TPoint);
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
    void virtual modificaPower(int);
+   void toggleDescription();
 
 
 };
