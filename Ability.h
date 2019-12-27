@@ -37,7 +37,7 @@ public:
 	 int virtual getZeal();
 	 int virtual getCooldown();
 	 int  virtual getNoOfCharges();
-	 void virtual prepare(Battlefield* btl,int){return;};
+	 void virtual prepare(Battlefield* btl,int){return;};     //battlefield baza
 	 UnicodeString getAbilityDescription();
 
    //	 ~Ability();

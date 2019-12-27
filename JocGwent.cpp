@@ -9,6 +9,7 @@
 #pragma hdrstop
 
 #include "JocGwent.h"
+#include "BattlefieldDerivat.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -36,7 +37,7 @@ JocGwent::JocGwent(TForm* parent,TImage* boardImg)
 //	pos_top[0]=C_MyTop;
 //	pos_top[1]=C_MyTop+C_CardHeight+7;
 
-	btl=new Battlefield();
+	btl=new Battlefield_Deriv(parent);
 
 }
 
@@ -72,7 +73,7 @@ void JocGwent::Init(TForm* parent)
 	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
 	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
 
-	Ability* ab4=new Periodic(C_Poison,2,1);
+	Ability* ab4=new Periodic(C_Damage,2,1);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
 	Cards.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
@@ -152,6 +153,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 
 
 		  card->placeOnBattlefield(btl,Point(X,Y));
+		  btl->CalculateScore(Cards);
 
 	  //check if position is occupied and if it is move the other cards
 	  //check if possible first(won't pass index 0) and get the min of cards to be moved (left or right)
@@ -191,6 +193,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 		 // pt trigger enable timeout save currentlydropped card in a variable to be used
 	  }
 	 // Memo1->Text=card->getCard()->getAbility()->getZeal();
+	 btl->CalculateScore(Cards);
 }
 
 void __fastcall JocGwent::targetTimerTimer(TObject *Sender)
@@ -267,6 +270,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 //				}
 //			   targetWasSelected=true;
 				droppedCard->triggerAbility(targetedCard,effects,btl);
+				btl->CalculateScore(Cards);
 				droppedCard=nullptr;
 			}
 		}
@@ -330,6 +334,7 @@ bool JocGwent::switchTurn()
 					   effects[i].erase( effects[i].begin()+j);
 					   //scoate efectul de pe carte
 					   unit->removeEffect();
+					   j--;
 					}
 					else
 					{
@@ -337,32 +342,16 @@ bool JocGwent::switchTurn()
 						unit->modifyEffect(effects[i][j].second);
 					}
 					unit->AranjeazaPower();
+
                 }
 
 			}
 		}
 		//semnaleaza ca se pot folosi abilitatile de order
-		vector<int>onHold=btl->getOnHold();
-		for(int i=0;i<onHold.size();i++)
-		{
-			Card* card=Cards[onHold[i]];
-			OrderCardUI* orderUI= (OrderCardUI*)card->cardInterface;
-			orderUI->modifyOrderUI(card->getAbility()->getNoOfCharges());
-		}
-		btl->clearOnHold();
-		vector<int> per=  btl->getPeriodic();
+		btl->ActivateOrders(Cards);
 		//semnaleaza trecerea unui turn pentru periodice
-		for(int i=0;i<per.size();i++)
-		{
-
-			Card* currCard= Cards[per[i]];
-			OrderCardUI* currentCardUI=(OrderCardUI* ) (currCard->cardInterface);
-
-			Periodic* current= static_cast<Periodic*>(currCard->getAbility());
-			current->cresteContor();
-			currentCardUI->modifyOrderUI(current->getNoOfCharges());
-
-		}
+		btl->IncresePeriodicCounter(Cards);
+		btl->CalculateScore(Cards);
 	}
 
 	if(!placedCard){

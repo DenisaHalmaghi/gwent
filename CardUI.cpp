@@ -216,5 +216,10 @@ void CardUI::toggleDescription(UnicodeString name,UnicodeString abilityDesc)
 
 }
 
+int CardUI::getPower()
+{
+	return 0;
+}
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

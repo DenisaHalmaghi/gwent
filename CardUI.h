@@ -20,6 +20,7 @@ public:
 	CardUI();
 	~CardUI();
 	int getWidth();
+	int virtual getPower();
 	bool virtual hasLock(){return false;}
 	CardUI(TPoint ,TForm* ,UnicodeString ,UnicodeString ,TCaption , Ability* ,int);
 	void Aranjeaza();

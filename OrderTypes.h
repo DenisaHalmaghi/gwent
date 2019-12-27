@@ -30,7 +30,7 @@ class Periodic:public Order
 	int contor;
 	public:
 	Periodic(int,int,int cd=2,bool zeal=0);
-	void cresteContor();
+	void operator++();
 	bool virtual canBeUsed();
 	void virtual signalUsed();
 	void virtual prepare(Battlefield* btl,int );

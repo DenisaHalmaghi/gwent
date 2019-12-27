@@ -7,8 +7,20 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-Battlefield::Battlefield()
+Battlefield::Battlefield(TForm * parent)
 {
+
+	//set up score
+	score= new TLabel(parent);
+	score->Parent=parent;
+	score->Caption=0;
+	score->Font->Color=clWhite;
+	score->Font->Size=43;
+	score->Font->Style=TFontStyles() << fsBold;
+	score->Left=15;
+	score->Top=C_MyTop;
+
+	//set up positions
 	int width=C_CardHeight*C_Ratio;
 	int left=C_Left_Start;
 	int s= positions[0].size();
@@ -127,13 +139,13 @@ void Battlefield::adToOnHold(int index)
 	onHold.push_back(index);
 }
 
-vector<int> Battlefield::getPeriodic()
-{
-
-	return periodic;
-}
-
-vector<int> Battlefield::getOnHold()
-{
-    return onHold;
-}
+//vector<int> Battlefield::getPeriodic()
+//{
+//
+//	return periodic;
+//}
+//
+//vector<int> Battlefield::getOnHold()
+//{
+//    return onHold;
+//}

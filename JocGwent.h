@@ -5,15 +5,18 @@
 #include "UnitCard.h"
 #include "UnitCardUI.h"
 #include "NonUnitCardUI.h"
-
+#include "BattlefieldDerivat.h"
 
 class JocGwent
 {
 TImage* board;
 TTimer* targetTimer;
+// name this prototypeCards
 vector<Card*> Cards;
+// vector<Card*> Cards; for the copies
+//push copies in constructor
 vector<pair<int,int>> effects[3];
-Battlefield* btl;
+Battlefield_Deriv* btl;
 //game logic vars
 bool targetWasSelected;
 Card* targetedCard;
@@ -21,8 +24,8 @@ Card* droppedCard;
 bool myTurn;
 bool placedCard;
 int turn;
-vector<pair<int,int>> positions[2];
-int pos_top[2];
+//vector<pair<int,int>> positions[2];
+//int pos_top[2];
 
 public:
  JocGwent(TForm*,TImage*);

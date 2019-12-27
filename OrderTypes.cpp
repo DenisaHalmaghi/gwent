@@ -67,9 +67,9 @@
 	 btl->pushPeriodic(index);
  }
 
- void Periodic::cresteContor()
+ void Periodic::operator++()
  {
-       contor++;
+	   contor++;
  }
 
 

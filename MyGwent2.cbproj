@@ -139,6 +139,10 @@
             <DependentOn>Battlefield.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BattlefieldDerivat.cpp">
+            <DependentOn>BattlefieldDerivat.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Card.cpp">
             <DependentOn>Card.h</DependentOn>
             <BuildOrder>4</BuildOrder>
@@ -146,10 +150,6 @@
         <CppCompile Include="CardUI.cpp">
             <DependentOn>CardUI.h</DependentOn>
             <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Deck.cpp">
-            <DependentOn>Deck.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
         </CppCompile>
         <PCHCompile Include="Gwent_v2.h">
             <BuildOrder>1</BuildOrder>
