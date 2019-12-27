@@ -15,8 +15,10 @@ protected:
 	TLabel* provisionCost;
 	TLabel* description;
 
+
 public:
 	TImage* cardImg;
+	TImage * frame;
 	CardUI();
 	~CardUI();
 	int getWidth();
@@ -28,6 +30,8 @@ public:
 	void toggleDescription(UnicodeString ,UnicodeString );
 	void toggleDescription();
 	void virtual Muta(int,int);
+	void deleteHighlight();
+	void showHighlight();
 };
 
 //---------------------------------------------------------------------------

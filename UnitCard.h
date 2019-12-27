@@ -9,7 +9,7 @@ class UnitCard:public Card
 {   public:
 	int power,rowRestriction;
 	UnitCard();
-	UnitCard(int,TCaption,UnicodeString ,UnicodeString ,int ,bool,Ability*,int,int);
+	UnitCard(int,TCaption,UnicodeString ,UnicodeString ,int ,Target*,Ability*,int,int);
 	void virtual buildCardUI(TPoint,TForm*);
 	void virtual placeOnBattlefield(Battlefield*,TPoint);
 	void virtual modificaPower(int);
@@ -18,7 +18,7 @@ class UnitCard:public Card
 class Special_Card:public Card
 {
 public:
-   Special_Card(int,TCaption,UnicodeString ,UnicodeString ,int,bool,Ability*);
+   Special_Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
 //   void virtual buildCardUI(TPoint,TForm*);

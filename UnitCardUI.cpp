@@ -116,8 +116,8 @@ void UnitCardUI::appendEffect(int effect,int qt)
 	 effectLabel->Parent=cardImg->Parent;
 	 effectLabel->Caption=qt;
 	 effectLabel->AutoSize=true;
-	 effectLabel->Left=cardImg->Left;
-	 effectLabel->Top=cardImg->Top+cardImg->Height-2*effectLabel->Height;
+	 effectLabel->Left=cardImg->Left+6;
+	 effectLabel->Top=cardImg->Top+cardImg->Height-2*effectLabel->Height-1;
 	 TFont* font= new TFont();
 	 switch(effect)
 	 {

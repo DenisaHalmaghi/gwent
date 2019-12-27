@@ -13,7 +13,7 @@ UnitCard::UnitCard():Card(){
 }
 
 UnitCard::UnitCard(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
-bool target,Ability* ab,int pw,int rs)
+Target* target,Ability* ab,int pw,int rs)
 :Card(index,name,faction,image,pc,target,ab,"unit")
 {
 	  power=pw;
@@ -59,8 +59,8 @@ void UnitCard::modificaPower(int dp)
 }
 
 //---------------------------------------------------------------------------
-Special_Card::Special_Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,bool target,
-Ability* ab)
+Special_Card::Special_Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
+Target* target,Ability* ab)
 :Card(index,name,faction,image,pc,target,ab,"special_card")
 {
 

@@ -22,6 +22,7 @@ JocGwent::JocGwent(TForm* parent,TImage* boardImg)
 	targetTimer=new TTimer(parent);
 	targetTimer->Enabled=false;
 	Init(parent);
+	//board->SendToBack();
 	turn=0;
 //	int width=C_CardHeight*C_Ratio;
 //	int left=C_Left_Start;
@@ -48,37 +49,45 @@ void JocGwent::Init(TForm* parent)
 	board->OnDragDrop= boardDragDrop;
 	targetTimer->OnTimer=targetTimerTimer;
 
-	Ability* ab1=new Charges(C_Vitality,3,3);
-	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,0,ab1,2,0);
+	Target * target1=new Target(C_Ally,"unit");
+	Ability* ab1=new Charges(C_Destroy,3,3);
+	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,target1,ab1,2,0);
 	Cards.push_back(card1);
 	card1->buildCardUI(Point(300,300),parent);
 
 	//CardUI* myUICard=new UnitCardUI(card1,300,300,parent);
-	card1->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card1->cardInterface->cardImg->OnMouseUp =cardClicked;
+	card1->cardInterface->frame->OnMouseDown =cardMouseDown;
+	//card1->cardInterface->cardImg->OnMouseUp =cardClicked;
+	card1->cardInterface->frame->OnMouseUp =cardClicked;
+	//card1->cardInterface->showHighlight();
+
 	//myUICard->cardImg->OnClick =cardClicked;
 
    //	UICards.push_back(myUICard);
 //
 	Ability* ab2=new Ability(C_Purify,2);
-	Card* card2=new Card(1,"Aglais","monsters","adda_striga",10,1,ab2);
+	Card* card2=new Card(1,"Aglais","monsters","adda_striga",10,target1,ab2);
 	Cards.push_back(card2);
 	card2->buildCardUI(Point(500,500),parent);
-	card2->cardInterface->cardImg->OnMouseDown =cardMouseDown;
+	card2->cardInterface->frame->OnMouseDown =cardMouseDown;
+	card2->cardInterface->frame->OnMouseUp =cardClicked;
 
 	Ability* ab3=new Ability(C_Lock,2);
-	Card* card3=new UnitCard(2,"Aglais","scoia","milaen",8,1,ab3,10,0);
+	Card* card3=new UnitCard(2,"Aglais","scoia","milaen",8,target1,ab3,10,0);
 	Cards.push_back(card3);
 	card3->buildCardUI(Point(800,500),parent);
-	card3->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
+	card3->cardInterface->frame->OnMouseDown =cardMouseDown;
+  //	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
+	card3->cardInterface->frame->OnMouseUp =cardClicked;
+	//card3->cardInterface->toggleHighlight();
 
 	Ability* ab4=new Periodic(C_Damage,2,1);
-	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,1,ab4,10,0);
+	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,target1,ab4,10,0);
 	Cards.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
-	card4->cardInterface->cardImg->OnMouseDown =cardMouseDown;
-	card4->cardInterface->cardImg->OnMouseUp =cardClicked;
+	card4->cardInterface->frame->OnMouseDown =cardMouseDown;
+	card4->cardInterface->frame->OnMouseUp =cardClicked;
+	//card4->cardInterface->frame->OnMouseUp =cardClicked;
 
 //	CardUI* myUICard2=new UnitCardUI(card2,300+myUICard->getWidth()+20,400,parent);
 //	UICards.push_back(myUICard2);
@@ -130,7 +139,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 		  int Y)
 {
 	  TImage* currentImage=  (TImage*)Source;
-	  placedCard=1;
+
 	  int index=currentImage->Tag;
 	  Card* card= Cards[index];
 
@@ -153,6 +162,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 
 
 		  card->placeOnBattlefield(btl,Point(X,Y));
+
 		  btl->CalculateScore(Cards);
 
 	  //check if position is occupied and if it is move the other cards
@@ -180,14 +190,22 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 			return;
 	  }
 
-	  if(!card->getTarget()){
+	  if(!card->getTargetObject()->getSide()){
 		card->triggerAbility(card,effects,btl);
+		btl->CalculateScore(Cards);
 	   //	droppedCard=card;
 	  }
 	  else{
 		  //hightlightCards() and triggerCard()
-		   droppedCard=card;
+
 		   targetWasSelected=false;
+		   if(btl->highlightValidTargets (Cards,card))
+		   {
+				//there was at least 1 match
+			   //ability can be used;
+				droppedCard=card;
+
+		   }
 //		   targetTimer->Interval=200;
 //		   targetTimer->Enabled=true;
 		 // pt trigger enable timeout save currentlydropped card in a variable to be used
@@ -240,7 +258,15 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 					Order* ord=dynamic_cast<Order*>(ab);
 				   if(ord->canBeUsed()&&!btl->inOnHold(index))
 				   {
+                        if(btl->highlightValidTargets (Cards,card))
+					   {
+							//there was at least 1 match
+						   //ability can be used;
+							//droppedCard=card;
+
+					   }
 						droppedCard=card;
+						//droppedCard=card;
 
 				   }
 
@@ -258,7 +284,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 			//for targeting
 			targetedCard=card;
 			//targetedCard->Muta(700,700);
-			if(targetedCard!=droppedCard)
+			if(targetedCard!=droppedCard && btl->isTargetValid(targetedCard))
 			{
 //				 Ability* ab=droppedCard->getAbility();
 //				if(droppedCard->getAbility()->getAbilityType()=="order")
@@ -270,8 +296,11 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 //				}
 //			   targetWasSelected=true;
 				droppedCard->triggerAbility(targetedCard,effects,btl);
+				droppedCard->takeCareOfOrder();
 				btl->CalculateScore(Cards);
-				droppedCard=nullptr;
+				btl->clearHighlightedTargets();
+			  //	btl->CalculateScore(Cards);
+				//droppedCard=nullptr;
 			}
 		}
 
@@ -288,7 +317,7 @@ JocGwent::~JocGwent()
 
 bool JocGwent::endTurn()
 {
-	if( placedCard)
+	if( droppedCard)
 	{
 	   return switchTurn();
 	}
@@ -352,12 +381,14 @@ bool JocGwent::switchTurn()
 		//semnaleaza trecerea unui turn pentru periodice
 		btl->IncresePeriodicCounter(Cards);
 		btl->CalculateScore(Cards);
+		btl->clearHighlightedTargets();
 	}
 
-	if(!placedCard){
+	if(!droppedCard){
 		//randomly delete a card from hand
 	}
-	placedCard=0;
+	droppedCard=nullptr;
+   //	placedCard=0;
 	return myTurn=!myTurn;
 
 }

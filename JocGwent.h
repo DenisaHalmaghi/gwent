@@ -22,7 +22,7 @@ bool targetWasSelected;
 Card* targetedCard;
 Card* droppedCard;
 bool myTurn;
-bool placedCard;
+
 int turn;
 //vector<pair<int,int>> positions[2];
 //int pos_top[2];

@@ -7,7 +7,7 @@
 //int Card::nrInst=0;  //fa-l nul de fiecare data cand se deschide o "fereastra" noua
 
 Card::Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
-bool target,Ability* ab,UnicodeString cardType)
+Target* target,Ability* ab,UnicodeString cardType)
 {
 	nrInst=index;
 	this->name=name;
@@ -37,16 +37,17 @@ Card::Card(){
 Card::~Card(){
 	delete ability;
 	delete cardInterface;
+	delete target;
 }
 
 Ability* Card::getAbility(){
  return ability;
 }
-
-bool Card::getTarget()
-{
-	return target;
-}
+//
+//int Card::getTarget()
+//{
+//	return target->side;
+//}
 
 void Card::buildCardUI(TPoint pos,TForm* parent)
 {
@@ -286,17 +287,19 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		}
 
 		case C_Destroy:
-
 		{
-		target->getPower();
-		   if(target->getPower()>8)
-		   {
-				target->setPower(0);
-			   //	return;
-			  // target->appendPoison_Lock(C_Lock,25);
-		   }
-
-		   break;
+			tg->destroyUI();
+			btl->freePosition(tg->getIndex());
+			return;
+		//target->getPower();
+//		   if(target->getPower()>8)
+//		   {
+//				target->setPower(0);
+//			   //	return;
+//			  // target->appendPoison_Lock(C_Lock,25);
+//		   }
+//
+//		   break;
 		}
 
 	}
@@ -309,7 +312,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		}
 
 		//cartea mai exista
-		takeCareOfOrder();
+		//takeCareOfOrder();
 		target->AranjeazaPower();
 
 }
@@ -400,5 +403,17 @@ void  Card::toggleDescription()
 {
 	 cardInterface->toggleDescription(name, ability->getAbilityDescription());
 }
+
+Target* Card::getTargetObject()
+{
+	 return target;
+}
+
+bool Card::checkTargetMatch(Target* target)
+{
+	return target->getType()==cardType;
+}
 //---------------------------------------------------------------------------
+
+
 #pragma package(smart_init)

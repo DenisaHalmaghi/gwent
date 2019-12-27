@@ -11,6 +11,7 @@ CardUI::CardUI(){
 	factionTop= nullptr;
 	factionBottom=nullptr;
 	provisionCost=nullptr;
+	frame=nullptr;
   //	card=nullptr;
 }
 
@@ -31,7 +32,8 @@ TCaption pc, Ability* ab,int nrInst){
 		// card=c;
 
 		 //luam cartea corespunzatoare din vectorul de carti
-          description=nullptr;
+		  description=nullptr;
+		  frame=nullptr;
 		 //initializam imaginile corespunzator
 		 cardImg=new TImage(parent);
 		 cardImg->Parent = parent;
@@ -70,6 +72,18 @@ TCaption pc, Ability* ab,int nrInst){
 		provisionCost->AutoSize=true;
 		provisionCost->Caption=pc;
 		provisionCost->BringToFront();
+
+
+        frame=new TImage(cardImg);
+		frame->Parent= cardImg->Parent;
+		img->LoadFromFile("symbols/golden_frame.png");
+		frame->Picture->Assign(img);
+		frame->Stretch=true;
+		frame->Tag=cardImg->Tag;
+		//cardImg->Proportional=true;
+		frame->Height=C_CardHeight+2;
+		frame->Width=C_CardHeight*C_Ratio+2;
+		//frame->SendToBack();
 
 
 		//SET UP FONT
@@ -161,6 +175,9 @@ void CardUI::Aranjeaza() //pozitioneaza toate elementele relativ la cardImg
 	provisionCost->Top=factionBottom ->Top+factionBottom ->Height-provisionCost->Height-5;
 	provisionCost->Left=factionBottom ->Left+factionBottom ->Width/2-provisionCost->Width/2;
 
+	//frame-ul
+    frame->Left=cardImg->Left;
+	frame->Top=cardImg->Top;
 	//card description
 	if(description)
 	{
@@ -219,6 +236,22 @@ void CardUI::toggleDescription(UnicodeString name,UnicodeString abilityDesc)
 int CardUI::getPower()
 {
 	return 0;
+}
+
+void CardUI::showHighlight()
+{
+	TPngImage* img = new TPngImage();
+	img->LoadFromFile("symbols/blue_frame.png");
+	frame->Picture->Assign(img);
+	delete img;
+}
+
+void CardUI::deleteHighlight()
+{
+	TPngImage* img = new TPngImage();
+	img->LoadFromFile("symbols/golden_frame.png");
+	frame->Picture->Assign(img);
+	delete img;
 }
 
 //---------------------------------------------------------------------------

@@ -62,6 +62,25 @@ TPoint Battlefield::place(TPoint currPos,int cardIndex)
 
 void Battlefield::freePosition(int card)
 {
+
+		for(int i=0;i<periodic.size();i++)
+	   {
+		   if(periodic[i]==  card)
+		   {
+				 periodic.erase(periodic.begin()+i);
+				 break;
+		   }
+	   }
+
+		for(int i=0;i<onHold.size();i++)
+	   {
+		   if(onHold[i]==  card)
+		   {
+				 onHold.erase(onHold.begin()+i);
+				 break;
+		   }
+	   }
+
 	   for(int i=0;i<2;i++)
 	   {
 		   for(int j=0;j<positions[i].size();j++)
@@ -73,6 +92,10 @@ void Battlefield::freePosition(int card)
 			   }
 		   }
 	   }
+
+
+
+
 }
 
 bool Battlefield::onBoard(int card)

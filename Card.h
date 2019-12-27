@@ -6,9 +6,16 @@
 //#include "OrderTypes.h"
 #include "OrderCardUI.h"
 #include "NonUnitCardUI.h"
+#include "Target.h"
 #include <vector>
 
+#define C_Self  0
+#define C_Ally  1
+#define C_Enemy  2
+#define C_Any   3
+
 using namespace std;
+
 
 class Card
 {
@@ -18,16 +25,16 @@ protected:
    UnicodeString image,faction,cardType;
    int provisionCost;
    Ability* ability;
-   bool target;
+   Target* target;
    int nrInst;
 public:
 	CardUI* cardInterface;
 
-   Card(int,TCaption,UnicodeString ,UnicodeString ,int,bool,Ability*,UnicodeString cardType="artefact");
+   Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*,UnicodeString cardType="artefact");
    Card();
    ~Card();
    Ability* getAbility();
-   bool getTarget();
+  // int getTarget();
    int getIndex();
    void destroyUI();
    void takeCareOfOrder();
@@ -37,8 +44,11 @@ public:
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
    void virtual modificaPower(int);
    void toggleDescription();
-
+   Target* getTargetObject();
+   bool checkTargetMatch(Target*);
 
 };
+
+
 //---------------------------------------------------------------------------
 #endif

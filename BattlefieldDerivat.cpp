@@ -26,10 +26,10 @@ void Battlefield_Deriv::IncresePeriodicCounter(vector<Card*> Cards)
 {
    for(int i=0;i<periodic.size();i++)
 	{
-
+//
 		Card* currCard= Cards[periodic[i]];
 		OrderCardUI* currentCardUI=(OrderCardUI* ) (currCard->cardInterface);
-
+//
 		Periodic* current= static_cast<Periodic*>(currCard->getAbility());
 		++(*current);
 		currentCardUI->modifyOrderUI(current->getNoOfCharges());
@@ -47,8 +47,9 @@ int  Battlefield_Deriv::CalculateScore(vector<Card*> Cards)
 			int index= positions[i][j].second;
 			if(index>=0)
 			{
-			  totalScore+=Cards[index]->cardInterface->getPower();
-            }
+			  CardUI* test =  Cards[index]->cardInterface;
+			  totalScore+=test->getPower();
+			}
 
 
 
@@ -56,4 +57,65 @@ int  Battlefield_Deriv::CalculateScore(vector<Card*> Cards)
 	  }
 	  score->Caption=totalScore;
 	  return totalScore;
+}
+
+bool  Battlefield_Deriv::highlightValidTargets(vector<Card*> Cards,Card* targetingCard)
+{
+	bool anyMatch=false;
+	Target* target=targetingCard->getTargetObject();
+	int side=target->getSide();
+	  for(int i=0;i<2;i++)
+	  {
+		  for(int j=0;j<positions[i].size();j++)
+		  {
+			int index= positions[i][j].second;
+			if(index>=0)
+			{
+				Card* current=Cards[index];
+				if(current!=targetingCard &&current->checkTargetMatch(target))
+				{
+				   current->cardInterface->showHighlight();
+				   validTargets.push_back(current);
+				   anyMatch=true;
+				}
+
+			}
+
+
+
+		  }
+	  }
+	  return anyMatch;
+}
+
+
+void  Battlefield_Deriv::clearHighlightedTargets()
+{
+
+	  for(int j=0;j<validTargets.size();j++)
+	  {
+		CardUI * current =  validTargets[j]->cardInterface;
+		if(current)
+		{
+			current->deleteHighlight();
+        }
+
+
+	  }
+	  validTargets.clear();
+}
+
+bool  Battlefield_Deriv::isTargetValid(Card* target)
+{
+
+	  for(int j=0;j<validTargets.size();j++)
+	  {
+		if(target== validTargets[j])
+		{
+			return true;
+		}
+
+	  }
+
+	  return false;
 }

@@ -178,6 +178,10 @@
             <DependentOn>OrderTypes.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Target.cpp">
+            <DependentOn>Target.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Unit4.cpp">
             <Form>Form4</Form>
             <FormType>dfm</FormType>
