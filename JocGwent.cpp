@@ -52,7 +52,7 @@ void JocGwent::Init(TForm* parent)
 	Target * target1=new Target(C_Ally,"unit");
 	Ability* ab1=new Charges(C_Destroy,3,3);
 	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,target1,ab1,2,0);
-	Cards.push_back(card1);
+	prototypes.push_back(card1);
 	card1->buildCardUI(Point(300,300),parent);
 
 	//CardUI* myUICard=new UnitCardUI(card1,300,300,parent);
@@ -67,14 +67,15 @@ void JocGwent::Init(TForm* parent)
 //
 	Ability* ab2=new Ability(C_Purify,2);
 	Card* card2=new Card(1,"Aglais","monsters","adda_striga",10,target1,ab2);
-	Cards.push_back(card2);
+
+	prototypes.push_back(card2);
 	card2->buildCardUI(Point(500,500),parent);
 	card2->cardInterface->frame->OnMouseDown =cardMouseDown;
 	card2->cardInterface->frame->OnMouseUp =cardClicked;
 
 	Ability* ab3=new Ability(C_Lock,2);
 	Card* card3=new UnitCard(2,"Aglais","scoia","milaen",8,target1,ab3,10,0);
-	Cards.push_back(card3);
+	prototypes.push_back(card3);
 	card3->buildCardUI(Point(800,500),parent);
 	card3->cardInterface->frame->OnMouseDown =cardMouseDown;
   //	card3->cardInterface->cardImg->OnMouseUp =cardClicked;
@@ -83,12 +84,29 @@ void JocGwent::Init(TForm* parent)
 
 	Ability* ab4=new Periodic(C_Damage,2,1);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,target1,ab4,10,0);
-	Cards.push_back(card4);
+	prototypes.push_back(card4);
 	card4->buildCardUI(Point(950,500),parent);
 	card4->cardInterface->frame->OnMouseDown =cardMouseDown;
 	card4->cardInterface->frame->OnMouseUp =cardClicked;
 	//card4->cardInterface->frame->OnMouseUp =cardClicked;
 
+	for(int i=0;i<prototypes.size();i++)
+	{
+		Card* test=nullptr;
+		prototypes[i]->Copiaza(test,i);
+		Cards.push_back(test);
+		test->buildCardUI(Point(i*100,i*200),parent);
+        test ->cardInterface->frame->OnMouseDown =cardMouseDown;
+		test ->cardInterface->frame->OnMouseUp =cardClicked;
+
+    }
+
+//	card3->Copiaza(test,0);
+//   // delete card2;
+//	Cards.push_back(test);
+//	test-> buildCardUI(Point(950,900),parent);
+//	test ->cardInterface->frame->OnMouseDown =cardMouseDown;
+//	test ->cardInterface->frame->OnMouseDown =cardMouseDown;
 //	CardUI* myUICard2=new UnitCardUI(card2,300+myUICard->getWidth()+20,400,parent);
 //	UICards.push_back(myUICard2);
 //	myUICard2->cardImg->OnMouseDown =cardMouseDown;

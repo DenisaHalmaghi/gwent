@@ -21,6 +21,11 @@
 	 used=1;
  }
 
+ void  NonRep::CopiazaAbility(Ability*& copie)
+{
+	  copie=new NonRep(name,quantum,zeal);
+}
+
 
  Charges::Charges(int name,int qt,int charges,bool zeal):Order(name,qt,zeal)
  {
@@ -42,6 +47,11 @@
  int Charges::getNoOfCharges()
 {
    return charges;
+}
+
+ void  Charges::CopiazaAbility(Ability*& copie)
+{
+	  copie=new Charges(name,quantum,charges,zeal);
 }
 
   Periodic::Periodic(int name,int qt,int cd,bool zeal):Order(name,qt,zeal)
@@ -71,6 +81,11 @@
  {
 	   contor++;
  }
+
+ void  Periodic::CopiazaAbility(Ability*& copie)
+{
+	  copie=new Periodic(name,quantum,cooldown,zeal);
+}
 
 
 

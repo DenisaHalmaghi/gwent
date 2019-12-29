@@ -12,6 +12,7 @@ class JocGwent
 TImage* board;
 TTimer* targetTimer;
 // name this prototypeCards
+vector<Card*> prototypes;
 vector<Card*> Cards;
 // vector<Card*> Cards; for the copies
 //push copies in constructor

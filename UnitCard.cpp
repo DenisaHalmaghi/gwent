@@ -58,12 +58,28 @@ void UnitCard::modificaPower(int dp)
 	unit->setColor(newColor);
 }
 
+void UnitCard::Copiaza(Card*& copie,int index)
+{
+	Ability* ab;
+	Target* tg;
+	copiazaEsentiale(ab,tg);
+	copie=new UnitCard(index,name,faction,image,provisionCost,tg,ab,power,rowRestriction);
+}
+
 //---------------------------------------------------------------------------
 Special_Card::Special_Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
 Target* target,Ability* ab)
 :Card(index,name,faction,image,pc,target,ab,"special_card")
 {
 
+}
+
+void Special_Card::Copiaza(Card*& copie,int index)
+{
+	Ability* ab;
+	Target* tg;
+	copiazaEsentiale(ab,tg);
+	copie=new Special_Card(index,name,faction,image,provisionCost,tg,ab);
 }
 
 void Special_Card::placeOnBattlefield(Battlefield* btl,TPoint pos)

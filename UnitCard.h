@@ -11,6 +11,7 @@ class UnitCard:public Card
 	UnitCard();
 	UnitCard(int,TCaption,UnicodeString ,UnicodeString ,int ,Target*,Ability*,int,int);
 	void virtual buildCardUI(TPoint,TForm*);
+	void virtual Copiaza(Card*&,int);
 	void virtual placeOnBattlefield(Battlefield*,TPoint);
 	void virtual modificaPower(int);
 };
@@ -20,6 +21,7 @@ class Special_Card:public Card
 public:
    Special_Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
+   void virtual Copiaza(Card*&,int);
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
 //   void virtual buildCardUI(TPoint,TForm*);
 };

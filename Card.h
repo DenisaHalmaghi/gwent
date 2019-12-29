@@ -37,6 +37,8 @@ public:
   // int getTarget();
    int getIndex();
    void destroyUI();
+   void copiazaEsentiale(Ability*&,Target*&);
+   void virtual Copiaza(Card*&,int);
    void takeCareOfOrder();
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TForm*);

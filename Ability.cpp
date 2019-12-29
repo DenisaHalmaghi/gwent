@@ -40,6 +40,11 @@ TCaption Ability::getAbilityType(){
 	return type;
 }
 
+void  Ability::CopiazaAbility(Ability*& copie)
+{
+	  copie=new Ability(name,quantum,type);
+}
+
 UnicodeString Ability::getAbilityDescription(){
 	return description;
 }

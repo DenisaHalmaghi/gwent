@@ -33,6 +33,7 @@ public:
 	 void triggerAbility();
 	 int getName();
 	 bool getRep();
+	 void virtual CopiazaAbility(Ability*&);
      int getQuantum();
 	 int virtual getZeal();
 	 int virtual getCooldown();

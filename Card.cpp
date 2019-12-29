@@ -47,8 +47,17 @@ Ability* Card::getAbility(){
 //int Card::getTarget()
 //{
 //	return target->side;
-//}
+//}void Card::copiazaEsentiale(Ability*& ab_copy,Target*& tg_copy){	 ability->CopiazaAbility(ab_copy);
+	 tg_copy=new Target(target->side,target->type);
 
+}
+void  Card::Copiaza(Card*& copie,int index)
+{
+	 Ability* ab;
+	 Target* tg;
+	 copiazaEsentiale(ab,tg);
+	 copie=new Card(index,name,faction,image,provisionCost,tg,ab,cardType);
+}
 void Card::buildCardUI(TPoint pos,TForm* parent)
 {
 
