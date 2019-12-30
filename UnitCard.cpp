@@ -20,7 +20,7 @@ Target* target,Ability* ab,int pw,int rs)
 	  rowRestriction=rs;
 }
 
-void UnitCard::buildCardUI(TPoint pos,TForm* parent)
+void UnitCard::buildCardUI(TPoint pos,TWinControl* parent)
 {
 	if(ability->getAbilityType()=="deploy")
 	{

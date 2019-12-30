@@ -34,7 +34,7 @@ Battlefield::Battlefield(TForm * parent)
 	}
 	int c=0;
 	pos_top[0]=C_MyTop;
-	pos_top[1]=C_MyTop+C_CardHeight+7;
+	pos_top[1]=C_MyTop+C_CardHeight+20;
 }
 
 TPoint Battlefield::place(TPoint currPos,int cardIndex)

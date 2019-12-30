@@ -9,7 +9,7 @@
 #define C_Left_Start 200
 #define C_Left_End 1720
 
-#define C_CardHeight 190
+#define C_CardHeight 180
 #define C_Ratio 0.696629
 
 

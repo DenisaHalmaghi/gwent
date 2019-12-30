@@ -10,7 +10,7 @@ class UnitCard:public Card
 	int power,rowRestriction;
 	UnitCard();
 	UnitCard(int,TCaption,UnicodeString ,UnicodeString ,int ,Target*,Ability*,int,int);
-	void virtual buildCardUI(TPoint,TForm*);
+	void virtual buildCardUI(TPoint,TWinControl*);
 	void virtual Copiaza(Card*&,int);
 	void virtual placeOnBattlefield(Battlefield*,TPoint);
 	void virtual modificaPower(int);

@@ -11,7 +11,7 @@ class NonUnitCardUI:public CardUI{
 	TImage* symbol;
 	public:
 	NonUnitCardUI();
-	NonUnitCardUI(TPoint,TForm*,UnicodeString,UnicodeString,TCaption, Ability*,UnicodeString,int);
+	NonUnitCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString,TCaption, Ability*,UnicodeString,int);
 	~NonUnitCardUI();
 	void Aranjeaza();
 	void Muta(int,int);

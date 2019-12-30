@@ -21,7 +21,7 @@ UnitCardUI::~UnitCardUI(){
 //	}
 }
 
-UnitCardUI::UnitCardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeString faction,
+UnitCardUI::UnitCardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString faction,
 TCaption pc, Ability* ab,TCaption pw,int nrInst)
 :CardUI(pos,parent,image,faction,pc,ab,nrInst)
 {

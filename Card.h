@@ -37,11 +37,13 @@ public:
   // int getTarget();
    int getIndex();
    void destroyUI();
+   UnicodeString getFaction();
+   int getProvisionCost();
    void copiazaEsentiale(Ability*&,Target*&);
    void virtual Copiaza(Card*&,int);
    void takeCareOfOrder();
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
-   void virtual buildCardUI(TPoint,TForm*);
+   void virtual buildCardUI(TPoint,TWinControl*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
    void virtual modificaPower(int);

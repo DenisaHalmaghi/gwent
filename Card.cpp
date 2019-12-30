@@ -43,6 +43,10 @@ Card::~Card(){
 Ability* Card::getAbility(){
  return ability;
 }
+
+UnicodeString Card::getFaction(){
+ return faction;
+}
 //
 //int Card::getTarget()
 //{
@@ -58,7 +62,7 @@ void  Card::Copiaza(Card*& copie,int index)
 	 copiazaEsentiale(ab,tg);
 	 copie=new Card(index,name,faction,image,provisionCost,tg,ab,cardType);
 }
-void Card::buildCardUI(TPoint pos,TForm* parent)
+void Card::buildCardUI(TPoint pos,TWinControl* parent)
 {
 
 	cardInterface=new NonUnitCardUI(pos,parent,image,faction, provisionCost,ability,cardType,nrInst);
@@ -69,6 +73,11 @@ void Card::modificaPower(int dp)
 	return;
 }
 
+int Card::getProvisionCost()
+{
+	return provisionCost;
+}
+
 void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield* btl){
 
 	UnitCardUI* target= (UnitCardUI*)(tg->cardInterface);
@@ -76,6 +85,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 	{
 		return;
 	}
+
 	switch(ability->getName())
 	{
 		case C_Boost:

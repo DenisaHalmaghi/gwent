@@ -9,7 +9,7 @@
 
 
 
-OrderCardUI::OrderCardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeString faction,TCaption pc,
+OrderCardUI::OrderCardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString faction,TCaption pc,
  Ability* ab,TCaption pw,int nrInst)
  :UnitCardUI(pos,parent, image, faction, pc,ab, pw,nrInst)
  {

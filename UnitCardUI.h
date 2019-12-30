@@ -13,7 +13,7 @@ class UnitCardUI:public CardUI{
 	public:
 	UnitCardUI();
 	~UnitCardUI();
-	UnitCardUI(TPoint,TForm*,UnicodeString,UnicodeString,TCaption, Ability*,TCaption,int);
+	UnitCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString,TCaption, Ability*,TCaption,int);
     void AranjeazaPower();
 	void Aranjeaza();
 	void Muta(int,int);

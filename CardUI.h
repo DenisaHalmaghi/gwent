@@ -4,7 +4,7 @@
 #define CardUIH
 #include "OrderTypes.h"
 #include <Vcl.Imaging.pngimage.hpp>
-#define C_CardHeight 190
+#define C_CardHeight 180
 #define C_Ratio 0.696629
 class CardUI
 {
@@ -24,7 +24,7 @@ public:
 	int getWidth();
 	int virtual getPower();
 	bool virtual hasLock(){return false;}
-	CardUI(TPoint ,TForm* ,UnicodeString ,UnicodeString ,TCaption , Ability* ,int);
+	CardUI(TPoint ,TWinControl* ,UnicodeString ,UnicodeString ,TCaption , Ability* ,int);
 	void Aranjeaza();
 	void showDescription(bool);
 	void toggleDescription(UnicodeString ,UnicodeString );

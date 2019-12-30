@@ -27,7 +27,7 @@ CardUI::~CardUI(){
 
 
 
-CardUI::CardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeString faction,
+CardUI::CardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString faction,
 TCaption pc, Ability* ab,int nrInst){
 		// card=c;
 

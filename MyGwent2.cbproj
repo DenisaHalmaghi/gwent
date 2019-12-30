@@ -151,6 +151,22 @@
             <DependentOn>CardUI.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Deck.cpp">
+            <DependentOn>Deck.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Forma_Init.cpp">
+            <Form>Form4</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Forma_Init.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Forma_Joc.cpp">
+            <Form>Form1</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Forma_Joc.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
         <PCHCompile Include="Gwent_v2.h">
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
@@ -182,12 +198,6 @@
             <DependentOn>Target.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Unit4.cpp">
-            <Form>Form4</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>Unit4.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
         <CppCompile Include="UnitCard.cpp">
             <DependentOn>UnitCard.h</DependentOn>
             <BuildOrder>9</BuildOrder>
@@ -196,7 +206,8 @@
             <DependentOn>UnitCardUI.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <FormResources Include="Unit4.dfm"/>
+        <FormResources Include="Forma_Joc.dfm"/>
+        <FormResources Include="Forma_Init.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

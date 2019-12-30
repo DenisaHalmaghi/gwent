@@ -9,7 +9,7 @@ class OrderCardUI:public UnitCardUI
 	TShape * orderBack;
 	TLabel * orderFront;
 	public:
-	OrderCardUI(TPoint,TForm*,UnicodeString,UnicodeString ,TCaption , Ability* ,TCaption ,int );
+	OrderCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString ,TCaption , Ability* ,TCaption ,int );
 	void Aranjeaza();
 	void Muta(int,int);
 	void modifyOrderUI(int);

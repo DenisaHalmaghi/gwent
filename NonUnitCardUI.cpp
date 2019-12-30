@@ -18,7 +18,7 @@ NonUnitCardUI::~NonUnitCardUI(){
 
 }
 
-NonUnitCardUI::NonUnitCardUI(TPoint pos,TForm* parent,UnicodeString image,UnicodeString fact,
+NonUnitCardUI::NonUnitCardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString fact,
 TCaption pc, Ability* ab,UnicodeString cardType,int nrInst)
 :CardUI(pos,parent,image,fact,pc,ab,nrInst)
 {
