@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
 TForm1 *Form1;
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -17,8 +18,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::btnUnuClick(TObject *Sender)
 {
-	joc=new JocGwent(this,boardImg,prototypes,deckArray);
-	turnTimer->Enabled=true;
+
 	//testShape->Canvas->TextOut(2,3"a");
 
 //	auto fn1 =  bind(myMouseDown, _1, _2, _3,_4,_5,myUICard);
@@ -45,16 +45,18 @@ void __fastcall TForm1::btnUnuClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::exitBtnClick(TObject *Sender)
 {
-     	delete joc;
+		sClient->Active=false;
+		delete sClient;
+		delete joc;
 		exit(0);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 {
-         	//To do:
+		//To do:
 	   //!!!check if any or both players passed and behave accordingly
 	   //!!restrictioneaza in functie de turn
-        turnTimer->Enabled=false;
+		turnTimer->Enabled=false;
 	   Memo1->Lines->Add(joc->switchTurn());
 	   //introducem un delay
 
@@ -84,3 +86,60 @@ void __fastcall TForm1::boardImgMouseUp(TObject *Sender, TMouseButton Button, TS
 
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::FormShow(TObject *Sender)
+{
+   	sClient->Active=true;
+	int nrOfCards= deckArray.size();
+
+   // sClient->Socket->SendText(Memo->Text);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::sClientConnect(TObject *Sender, TCustomWinSocket *Socket)
+
+{
+	//int nrOfCards= deckArray.size();
+	UnicodeString deckString=Util::join( deckArray,"#");
+	sClient->Socket->SendText(deckString);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
+{
+	UnicodeString text= Socket->ReceiveText();
+	vector<int> message=Util::split(text,"#");
+	int size=  message.size();
+    size+=0;
+	switch(message[0])
+	{
+		case C_GameStart:
+		{
+			vector<int>mergedDecks;
+		   if(message[1])
+		   {
+			  mergedDecks=deckArray;
+			  mergedDecks.insert(mergedDecks.begin(),message.begin()+2,message.end());
+		   }
+		   else
+		   {
+			  mergedDecks.insert(mergedDecks.begin(),message.begin()+2,message.end());
+			  mergedDecks.insert(mergedDecks.begin(),deckArray.begin(),deckArray.end());
+		   }
+           joc=new JocGwent(this,boardImg,sClient,prototypes,deckArray);
+			turnTimer->Enabled=true;
+		   joc->creeazaCartile(mergedDecks);
+		   joc->afiseazaCartile(this);
+
+		   break;
+		}
+
+		case C_SendDecks:
+		{
+				UnicodeString deckString="deck#";
+				deckString+=Util::join( deckArray,"#");
+				sClient->Socket->SendText(deckString);
+			break;
+        }
+    }
+
+}
+//---------------------------------------------------------------------------
+

@@ -15,13 +15,15 @@
 #pragma package(smart_init)
 
 #define C_HandStart 920
-JocGwent::JocGwent(TForm* parent,TImage* boardImg,vector<Card*>prototypes,vector<pair<int,int>>cardsInDeckArray)
+JocGwent::JocGwent(TForm* parent,TImage* boardImg,TClientSocket * socket,
+vector<Card*>prototypes,vector<int>cardsInDeckArray)
 {
    //initializam var locale
 	droppedCard=nullptr;
 	targetedCard=nullptr;
 	targetWasSelected=0;
 	board=boardImg;
+	sClient=socket;
 	turn=0;
 	roundNumber=0;
 	targetTimer=new TTimer(parent);
@@ -32,9 +34,14 @@ JocGwent::JocGwent(TForm* parent,TImage* boardImg,vector<Card*>prototypes,vector
 
 	//cream pachetul de carti
 	deck=new Deck(cardsInDeckArray);
+	this-> prototypes=prototypes;
+
+
+	creeazaCartile(deck->cards);
+
 	hand=deck->imparteCartile(10);
 	//preluam variabile de la form
-	this-> prototypes=prototypes;
+
    //	deckArray= cardsInDeckArray;
 
 	Init(parent);
@@ -117,19 +124,26 @@ void JocGwent::Init(TForm* parent)
 //
 //	}
 
-	 int left=C_Left_Start;
 
-	for(int i=0;i<hand.size();i++)
-	{
-		Card* test=nullptr;
-		prototypes[hand[i]]->Copiaza(test,i);
-		Cards.push_back(test);
-		test->buildCardUI(Point(left,C_HandStart),parent);
-		test ->cardInterface->frame->OnMouseDown =cardMouseDown;
-		test ->cardInterface->frame->OnMouseUp =cardClicked;
-		left+=C_CardHeight*C_Ratio;
 
-	}
+
+
+
+
+
+//	 int left=C_Left_Start;
+//
+//	for(int i=0;i<hand.size();i++)
+//	{
+//		Card* test=nullptr;
+//		prototypes[hand[i]]->Copiaza(test,i);
+//		Cards.push_back(test);
+//		test->buildCardUI(Point(left,C_HandStart),parent);
+//		test ->cardInterface->frame->OnMouseDown =cardMouseDown;
+//		test ->cardInterface->frame->OnMouseUp =cardClicked;
+//		left+=C_CardHeight*C_Ratio;
+//
+//	}
 
 
 
@@ -460,6 +474,51 @@ bool JocGwent::switchTurn()
 	return myTurn=!myTurn;
 
 }
+
+void JocGwent::creeazaCartile(vector<int>origin)
+{
+	   for(int i=0;i<origin.size();i++)
+	{
+		int index= origin[i];
+		Card* test=nullptr;
+		Card* prototype=prototypes[index];
+		prototype->Copiaza(test,i);
+		Cards.push_back(test);
+
+	}
+
+}
+
+ void JocGwent::afiseazaCartile(TForm* parent)
+ {
+
+		int left=C_Left_Start;
+
+		for(int i=0;i<hand.size();i++)
+		{
+			int index= hand[i];
+			Card* test=Cards[hand[i]];
+		//		prototypes[hand[i]]->Copiaza(test,i);
+		//		Cards.push_back(test);
+			test->buildCardUI(Point(left,C_HandStart),parent);
+			test ->cardInterface->frame->OnMouseDown =cardMouseDown;
+			test ->cardInterface->frame->OnMouseUp =cardClicked;
+			left+=C_CardHeight*C_Ratio;
+
+		}
+ }
+
+//void JocGwent::mergeDecksIntoCards(vector<int> enemyDeck)
+//{
+//	vector<Cards*>enemy
+//	vec2.insert(Cards.begin(),enemyDeck.begin(),enemyDeck.end());
+//}
+//void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
+//{
+//	//primim mesajul de la server si il decompunem
+//	vector<UnicodeString> message=Util::split(Socket->ReceiveText());
+//
+//}
 
 //void JocGwent::passRound()
 //{

@@ -9,6 +9,8 @@
 #pragma resource "*.dfm"
 #define C_CardbackRatio 1.498046875
 #define C_PCThreshold 160
+
+
 TForm4 *Form4;
 //---------------------------------------------------------------------------
 __fastcall TForm4::TForm4(TComponent* Owner)
@@ -56,19 +58,22 @@ void __fastcall TForm4::playBtnClick(TObject *Sender)
 //	 {
 //		 return;
 //	 }
-		Form1->prototypes=prototypes;
-//		vector<int>deckArray;
-//		for(int i=0;i<currentDeck.size();i++)
+
+		UnicodeString deckString="deck#"+IntToStr(cardNr)+"#";
+		deckString+=Util::join( currentDeck,"#");
+
+		myMemo->Lines->Add(deckString);
+//		vector<UnicodeString>elements=util.split(deckString,"#");
+//		for(int i=0;i<elements.size();i++)
 //		{
-//			pair<int,int> current= currentDeck[i];
-//			for(int j=0;j<current.second;j++)
-//			{
-//				deckArray.push_back(current.first);
-//            }
-//        }
+//			myMemo->Lines->Add(elements[i]);
+//		}
 
-		Form1->deckArray=currentDeck;
-
+		//pass variables
+		Form1->prototypes=prototypes;
+		Form1->deckArray=Util::desfaPairs(currentDeck);
+		//Form1->sClient->Active=false;
+        //send the deck string as message to socket
 		Form1->Show();
 }
 //---------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 #include <Vcl.Imaging.pngimage.hpp>
 #include "Forma_Joc.h"
 #include <Vcl.Imaging.jpeg.hpp>
+
 //---------------------------------------------------------------------------
 class TForm4 : public TForm
 {
@@ -24,6 +25,7 @@ __published:	// IDE-managed Components
 	TScrollBox *ScrollBox1;
 	TButton *Button2;
 	TLabel *noOfCards;
+	TMemo *myMemo;
 
 	void __fastcall playBtnClick(TObject *Sender);
 	void __fastcall deckCrBtnClick(TObject *Sender);
@@ -39,7 +41,8 @@ private:	// User declarations
 	vector<TImage*> cardbacks;
 	vector<Card*> displayedCards;
 	int cardNr;
-    int provCost;
+	int provCost;
+
 
 public:		// User declarations
 	__fastcall TForm4(TComponent* Owner);

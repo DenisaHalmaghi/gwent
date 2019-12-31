@@ -206,6 +206,10 @@
             <DependentOn>UnitCardUI.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Util.cpp">
+            <DependentOn>Util.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
         <FormResources Include="Forma_Joc.dfm"/>
         <FormResources Include="Forma_Init.dfm"/>
         <BuildConfiguration Include="Release">

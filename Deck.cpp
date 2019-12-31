@@ -7,10 +7,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-Deck::Deck(vector<pair<int,int>>cardsInDeck)
+Deck::Deck(vector<int>cardsInDeck)
 {
 
-	 Aranjeaza(cardsInDeck);
+	 cards=cardsInDeck;
 	 random_shuffle(cards.begin(), cards.end());
 
 }
@@ -29,14 +29,4 @@ vector<int> Deck::imparteCartile(int number)
 	return returnedCards;
 }
 
-void Deck::Aranjeaza(vector<pair<int,int>>perechi )
-{
-	for(int i=0;i<perechi.size();i++)
-	{
-		pair<int,int> current= perechi[i];
-		for(int j=0;j<current.second;j++)
-		{
-			cards.push_back(current.first);
-		}
-	}
-}
+

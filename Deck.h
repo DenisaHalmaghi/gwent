@@ -7,11 +7,12 @@ using namespace std;
 
 class Deck
 {
+	friend class JocGwent;
 
 	public:
-	vector<int> cards;
-	Deck(vector<pair<int,int>>);
-	void Aranjeaza(vector<pair<int,int>> );
+    vector<int> cards;
+	Deck(vector<int>);
+
 	vector<int> imparteCartile(int);
 
 };

@@ -4,7 +4,7 @@
 #define AbilityH
 #include <string>
 #include "Battlefield.h"
-
+#include "Util.h"
 #define C_Bleed 0
 #define C_Vitality 1
 #define C_Poison 2

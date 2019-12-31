@@ -10,6 +10,7 @@
 #include "JocGwent.h"
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
+#include <System.Win.ScktComp.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -21,6 +22,7 @@ __published:	// IDE-managed Components
 	TLabel *Label1;
 	TButton *passBtn;
 	TImage *boardImg;
+	TClientSocket *sClient;
     void __fastcall btnUnuClick(TObject *Sender);
 	void __fastcall exitBtnClick(TObject *Sender);
 	void __fastcall turnTimerTimer(TObject *Sender);
@@ -28,13 +30,16 @@ __published:	// IDE-managed Components
 	void __fastcall boardImgClick(TObject *Sender);
 	void __fastcall boardImgMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall sClientRead(TObject *Sender, TCustomWinSocket *Socket);
+	void __fastcall sClientConnect(TObject *Sender, TCustomWinSocket *Socket);
 private:	// User declarations
 	JocGwent* joc;
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 
 	vector<Card*>prototypes;
-	vector<pair<int,int>>deckArray;
+	vector<int>deckArray;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;
