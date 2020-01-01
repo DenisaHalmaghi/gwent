@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-Battlefield_Deriv::Battlefield_Deriv(TForm * parent):Battlefield(parent)
+Battlefield_Deriv::Battlefield_Deriv(TForm * parent,int inamic):Battlefield(parent,inamic)
 {
 
 }

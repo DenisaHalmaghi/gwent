@@ -24,7 +24,7 @@ __fastcall TForm4::TForm4(TComponent* Owner)
 	//cardDisplayContainer->AutoScroll =true;
 	Target * target1=new Target(C_Ally,"unit");
 
-	Ability* ab1=new Charges(C_Destroy,3,3);
+	Ability* ab1=new Charges(C_Vitality,3,3);
 	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,target1,ab1,2,0);
 	prototypes.push_back(card1);
 

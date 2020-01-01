@@ -7,19 +7,24 @@
 #include "BattlefieldDerivat.h"
 #include <System.Win.ScktComp.hpp>
 
-#define C_SendDecks 98
+#define C_Deck 98
 #define C_GameStart 99
+#define C_Turn 100
+#define C_Muta 101
+#define C_TriggerAbility 102
+
 class JocGwent
 {
 
 TImage* board;
 TTimer* targetTimer;
-
+TForm* parent;
 vector<Card*> prototypes;
 vector<Card*> Cards;
 vector<int> hand;
 vector<pair<int,int>> effects[3];
 Battlefield_Deriv* btl;
+Battlefield_Deriv* btlInamic;
 Deck* deck;
 TClientSocket * sClient;
 //game logic vars
@@ -29,17 +34,20 @@ Card* droppedCard;
 bool myTurn;
 int roundNumber;
 int turn;
+int myDeckStartIndex;
 //vector<pair<int,int>> positions[2];
 //int pos_top[2];
 
 public:
- JocGwent(TForm*,TImage*,TClientSocket *,vector<Card*>,vector<int>);
+ JocGwent(TForm*,TImage*,TClientSocket *,vector<Card*>,int);
  ~JocGwent();
  void Init(TForm*);
  bool endTurn();
  bool switchTurn();
- void creeazaCartile(vector<int>origin);
-  void afiseazaCartile(TForm* parent);
+ void creeazaCartile(vector<int>origin,vector<int>,int);
+ void afiseazaCartile(TForm* parent);
+ void mutaCarteInamic(int,TPoint);
+ void triggerEnemyAbility(int,int);
  void __fastcall cardMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y);
  void __fastcall boardDragOver(TObject *Sender, TObject *Source, int X,

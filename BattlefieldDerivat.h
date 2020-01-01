@@ -9,7 +9,7 @@
 
 	vector<Card*> validTargets;
 	public:
-	Battlefield_Deriv(TForm * parent);
+	Battlefield_Deriv(TForm * parent,int inamic=0);
 	void ActivateOrders(vector<Card*> );
 	void IncresePeriodicCounter(vector<Card*>);
 	int CalculateScore(vector<Card*>);

@@ -20,13 +20,14 @@ using namespace std;
 class Battlefield
 {
 protected:
+	bool inamic;
 	vector<pair<int,int>> positions[2];
 	TLabel * score;
 	int pos_top[2];
 	vector<int> periodic;
 	vector<int> onHold;
 	public:
-	Battlefield(TForm *);
+	Battlefield(TForm *,int inamic=0);
 	void pushPeriodic(int);
 	void freePosition(int);
 	void freeAllPositions();

@@ -16,10 +16,11 @@
 
 #define C_HandStart 920
 JocGwent::JocGwent(TForm* parent,TImage* boardImg,TClientSocket * socket,
-vector<Card*>prototypes,vector<int>cardsInDeckArray)
+vector<Card*>prototypes,int myCardsStart)
 {
    //initializam var locale
 	droppedCard=nullptr;
+	myTurn=0;
 	targetedCard=nullptr;
 	targetWasSelected=0;
 	board=boardImg;
@@ -28,18 +29,20 @@ vector<Card*>prototypes,vector<int>cardsInDeckArray)
 	roundNumber=0;
 	targetTimer=new TTimer(parent);
 	targetTimer->Enabled=false;
-
+	deck=nullptr;
+	this->parent= parent;
+	myDeckStartIndex=myCardsStart;
 	//cream battlefield ul
 	btl=new Battlefield_Deriv(parent);
-
+	btlInamic= new Battlefield_Deriv(parent,1);
 	//cream pachetul de carti
-	deck=new Deck(cardsInDeckArray);
+   //	deck=new Deck(cardsInDeckArray);
 	this-> prototypes=prototypes;
 
 
-	creeazaCartile(deck->cards);
 
-	hand=deck->imparteCartile(10);
+
+
 	//preluam variabile de la form
 
    //	deckArray= cardsInDeckArray;
@@ -233,9 +236,9 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 //	  }
 
 
-		  card->placeOnBattlefield(btl,Point(X,Y));
-
-		  btl->CalculateScore(Cards);
+	  card->placeOnBattlefield(btl,Point(X,Y));
+	  sClient->Socket->SendText(IntToStr(C_Muta)+"#"+IntToStr(index)+"#"+IntToStr(X)+"#"+IntToStr(Y)+"#");
+	  btl->CalculateScore(Cards);
 
 	  //check if position is occupied and if it is move the other cards
 	  //check if possible first(won't pass index 0) and get the min of cards to be moved (left or right)
@@ -264,6 +267,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 
 	  if(!card->getTargetObject()->getSide()){
 		card->triggerAbility(card,effects,btl);
+		//sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(index)+"#"+IntToStr(index));
 		btl->CalculateScore(Cards);
 	   //	droppedCard=card;
 	  }
@@ -359,7 +363,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 				//for targeting
 				targetedCard=card;
 				//targetedCard->Muta(700,700);
-				if(targetedCard!=droppedCard && btl->isTargetValid(targetedCard))
+				if(targetedCard!=droppedCard /*&& btl->isTargetValid(targetedCard)*/)
 				{
 	//				 Ability* ab=droppedCard->getAbility();
 	//				if(droppedCard->getAbility()->getAbilityType()=="order")
@@ -371,6 +375,8 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 	//				}
 	//			   targetWasSelected=true;
 					droppedCard->triggerAbility(targetedCard,effects,btl);
+					sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(droppedCard->getIndex())+"#"+IntToStr(targetedCard->getIndex())+"#");
+					//targetedCard=nullptr;
 					droppedCard->takeCareOfOrder();
 					btl->CalculateScore(Cards);
 					btl->clearHighlightedTargets();
@@ -378,7 +384,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 					//droppedCard=nullptr;
 				}
 			}
-        }
+		}
 //
 
 }
@@ -454,7 +460,7 @@ bool JocGwent::switchTurn()
 					}
 					unit->AranjeazaPower();
 
-                }
+				}
 
 			}
 		}
@@ -470,15 +476,22 @@ bool JocGwent::switchTurn()
 		//randomly delete a card from hand
 	}
 	droppedCard=nullptr;
-   //	placedCard=0;
+	//placedCard=0;
 	return myTurn=!myTurn;
 
 }
 
-void JocGwent::creeazaCartile(vector<int>origin)
+void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deckStartIndex)
 {
+	int  size= origin.size();
+	size+=0;
+	vector<int> deckIndexes;
 	   for(int i=0;i<origin.size();i++)
 	{
+		if(i>=deckStartIndex&&deckIndexes.size()< CardsInDeck.size())
+		{
+			deckIndexes.push_back(i);
+        }
 		int index= origin[i];
 		Card* test=nullptr;
 		Card* prototype=prototypes[index];
@@ -486,6 +499,9 @@ void JocGwent::creeazaCartile(vector<int>origin)
 		Cards.push_back(test);
 
 	}
+	deck=new Deck(deckIndexes);
+    hand=deck->imparteCartile(10);
+	//deck=new Deck(deckIndex);
 
 }
 
@@ -493,11 +509,14 @@ void JocGwent::creeazaCartile(vector<int>origin)
  {
 
 		int left=C_Left_Start;
-
+		 //UnicodeString allCards=Util::join(Cards,"#");
+		 UnicodeString myHand=Util::join(hand,"#");
+		int  size= Cards.size();
+	size+=0;
 		for(int i=0;i<hand.size();i++)
 		{
 			int index= hand[i];
-			Card* test=Cards[hand[i]];
+			Card* test=Cards[index];
 		//		prototypes[hand[i]]->Copiaza(test,i);
 		//		Cards.push_back(test);
 			test->buildCardUI(Point(left,C_HandStart),parent);
@@ -506,6 +525,24 @@ void JocGwent::creeazaCartile(vector<int>origin)
 			left+=C_CardHeight*C_Ratio;
 
 		}
+ }
+
+ void JocGwent::mutaCarteInamic(int indexCarte,TPoint pos)
+{
+
+	int index= indexCarte;
+	Card* enemyCard= Cards[index];
+	enemyCard->buildCardUI(pos,parent);
+	enemyCard->placeOnBattlefield(btlInamic,pos);
+	enemyCard ->cardInterface->frame->OnMouseDown =cardMouseDown;
+	enemyCard ->cardInterface->frame->OnMouseUp =cardClicked;
+}
+
+ void JocGwent::triggerEnemyAbility(int trigger,int target)
+ {
+	 Card * trigeringCard=Cards[trigger];
+	 Card * targetedCard=Cards[target];
+	 trigeringCard->triggerAbility(targetedCard,effects,btl);
  }
 
 //void JocGwent::mergeDecksIntoCards(vector<int> enemyDeck)

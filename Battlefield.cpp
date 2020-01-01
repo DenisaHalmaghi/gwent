@@ -7,10 +7,11 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-Battlefield::Battlefield(TForm * parent)
+Battlefield::Battlefield(TForm * parent,int inamic)
 {
 
 	//set up score
+	this->inamic=inamic;
 	score= new TLabel(parent);
 	score->Parent=parent;
 	score->Caption=0;
@@ -33,16 +34,21 @@ Battlefield::Battlefield(TForm * parent)
 	   left=left+width+5;
 	}
 	int c=0;
+
+
 	pos_top[0]=C_MyTop;
-	pos_top[1]=C_MyTop+C_CardHeight+20;
+	pos_top[1]=pos_top[0]+C_CardHeight+20;
+
 }
 
 TPoint Battlefield::place(TPoint currPos,int cardIndex)
 {
-	  int index=(abs(currPos.Y-pos_top[0])> abs(currPos.Y-pos_top[1]))?1:0;
+	  int index=(abs(pos_top[1]-currPos.Y)>/*!!*/ abs(pos_top[0]-currPos.Y))?0:1;
 	  int minIndex=0;
-	  int dm=1000; //DIF MIN
+	  int dm=9000; //DIF MIN
 	  int temp;
+	  int sus= pos_top[0];
+	  int jos= pos_top[1];
 	  for(int i=0;i<positions[index].size();i++)
 	  {
 		  pair current= positions[index][i];
@@ -56,8 +62,17 @@ TPoint Battlefield::place(TPoint currPos,int cardIndex)
 		 }
 	  }
 
+	  int top=pos_top[index];
+	  if(inamic)
+	  {
+		top=C_MyTop- C_CardHeight-50;
+		if(index)
+		{
+			top-=C_CardHeight+10;
+        }
+      }
 	  positions[index][minIndex].second= cardIndex;//punem indexul cartii in vector
-	  return Point(positions[index][minIndex].first,pos_top[index]);
+	  return Point(positions[index][minIndex].first,top);
 }
 
 void Battlefield::freePosition(int card)

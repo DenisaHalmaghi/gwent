@@ -19,6 +19,12 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::btnUnuClick(TObject *Sender)
 {
 
+		UnicodeString deckString=IntToStr(C_Deck)+"#";
+		deckString+=Util::join( deckArray,"#");
+		sClient->Socket->SendText(deckString);
+		//sClient->Socket->SendText("testt");
+		Memo1->Lines->Add("sent"+deckString);
+
 	//testShape->Canvas->TextOut(2,3"a");
 
 //	auto fn1 =  bind(myMouseDown, _1, _2, _3,_4,_5,myUICard);
@@ -46,7 +52,7 @@ void __fastcall TForm1::btnUnuClick(TObject *Sender)
 void __fastcall TForm1::exitBtnClick(TObject *Sender)
 {
 		sClient->Active=false;
-		delete sClient;
+	  //	delete sClient;
 		delete joc;
 		exit(0);
 }
@@ -57,10 +63,15 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 	   //!!!check if any or both players passed and behave accordingly
 	   //!!restrictioneaza in functie de turn
 		turnTimer->Enabled=false;
-	   Memo1->Lines->Add(joc->switchTurn());
+	   bool turn=joc->switchTurn();
+	   Memo1->Lines->Add(turn);
+	   if(!turn)
+	   {
+		  sClient->Socket->SendText(IntToStr(C_Turn)+"#");
+       }
 	   //introducem un delay
 
-		turnTimer->Enabled=true;
+		//turnTimer->Enabled=true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::passBtnClick(TObject *Sender)
@@ -97,9 +108,10 @@ void __fastcall TForm1::FormShow(TObject *Sender)
 void __fastcall TForm1::sClientConnect(TObject *Sender, TCustomWinSocket *Socket)
 
 {
+   // sClient->Socket->SendText("testt2");
 	//int nrOfCards= deckArray.size();
-	UnicodeString deckString=Util::join( deckArray,"#");
-	sClient->Socket->SendText(deckString);
+   //	UnicodeString deckString=Util::join( deckArray,"#");
+   //	sClient->Socket->SendText(deckString);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
@@ -107,37 +119,78 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 	UnicodeString text= Socket->ReceiveText();
 	vector<int> message=Util::split(text,"#");
 	int size=  message.size();
-    size+=0;
+	Memo1->Lines->Add(text);
+	size+=0;
+	int firstPart=message[0];
+	if(message[0]==C_TriggerAbility)
+	{
+		int size=0;
+		size+=0;
+    }
 	switch(message[0])
 	{
 		case C_GameStart:
 		{
+			int myDeckStartIndex=0;
 			vector<int>mergedDecks;
 		   if(message[1])
 		   {
 			  mergedDecks=deckArray;
-			  mergedDecks.insert(mergedDecks.begin(),message.begin()+2,message.end());
+			  mergedDecks.insert(mergedDecks.end(),message.begin()+3,message.end());
 		   }
 		   else
 		   {
-			  mergedDecks.insert(mergedDecks.begin(),message.begin()+2,message.end());
 			  mergedDecks.insert(mergedDecks.begin(),deckArray.begin(),deckArray.end());
+			  mergedDecks.insert(mergedDecks.begin(),message.begin()+3,message.end());
+			  myDeckStartIndex=  mergedDecks.size()- deckArray.size();
 		   }
-           joc=new JocGwent(this,boardImg,sClient,prototypes,deckArray);
-			turnTimer->Enabled=true;
-		   joc->creeazaCartile(mergedDecks);
+		   joc=new JocGwent(this,boardImg,sClient,prototypes,myDeckStartIndex);
+		   if(message[1])
+		   {
+				Memo1->Lines->Add(joc->switchTurn());
+				turnTimer->Enabled=true;
+
+           }
+
+		   UnicodeString deckCards=Util::join(deckArray,"#");
+			UnicodeString merged=Util::join(mergedDecks,"#");
+			Memo1->Lines->Add(merged);
+			Memo1->Lines->Add(myDeckStartIndex);
+			Memo1->Lines->Add(deckCards);
+		   joc->creeazaCartile(mergedDecks,deckArray,myDeckStartIndex);
 		   joc->afiseazaCartile(this);
+		  // UnicodeString merged=Util::join(mergedDecks,"#");
 
 		   break;
 		}
 
-		case C_SendDecks:
+		case C_Turn:
 		{
-				UnicodeString deckString="deck#";
-				deckString+=Util::join( deckArray,"#");
-				sClient->Socket->SendText(deckString);
+			Memo1->Lines->Add(joc->switchTurn());
+			turnTimer->Enabled=true;
+
 			break;
-        }
+		}
+
+			case C_Muta:
+		{
+			joc->mutaCarteInamic(message[1],Point(message[2],message[3]));
+
+			break;
+		}
+
+		case C_TriggerAbility:
+		{
+			UnicodeString joinedMessage=Util::join(message,"__");
+			Memo1->Lines->Add(joinedMessage);
+			int first=message[1];
+			int second= message[2];
+			joc->triggerEnemyAbility(message[1],message[2]);
+
+			break;
+		}
+
+
     }
 
 }
