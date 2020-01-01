@@ -45,8 +45,9 @@ public:
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TWinControl*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
-   void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*);
+   void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*,Battlefield*);
    void virtual modificaPower(int);
+   void  clearFromEffects(vector < pair<int,int> > [3]);
    void toggleDescription();
    Target* getTargetObject();
    bool checkTargetMatch(Target*);

@@ -19,7 +19,15 @@ Battlefield::Battlefield(TForm * parent,int inamic)
 	score->Font->Size=43;
 	score->Font->Style=TFontStyles() << fsBold;
 	score->Left=15;
-	score->Top=C_MyTop;
+	if(inamic)
+	{
+	  score->Top=C_MyTop-60;
+	}
+	else
+	{
+       score->Top=C_MyTop;
+    }
+
 
 	//set up positions
 	int width=C_CardHeight*C_Ratio;

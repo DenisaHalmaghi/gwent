@@ -78,7 +78,7 @@ int Card::getProvisionCost()
 	return provisionCost;
 }
 
-void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield* btl){
+void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield* btl,Battlefield* btlInamic){
 
 	UnitCardUI* target= (UnitCardUI*)(tg->cardInterface);
 	if(((UnitCardUI*)cardInterface)->hasLock())
@@ -307,8 +307,10 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 
 		case C_Destroy:
 		{
+			tg->clearFromEffects(effects);
 			tg->destroyUI();
 			btl->freePosition(tg->getIndex());
+			btlInamic->freePosition(tg->getIndex());
 			return;
 		//target->getPower();
 //		   if(target->getPower()>8)
@@ -325,8 +327,10 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		if(target->getPower()<1)
 		{
 			//nu mai exista
+			tg->clearFromEffects(effects);
 			tg->destroyUI();
 			btl->freePosition(tg->getIndex());
+			btlInamic->freePosition(tg->getIndex());
 			return;
 		}
 
@@ -345,6 +349,21 @@ void Card::destroyUI()
 {
 	delete cardInterface;
 	cardInterface=nullptr;
+}
+
+void  Card::clearFromEffects(vector < pair<int,int> >  effects[3])
+{
+	 for(int i=0;i<2;i++)
+	 {
+		for(int j=0;j<effects[i].size();j++)
+		{
+			if(effects[i][j].first==nrInst)
+			{
+				effects[i].erase( effects[i].begin()+j);
+			}
+
+        }
+     }
 }
 
 void Card::Bleed_Vitality(int effect,int index,UnitCardUI* target, vector<pair<int, int>>effects[3])

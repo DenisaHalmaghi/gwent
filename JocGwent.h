@@ -35,6 +35,7 @@ bool myTurn;
 int roundNumber;
 int turn;
 int myDeckStartIndex;
+Battlefield_Deriv* targetedBattlefield;
 //vector<pair<int,int>> positions[2];
 //int pos_top[2];
 

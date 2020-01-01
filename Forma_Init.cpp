@@ -22,7 +22,7 @@ __fastcall TForm4::TForm4(TComponent* Owner)
 	 cardNr=0;
 	 provCost=0;
 	//cardDisplayContainer->AutoScroll =true;
-	Target * target1=new Target(C_Ally,"unit");
+	Target * target1=new Target(C_Enemy,"unit");
 
 	Ability* ab1=new Charges(C_Vitality,3,3);
 	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,target1,ab1,2,0);
@@ -38,7 +38,7 @@ __fastcall TForm4::TForm4(TComponent* Owner)
 	prototypes.push_back(card3);
 
 
-	Ability* ab4=new Periodic(C_Damage,2,1);
+	Ability* ab4=new Periodic(C_Damage,10,1);
 	Card* card4=new UnitCard(3,"Aglais","monsters","katakan",8,target1,ab4,10,0);
 	prototypes.push_back(card4);
 

@@ -22,6 +22,7 @@ vector<Card*>prototypes,int myCardsStart)
 	droppedCard=nullptr;
 	myTurn=0;
 	targetedCard=nullptr;
+	targetedBattlefield=nullptr;
 	targetWasSelected=0;
 	board=boardImg;
 	sClient=socket;
@@ -265,17 +266,22 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 			return;
 	  }
 
-	  if(!card->getTargetObject()->getSide()){
-		card->triggerAbility(card,effects,btl);
+	  int side=card->getTargetObject()->getSide();
+	  if(!side){
+		card->triggerAbility(card,effects,btl,btlInamic);
 		//sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(index)+"#"+IntToStr(index));
 		btl->CalculateScore(Cards);
 	   //	droppedCard=card;
 	  }
 	  else{
 		  //hightlightCards() and triggerCard()
-
+			targetedBattlefield=btlInamic;
+			if(side==C_Ally)
+			{
+				targetedBattlefield=btl;
+			}
 		   targetWasSelected=false;
-		   if(btl->highlightValidTargets (Cards,card))
+		   if(targetedBattlefield->highlightValidTargets (Cards,card))
 		   {
 				//there was at least 1 match
 			   //ability can be used;
@@ -337,14 +343,20 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 						Order* ord=dynamic_cast<Order*>(ab);
 					   if(ord->canBeUsed()&&!btl->inOnHold(index))
 					   {
-							if(btl->highlightValidTargets (Cards,card))
+							int side= card->getTargetObject()->getSide();
+							targetedBattlefield=btlInamic;
+							if(side==C_Ally)
+							{
+								targetedBattlefield=btl;
+							}
+							if(targetedBattlefield->highlightValidTargets (Cards,card))
 						   {
 								//there was at least 1 match
 							   //ability can be used;
-								//droppedCard=card;
+								droppedCard=card;
 
 						   }
-							droppedCard=card;
+						   //	droppedCard=card;
 							//droppedCard=card;
 
 					   }
@@ -363,7 +375,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 				//for targeting
 				targetedCard=card;
 				//targetedCard->Muta(700,700);
-				if(targetedCard!=droppedCard /*&& btl->isTargetValid(targetedCard)*/)
+				if(targetedCard!=droppedCard && targetedBattlefield->isTargetValid(targetedCard))
 				{
 	//				 Ability* ab=droppedCard->getAbility();
 	//				if(droppedCard->getAbility()->getAbilityType()=="order")
@@ -374,12 +386,15 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 	//					((OrderCardUI*)droppedCard->cardInterface)->modifyOrderUI(ord->getNoOfCharges());
 	//				}
 	//			   targetWasSelected=true;
-					droppedCard->triggerAbility(targetedCard,effects,btl);
+					droppedCard->triggerAbility(targetedCard,effects,btl,btlInamic);
 					sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(droppedCard->getIndex())+"#"+IntToStr(targetedCard->getIndex())+"#");
 					//targetedCard=nullptr;
 					droppedCard->takeCareOfOrder();
 					btl->CalculateScore(Cards);
+					btlInamic->CalculateScore(Cards);
 					btl->clearHighlightedTargets();
+					droppedCard=nullptr;
+					targetedBattlefield=nullptr;
 				  //	btl->CalculateScore(Cards);
 					//droppedCard=nullptr;
 				}
@@ -466,10 +481,14 @@ bool JocGwent::switchTurn()
 		}
 		//semnaleaza ca se pot folosi abilitatile de order
 		btl->ActivateOrders(Cards);
+		btlInamic->ActivateOrders(Cards);
 		//semnaleaza trecerea unui turn pentru periodice
 		btl->IncresePeriodicCounter(Cards);
+		btlInamic->IncresePeriodicCounter(Cards);
 		btl->CalculateScore(Cards);
+		btlInamic->CalculateScore(Cards);
 		btl->clearHighlightedTargets();
+		btlInamic->clearHighlightedTargets();
 	}
 
 	if(!droppedCard){
@@ -536,13 +555,18 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 	enemyCard->placeOnBattlefield(btlInamic,pos);
 	enemyCard ->cardInterface->frame->OnMouseDown =cardMouseDown;
 	enemyCard ->cardInterface->frame->OnMouseUp =cardClicked;
+	btlInamic->CalculateScore(Cards);
+    btlInamic->adToOnHold(index);
 }
 
  void JocGwent::triggerEnemyAbility(int trigger,int target)
  {
 	 Card * trigeringCard=Cards[trigger];
 	 Card * targetedCard=Cards[target];
-	 trigeringCard->triggerAbility(targetedCard,effects,btl);
+	 trigeringCard->triggerAbility(targetedCard,effects,btl,btlInamic);
+	 trigeringCard->takeCareOfOrder();
+	 btl->CalculateScore(Cards);
+	 btlInamic->CalculateScore(Cards);
  }
 
 //void JocGwent::mergeDecksIntoCards(vector<int> enemyDeck)
