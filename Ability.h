@@ -20,6 +20,7 @@ using namespace std;
 
 class Ability
 {
+friend class JocGwent;
 protected:
 	 int name;
 	 int quantum;

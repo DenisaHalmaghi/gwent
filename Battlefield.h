@@ -19,6 +19,7 @@ using namespace std;
 
 class Battlefield
 {
+friend class JocGwent;
 protected:
 	bool inamic;
 	vector<pair<int,int>> positions[2];

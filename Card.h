@@ -29,7 +29,7 @@ protected:
    int nrInst;
 public:
 	CardUI* cardInterface;
-
+	 friend class JocGwent;
    Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*,UnicodeString cardType="artefact");
    Card();
    ~Card();

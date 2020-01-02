@@ -23,6 +23,7 @@ __published:	// IDE-managed Components
 	TButton *passBtn;
 	TImage *boardImg;
 	TClientSocket *sClient;
+
     void __fastcall btnUnuClick(TObject *Sender);
 	void __fastcall exitBtnClick(TObject *Sender);
 	void __fastcall turnTimerTimer(TObject *Sender);
@@ -35,6 +36,8 @@ __published:	// IDE-managed Components
 	void __fastcall sClientConnect(TObject *Sender, TCustomWinSocket *Socket);
 private:	// User declarations
 	JocGwent* joc;
+    void handleTurnSwitch();
+	void handleEnd(int);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 

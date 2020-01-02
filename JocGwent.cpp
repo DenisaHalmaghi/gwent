@@ -10,7 +10,8 @@
 
 #include "JocGwent.h"
 
-
+#define C_Eu 1
+#define C_Inamic 2
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -23,7 +24,8 @@ vector<Card*>prototypes,int myCardsStart)
 	myTurn=0;
 	targetedCard=nullptr;
 	targetedBattlefield=nullptr;
-	targetWasSelected=0;
+   //	targetWasSelected=0;
+    passed[0]=passed[1]=false;
 	board=boardImg;
 	sClient=socket;
 	turn=0;
@@ -184,7 +186,7 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 		card->toggleDescription();
 		return;
 	}
-	if(myTurn)
+	if(myTurn&&!placedCard&&!btl->onBoard(index))
 	{
 	   clickedImg->BeginDrag(false,-2);
     }
@@ -236,8 +238,11 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 //		 }
 //	  }
 
-
+	  UnicodeString myHand=Util::join(hand,"#");
 	  card->placeOnBattlefield(btl,Point(X,Y));
+	  placedCard=true;
+	  Util::stergeIndex(hand,index);
+	   myHand=Util::join(hand,"#");
 	  sClient->Socket->SendText(IntToStr(C_Muta)+"#"+IntToStr(index)+"#"+IntToStr(X)+"#"+IntToStr(Y)+"#");
 	  btl->CalculateScore(Cards);
 
@@ -280,7 +285,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 			{
 				targetedBattlefield=btl;
 			}
-		   targetWasSelected=false;
+		   //targetWasSelected=false;
 		   if(targetedBattlefield->highlightValidTargets (Cards,card))
 		   {
 				//there was at least 1 match
@@ -333,7 +338,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 			//handle abilities
 			if(!droppedCard)
 			{
-				if(btl->onBoard(index))
+				if(!card->cardInterface->hasLock()&&btl->onBoard(index))
 				{
 
 					Ability* ab=card->getAbility();
@@ -393,7 +398,8 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 					btl->CalculateScore(Cards);
 					btlInamic->CalculateScore(Cards);
 					btl->clearHighlightedTargets();
-					droppedCard=nullptr;
+					btlInamic->clearHighlightedTargets();
+					//droppedCard=nullptr;
 					targetedBattlefield=nullptr;
 				  //	btl->CalculateScore(Cards);
 					//droppedCard=nullptr;
@@ -432,6 +438,7 @@ bool JocGwent::switchTurn()
 {
 
 	turn++;
+    placedCard=0;
 	if(turn==2)
 	{
 		turn=0;
@@ -485,16 +492,38 @@ bool JocGwent::switchTurn()
 		//semnaleaza trecerea unui turn pentru periodice
 		btl->IncresePeriodicCounter(Cards);
 		btlInamic->IncresePeriodicCounter(Cards);
-		btl->CalculateScore(Cards);
-		btlInamic->CalculateScore(Cards);
+
 		btl->clearHighlightedTargets();
 		btlInamic->clearHighlightedTargets();
 	}
-
+    btl->CalculateScore(Cards);
+	btlInamic->CalculateScore(Cards);
 	if(!droppedCard){
 		//randomly delete a card from hand
 	}
 	droppedCard=nullptr;
+   //	UnicodeString myHand=Util::join(hand,"#");
+	if(!passed[0]&&!hand.size())
+	{
+
+		passed[0]=true;
+		sClient->Socket->SendText(IntToStr(C_Pass)+"#");
+	}
+	if(passed[0]&& passed[1])
+	{
+		int winner=0;
+		int scorInamic = StrToInt(btlInamic->score->Caption);
+		int scorulMeu=StrToInt(btl->score->Caption);
+		if(scorulMeu >scorInamic)
+		{
+			winner=C_Eu;
+		}
+		else if( scorulMeu<scorInamic)
+		{
+			winner=C_Inamic;
+		}
+		throw Util(winner);
+	}
 	//placedCard=0;
 	return myTurn=!myTurn;
 
@@ -556,7 +585,11 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 	enemyCard ->cardInterface->frame->OnMouseDown =cardMouseDown;
 	enemyCard ->cardInterface->frame->OnMouseUp =cardClicked;
 	btlInamic->CalculateScore(Cards);
-    btlInamic->adToOnHold(index);
+	if(enemyCard->ability->type=="order")
+	{
+	  btlInamic->adToOnHold(index);
+    }
+
 }
 
  void JocGwent::triggerEnemyAbility(int trigger,int target)
@@ -567,6 +600,15 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 	 trigeringCard->takeCareOfOrder();
 	 btl->CalculateScore(Cards);
 	 btlInamic->CalculateScore(Cards);
+ }
+
+ bool JocGwent::didIPass()
+ {
+	 return passed[0];
+ }
+ void JocGwent::opponentPassed()
+ {
+	 passed[1]=true;
  }
 
 //void JocGwent::mergeDecksIntoCards(vector<int> enemyDeck)

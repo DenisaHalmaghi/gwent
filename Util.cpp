@@ -6,7 +6,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-
+Util::Util(int winner)
+{
+	this->winner=winner;
+}
 vector<int> Util::split(UnicodeString string,UnicodeString delimiter)
 {
 		int stringLength=string.Length();
@@ -79,4 +82,16 @@ vector<int> Util::desfaPairs(vector <pair<int,int>>perechi)
 		}
 	}
 	return ints;
+}
+
+void Util::stergeIndex(vector<int>& container,int index)
+{
+	 for(int i=0;i<container.size();i++)
+	 {
+		 if(container[i]==index)
+		 {
+			container.erase(container.begin()+i);
+			return;
+         }
+     }
 }

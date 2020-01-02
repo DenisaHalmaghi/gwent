@@ -12,6 +12,7 @@
 #define C_Turn 100
 #define C_Muta 101
 #define C_TriggerAbility 102
+#define C_Pass 103
 
 class JocGwent
 {
@@ -28,7 +29,7 @@ Battlefield_Deriv* btlInamic;
 Deck* deck;
 TClientSocket * sClient;
 //game logic vars
-bool targetWasSelected;    //mai trebuie?
+bool placedCard;    //mai trebuie?
 Card* targetedCard;
 Card* droppedCard;
 bool myTurn;
@@ -36,6 +37,7 @@ int roundNumber;
 int turn;
 int myDeckStartIndex;
 Battlefield_Deriv* targetedBattlefield;
+bool passed[2];
 //vector<pair<int,int>> positions[2];
 //int pos_top[2];
 
@@ -49,6 +51,8 @@ public:
  void afiseazaCartile(TForm* parent);
  void mutaCarteInamic(int,TPoint);
  void triggerEnemyAbility(int,int);
+ bool didIPass();
+ void opponentPassed();
  void __fastcall cardMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y);
  void __fastcall boardDragOver(TObject *Sender, TObject *Source, int X,

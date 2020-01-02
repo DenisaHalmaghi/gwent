@@ -23,7 +23,6 @@ __published:	// IDE-managed Components
 	TImage *Image1;
 	TPanel *cardDisplayContainer;
 	TScrollBox *ScrollBox1;
-	TButton *Button2;
 	TLabel *noOfCards;
 	TMemo *myMemo;
 

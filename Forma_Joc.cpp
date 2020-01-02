@@ -63,12 +63,24 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 	   //!!!check if any or both players passed and behave accordingly
 	   //!!restrictioneaza in functie de turn
 		turnTimer->Enabled=false;
-	   bool turn=joc->switchTurn();
+	   bool turn;
+	   try
+	   {
+         turn=joc->switchTurn();
+	   }
+	   catch(Util u)
+	   {
+			 handleEnd(u.winner);
+//		  UnicodeString mesaj=u.winner?"castigat":"pierdut";
+//				  ShowMessage("Ai"+mesaj);
+		  //return;
+	   }
+
 	   Memo1->Lines->Add(turn);
 	   if(!turn)
 	   {
 		  sClient->Socket->SendText(IntToStr(C_Turn)+"#");
-       }
+	   }
 	   //introducem un delay
 
 		//turnTimer->Enabled=true;
@@ -145,12 +157,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			  myDeckStartIndex=  mergedDecks.size()- deckArray.size();
 		   }
 		   joc=new JocGwent(this,boardImg,sClient,prototypes,myDeckStartIndex);
-		   if(message[1])
-		   {
-				Memo1->Lines->Add(joc->switchTurn());
-				turnTimer->Enabled=true;
 
-           }
 
 		   UnicodeString deckCards=Util::join(deckArray,"#");
 			UnicodeString merged=Util::join(mergedDecks,"#");
@@ -159,6 +166,12 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			Memo1->Lines->Add(deckCards);
 		   joc->creeazaCartile(mergedDecks,deckArray,myDeckStartIndex);
 		   joc->afiseazaCartile(this);
+            if(message[1])
+		   {
+				Memo1->Lines->Add(joc->switchTurn());
+				turnTimer->Enabled=true;
+
+		   }
 		  // UnicodeString merged=Util::join(mergedDecks,"#");
 
 		   break;
@@ -166,7 +179,43 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 		case C_Turn:
 		{
-			Memo1->Lines->Add(joc->switchTurn());
+
+
+		//merge in gol
+
+			if(joc->didIPass())
+			{
+				//myTurn=1
+
+				 try
+			   {
+				joc->switchTurn();
+				//myTurn=0;
+				joc->switchTurn();
+			   }
+			   catch(Util u)
+			   {
+				  handleEnd(u.winner);
+				  return;
+			   }
+
+				Memo1->Lines->Add("am dat pass");
+				sClient->Socket->SendText(IntToStr(C_Turn)+"#");
+                Memo1->Lines->Add("am trimis passul");
+				return;
+			}
+
+
+            	 try
+			   {
+				Memo1->Lines->Add(joc->switchTurn());
+			   }
+			   catch(Util u)
+			   {
+					handleEnd(u.winner);
+				  return;
+			   }
+
 			turnTimer->Enabled=true;
 
 			break;
@@ -190,9 +239,44 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			break;
 		}
 
+			case C_Pass:
+		{
+			joc->opponentPassed();
+
+			break;
+		}
+
 
     }
 
+}
+
+void TForm1::handleTurnSwitch()
+{
+		try
+	   {
+		joc->switchTurn();
+
+	   }
+	   catch(Util u)
+	   {
+		 handleEnd(u.winner);
+	   }
+}
+
+void TForm1::handleEnd(int winner)
+{
+	UnicodeString mesaj;
+	mesaj="Ai pierdut!";
+	if(!winner)
+	{
+		mesaj="Egalitate";
+	}
+	if(winner==1)
+	{
+		mesaj="Ai castigat!";
+	}
+	ShowMessage(mesaj);
 }
 //---------------------------------------------------------------------------
 
