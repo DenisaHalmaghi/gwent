@@ -347,8 +347,12 @@ int Card::getIndex()
 
 void Card::destroyUI()
 {
-	delete cardInterface;
-	cardInterface=nullptr;
+    if(cardInterface)
+	{
+	   delete cardInterface;
+	   cardInterface=nullptr;
+	}
+
 }
 
 void  Card::clearFromEffects(vector < pair<int,int> >  effects[3])

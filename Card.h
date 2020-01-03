@@ -42,6 +42,7 @@ public:
    void copiazaEsentiale(Ability*&,Target*&);
    void virtual Copiaza(Card*&,int);
    void takeCareOfOrder();
+   void virtual takeCareOfSpecialCard(){};
    void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
    void virtual buildCardUI(TPoint,TWinControl*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);

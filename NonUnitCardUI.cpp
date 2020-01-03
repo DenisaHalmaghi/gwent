@@ -51,5 +51,11 @@ bool NonUnitCardUI::hasLock()
 {
 	return false;
 }
+
+void  NonUnitCardUI::hideUI()
+{
+	CardUI::hideUI();
+	symbol->Visible=false;
+}
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

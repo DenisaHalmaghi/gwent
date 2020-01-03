@@ -254,5 +254,19 @@ void CardUI::deleteHighlight()
 	delete img;
 }
 
+void CardUI::hideUI()
+{
+	frame->Visible=false;
+	cardImg->Visible=false;
+	factionTop->Visible=false;
+	factionBottom->Visible=false;
+	provisionCost->Visible=false;
+	if(description)
+	{
+	   description->Visible=false;
+    }
+
+}
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

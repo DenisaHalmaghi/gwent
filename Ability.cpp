@@ -33,6 +33,12 @@ Ability::Ability(int name,int qt,TCaption tp){
 		+"\n\n"+abilityDescription[name];
 		description+=(type=="order"?"\nOrder:Lets the player manually trigger the ability":
 	   "\nDeploy:Trigger this ability when played.");
+
+       if(!qt)
+		{
+			description="\nNo ability";
+		}
+
    //	repeatable=rep;
 }
 

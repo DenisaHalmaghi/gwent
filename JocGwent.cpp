@@ -278,7 +278,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  int indexSters=Util::stergeIndex(hand,index);
 	   myHand=Util::join(hand,"#");
 	  sClient->Socket->SendText(IntToStr(C_Muta)+"#"+IntToStr(index)+"#"+IntToStr(X)+"#"+IntToStr(Y)+"#"+IntToStr(indexSters)+"#");
-
+	  sClient->Socket->SendText("200#");
 	  btl->CalculateScore(Cards);
 	  //sClient->Socket->SendText(IntToStr(C_StergeHandInamic)+"#"+IntToStr(indexSters)+"#");
 	  //check if position is occupied and if it is move the other cards
@@ -317,7 +317,7 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  int side=card->getTargetObject()->getSide();
 	  if(!side){
 		card->triggerAbility(card,effects,btl,btlInamic);
-		//sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(index)+"#"+IntToStr(index));
+		sClient->Socket->SendText(IntToStr(C_TriggerAbility)+"#"+IntToStr(index)+"#"+IntToStr(index)+"#");
 		btl->CalculateScore(Cards);
 	   //	droppedCard=card;
 	  }
@@ -336,6 +336,11 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 				droppedCard=card;
 
 		   }
+		  else
+			{
+//				sClient->Socket->SendText("200#");
+				card->takeCareOfSpecialCard();
+			}
 //		   targetTimer->Interval=200;
 //		   targetTimer->Enabled=true;
 		 // pt trigger enable timeout save currentlydropped card in a variable to be used
@@ -715,7 +720,7 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 	{
 	  btlInamic->adToOnHold(index);
 	}
-
+   	enemyCard->takeCareOfSpecialCard();
 
 }
 
@@ -727,6 +732,7 @@ void JocGwent::stergeDinHandInamic(int indexManaInamic)
 	{
 		passed[1]=true;
 	}
+
 }
 
  void JocGwent::triggerEnemyAbility(int trigger,int target)

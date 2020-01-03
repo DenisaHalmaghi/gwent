@@ -32,6 +32,7 @@ public:
 	void virtual Muta(int,int);
 	void deleteHighlight();
 	void showHighlight();
+	void virtual hideUI();
 };
 
 //---------------------------------------------------------------------------

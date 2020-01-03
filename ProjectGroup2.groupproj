@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7CD0548E-5B45-4121-BFC8-D4EF42641B24}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MyGwent2.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Gwent_ServerSocket.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MyGwent2">
+        <MSBuild Projects="MyGwent2.cbproj"/>
+    </Target>
+    <Target Name="MyGwent2:Clean">
+        <MSBuild Projects="MyGwent2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MyGwent2:Make">
+        <MSBuild Projects="MyGwent2.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Gwent_ServerSocket">
+        <MSBuild Projects="..\Gwent_ServerSocket.cbproj"/>
+    </Target>
+    <Target Name="Gwent_ServerSocket:Clean">
+        <MSBuild Projects="..\Gwent_ServerSocket.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Gwent_ServerSocket:Make">
+        <MSBuild Projects="..\Gwent_ServerSocket.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MyGwent2;Gwent_ServerSocket"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MyGwent2:Clean;Gwent_ServerSocket:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MyGwent2:Make;Gwent_ServerSocket:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

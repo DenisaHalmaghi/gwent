@@ -16,6 +16,7 @@ class NonUnitCardUI:public CardUI{
 	void Aranjeaza();
 	void Muta(int,int);
 	bool hasLock();
+	void virtual hideUI();
 };
 //---------------------------------------------------------------------------
 #endif

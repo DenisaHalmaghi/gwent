@@ -66,6 +66,11 @@ void UnitCard::Copiaza(Card*& copie,int index)
 	copie=new UnitCard(index,name,faction,image,provisionCost,tg,ab,power,rowRestriction);
 }
 
+void Special_Card::takeCareOfSpecialCard()
+ {
+	  cardInterface->hideUI();
+ };
+
 //---------------------------------------------------------------------------
 Special_Card::Special_Card(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
 Target* target,Ability* ab)

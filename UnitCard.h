@@ -22,6 +22,7 @@ public:
    Special_Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*);
    void virtual placeOnBattlefield(Battlefield*,TPoint);
    void virtual Copiaza(Card*&,int);
+   void virtual takeCareOfSpecialCard();
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*,Battlefield*);
 //   void virtual buildCardUI(TPoint,TForm*);
 };
