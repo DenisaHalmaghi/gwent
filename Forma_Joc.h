@@ -36,7 +36,7 @@ __published:	// IDE-managed Components
 	void __fastcall sClientConnect(TObject *Sender, TCustomWinSocket *Socket);
 private:	// User declarations
 	JocGwent* joc;
-    void handleTurnSwitch();
+
 	void handleEnd(int);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

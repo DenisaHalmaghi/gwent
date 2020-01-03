@@ -27,12 +27,18 @@ OrderCardUI::OrderCardUI(TPoint pos,TWinControl* parent,UnicodeString image,Unic
 		orderFront=new TLabel(cardImg);
 		orderFront->Parent=parent;
 		orderFront->Caption="zzz";
-		orderFront->Font->Color=clWhite;
 
 		TFont* font= new TFont();
 		font->Color=clWhite;
 		font->Size = 12;
 		font->Style = TFontStyles() << fsBold;
+
+		if(order->getZeal())
+		{
+			orderFront->Caption=order->getNoOfCharges();
+		   	orderBack->Pen->Color=clGreen;
+
+		}
 		orderFront->Font=font;
 		delete font;
 

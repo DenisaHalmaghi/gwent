@@ -11,7 +11,7 @@ Deck::Deck(vector<int>cardsInDeck)
 {
 
 	 cards=cardsInDeck;
-	// random_shuffle(cards.begin(), cards.end());
+	 random_shuffle(cards.begin(), cards.end());
 
 }
 

@@ -84,14 +84,19 @@ vector<int> Util::desfaPairs(vector <pair<int,int>>perechi)
 	return ints;
 }
 
-void Util::stergeIndex(vector<int>& container,int index)
+int Util::stergeIndex(vector<int>& container,int index)
 {
 	 for(int i=0;i<container.size();i++)
 	 {
 		 if(container[i]==index)
 		 {
 			container.erase(container.begin()+i);
-			return;
+			return i;
          }
      }
+}
+
+int Util::randomNumber(int max)
+{
+	return abs(rand()%max);
 }

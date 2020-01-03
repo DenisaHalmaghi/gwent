@@ -18,7 +18,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::btnUnuClick(TObject *Sender)
 {
-
+        btnUnu->Visible=false;
 		UnicodeString deckString=IntToStr(C_Deck)+"#";
 		deckString+=Util::join( deckArray,"#");
 		sClient->Socket->SendText(deckString);
@@ -89,11 +89,38 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 void __fastcall TForm1::passBtnClick(TObject *Sender)
 {
         	 //daca am pus jos o carte imi pot termina tura
-		 if(joc->endTurn())
-		 {
-			  turnTimer->Enabled=false;
-			  turnTimer->Enabled=true;
-		 }
+//		 if(joc->endTurn())
+//		 {
+//			  turnTimer->Enabled=false;
+//			  turnTimer->Enabled=true;
+//		 }
+		try
+		   {
+			joc->endTurn();
+
+		   }
+		   catch(Util u)
+		   {
+			 turnTimer->Enabled=false;
+			sClient->Socket->SendText(IntToStr(C_Turn)+"#");
+
+				try
+			   {
+					joc->switchTurn();
+			   }
+			   catch(Util u)
+			   {
+
+                        turnTimer->Enabled=false;
+						 handleEnd(u.winner);
+
+
+		//		  UnicodeString mesaj=u.winner?"castigat":"pierdut";
+		//				  ShowMessage("Ai"+mesaj);
+				  //return;
+			   }
+
+		   }
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::boardImgClick(TObject *Sender)
@@ -143,6 +170,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 	{
 		case C_GameStart:
 		{
+
 			int myDeckStartIndex=0;
 			vector<int>mergedDecks;
 		   if(message[1])
@@ -183,13 +211,22 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 		//merge in gol
 
+			try
+		   {
+			Memo1->Lines->Add(joc->switchTurn());
+		   }
+		   catch(Util u)
+		   {
+				handleEnd(u.winner);
+			  return;
+		   }
 			if(joc->didIPass())
 			{
 				//myTurn=1
 
 				 try
 			   {
-				joc->switchTurn();
+			   //	joc->switchTurn();
 				//myTurn=0;
 				joc->switchTurn();
 			   }
@@ -206,15 +243,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			}
 
 
-            	 try
-			   {
-				Memo1->Lines->Add(joc->switchTurn());
-			   }
-			   catch(Util u)
-			   {
-					handleEnd(u.winner);
-				  return;
-			   }
+
 
 			turnTimer->Enabled=true;
 
@@ -224,6 +253,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			case C_Muta:
 		{
 			joc->mutaCarteInamic(message[1],Point(message[2],message[3]));
+			joc->stergeDinHandInamic(message[4]);
 
 			break;
 		}
@@ -246,23 +276,19 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			break;
 		}
 
+		case C_StergeHandInamic:
+		{
+            joc->stergeDinHandInamic(message[1]);
+
+			break;
+		}
+
 
     }
 
 }
 
-void TForm1::handleTurnSwitch()
-{
-		try
-	   {
-		joc->switchTurn();
 
-	   }
-	   catch(Util u)
-	   {
-		 handleEnd(u.winner);
-	   }
-}
 
 void TForm1::handleEnd(int winner)
 {

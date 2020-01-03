@@ -15,7 +15,7 @@ Order::Order(int name,int qt,bool zeal):Ability(name,qt,"order"){
    this->zeal=zeal;
    if(zeal)
    {
-	   description="Zeal"+description;
+	   description="\nZeal"+description;
 	   description+="\nZeal:Order can be used immediately";
    }
 }

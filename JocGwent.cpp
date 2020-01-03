@@ -28,6 +28,7 @@ vector<Card*>prototypes,int myCardsStart)
     passed[0]=passed[1]=false;
 	board=boardImg;
 	sClient=socket;
+//	endedTurn=0;
 	turn=0;
 	roundNumber=0;
 	targetTimer=new TTimer(parent);
@@ -77,7 +78,17 @@ void JocGwent::Init(TForm* parent)
 	board->OnDragOver= boardDragOver;
 	board->OnDragDrop= boardDragDrop;
 	targetTimer->OnTimer=targetTimerTimer;
-
+    arataRand=new TLabel (parent);
+	arataRand ->Parent=parent;
+	TFont *font = new TFont;
+	font->Size = 18;
+	font->Color = clWhite;
+	font->Style = TFontStyles() << fsBold;
+	arataRand->Font=font;
+	delete font;
+	arataRand->Top=C_MyTop;
+	arataRand->Left=0;
+	arataRand->Font=font;
 //	Target * target1=new Target(C_Ally,"unit");
 //	Ability* ab1=new Charges(C_Destroy,3,3);
 //	Card* card1=new UnitCard(0,"Aglais","scoia","aglais",9,target1,ab1,2,0);
@@ -183,13 +194,25 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 	//if right button then toggle description
 	if(Button == mbRight)
 	{
-		card->toggleDescription();
+		if(!btl->onBoard(index))
+		{
+		   ShowMessage(card->ability->description);
+		}
+		else
+		{
+			card->toggleDescription();
+        }
+
+
 		return;
 	}
 	if(myTurn&&!placedCard&&!btl->onBoard(index))
 	{
+
+
+		initialPosition=Point( card ->cardInterface->cardImg->Left,card->cardInterface->cardImg->Top);
 	   clickedImg->BeginDrag(false,-2);
-    }
+	}
 
 	//if right button show ui for details
 
@@ -198,10 +221,17 @@ void __fastcall JocGwent::cardMouseDown(TObject *Sender, TMouseButton Button, TS
 void __fastcall JocGwent::boardDragOver(TObject *Sender, TObject *Source, int X,
 		  int Y, TDragState State, bool &Accept)
 {
+	TImage *test = (TImage*)Source;
+	if(!myTurn)
+	{
+		Cards[test->Tag]->cardInterface->Muta( initialPosition.x,initialPosition.y);
+		return;
+	}
+
 	if(Y>C_MyTop)
 	{
 		 Accept = true;
-		 TImage *test = (TImage*)Source;
+
 		 Cards[test->Tag]->cardInterface->Muta(Mouse->CursorPos.x, Mouse->CursorPos.y);
 	}
 
@@ -220,7 +250,11 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 
 	  int index=currentImage->Tag;
 	  Card* card= Cards[index];
-
+	  if(!myTurn)
+	{
+		card->cardInterface->Muta( initialPosition.x,initialPosition.y);
+		return;
+	}
 //	  int index=(abs(Y-pos_top[0])> abs(Y-pos_top[1]))?1:0;
 //	  int minIndex=0;
 //	  int dm=1000;
@@ -241,11 +275,12 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  UnicodeString myHand=Util::join(hand,"#");
 	  card->placeOnBattlefield(btl,Point(X,Y));
 	  placedCard=true;
-	  Util::stergeIndex(hand,index);
+	  int indexSters=Util::stergeIndex(hand,index);
 	   myHand=Util::join(hand,"#");
-	  sClient->Socket->SendText(IntToStr(C_Muta)+"#"+IntToStr(index)+"#"+IntToStr(X)+"#"+IntToStr(Y)+"#");
-	  btl->CalculateScore(Cards);
+	  sClient->Socket->SendText(IntToStr(C_Muta)+"#"+IntToStr(index)+"#"+IntToStr(X)+"#"+IntToStr(Y)+"#"+IntToStr(indexSters)+"#");
 
+	  btl->CalculateScore(Cards);
+	  //sClient->Socket->SendText(IntToStr(C_StergeHandInamic)+"#"+IntToStr(indexSters)+"#");
 	  //check if position is occupied and if it is move the other cards
 	  //check if possible first(won't pass index 0) and get the min of cards to be moved (left or right)
 	  //parcurgere cu swap pt first +apeleaza muta pentru fiecare carte pt care se face swap
@@ -264,12 +299,20 @@ void __fastcall JocGwent::boardDragDrop(TObject *Sender, TObject *Source, int X,
 	  //IF PLAIN ORDER AND IS ALREADY INSIDE CHECK IF USED
 	  //IF ITS CHARGES OR WITH CD ACT ACORDINGLY
 	  Ability* ab=card->getAbility();
-	  if(!ab->getZeal())
-	  {
-		btl->adToOnHold(index);
-
-			return;
-	  }
+//	  if(!ab->getZeal())
+//	  {
+//		btl->adToOnHold(index);
+//
+//			return;
+//	  }
+	if(ab->type=="order")
+	{
+		if(!ab->getZeal())
+		{
+			btl->adToOnHold(index);
+		}
+		return;
+	}
 
 	  int side=card->getTargetObject()->getSide();
 	  if(!side){
@@ -402,7 +445,7 @@ void __fastcall JocGwent::cardClicked(TObject *Sender, TMouseButton Button, TShi
 					//droppedCard=nullptr;
 					targetedBattlefield=nullptr;
 				  //	btl->CalculateScore(Cards);
-					//droppedCard=nullptr;
+					droppedCard=nullptr;
 				}
 			}
 		}
@@ -426,88 +469,101 @@ JocGwent::~JocGwent()
 
 bool JocGwent::endTurn()
 {
-	if( droppedCard)
+	if( placedCard/*&&myTurn*/)
 	{
-	   return switchTurn();
+//		endedTurn=1;
+//		if(passed[0]&& passed[1])
+//		{
+//			int winner=0;
+//			int scorInamic = StrToInt(btlInamic->score->Caption);
+//			int scorulMeu=StrToInt(btl->score->Caption);
+//			if(scorulMeu >scorInamic)
+//			{
+//				winner=C_Eu;
+//			}
+//			else if( scorulMeu<scorInamic)
+//			{
+//				winner=C_Inamic;
+//			}
+//			throw Util(winner);
+//		}
+		if(!hand.size())
+		{
+			passed[0]=true;
+//			sClient->Socket->SendText(IntToStr(C_Pass)+"#");
+		}
+		throw Util(100);
+//		switchTurn();
+//		return true;
 	}
-	return 0;
+   //	return 0;
+   return 0;
 
 }
 
 bool JocGwent::switchTurn()
 {
 
-	turn++;
-    placedCard=0;
-	if(turn==2)
-	{
-		turn=0;
-		//la finalul unui tur pentru ambii playeri
-		//parcurgem vectorul de efecte si le declansam
-		for(int i=0;i<2;i++)
-		{
-			int rowSize= effects[i].size();
-			for(int j=0;j<effects[i].size();j++)
-			{
-				pair current=effects[i][j];
-				//daca i e zero e bleed, altfel e vitality
-				int sign=i?1:-1;
-				UnitCard* carte=dynamic_cast < UnitCard* >(Cards[current.first]);
-				UnitCardUI* unit=dynamic_cast < UnitCardUI* >(carte->cardInterface);
-			   //	int oldpw=unit->getPower();
-				carte->modificaPower(sign*1);
-				if(unit->getPower()<1)
-				{
-					carte->destroyUI();
-					effects[i].erase( effects[i].begin()+j);
-					btl->freePosition(carte->getIndex());
-                    //aici stergi pozitia
-				}
-				else
-				{
+	//turn++;
+//    if(endedTurn)
+//	{
+//		return myTurn;
+//	}
 
-					if(current.second==1)
-					{
-					   //s-a dus durata deci scoate-l din sir
-	//				  effects[i].clear();
-					   effects[i].erase( effects[i].begin()+j);
-					   //scoate efectul de pe carte
-					   unit->removeEffect();
-					   j--;
-					}
-					else
-					{
-						effects[i][j].second--;
-						unit->modifyEffect(effects[i][j].second);
-					}
-					unit->AranjeazaPower();
+	if(myTurn&&!placedCard&&hand.size()){
+		//randomly delete a card from hand
+		int randNumber=Util::randomNumber(hand.size());
+		sClient->Socket->SendText(IntToStr(C_StergeHandInamic)+"#"+IntToStr(randNumber)+"#");
+		Cards[hand[randNumber]]->destroyUI();
+		hand.erase( hand.begin()+randNumber);
 
-				}
 
-			}
-		}
-		//semnaleaza ca se pot folosi abilitatile de order
-		btl->ActivateOrders(Cards);
-		btlInamic->ActivateOrders(Cards);
-		//semnaleaza trecerea unui turn pentru periodice
-		btl->IncresePeriodicCounter(Cards);
-		btlInamic->IncresePeriodicCounter(Cards);
-
-		btl->clearHighlightedTargets();
-		btlInamic->clearHighlightedTargets();
 	}
+	 arataRand->Caption="";
+	placedCard=0;
+//	if(turn==2)
+//	{
+//		turn=0;
+//		//la finalul unui tur pentru ambii playeri
+//		//parcurgem vectorul de efecte si le declansam
+//
+//		//semnaleaza ca se pot folosi abilitatile de order
+//
+//
+//		//semnaleaza trecerea unui turn pentru periodice
+//
+//
+//
+//
+//	}
+    if(myTurn)
+	{
+	   triggerEffects(false);
+	  btl->clearHighlightedTargets();
+	  btlInamic->clearHighlightedTargets();
+	  btlInamic->IncresePeriodicCounter(Cards);
+	  btlInamic->ActivateOrders(Cards);
+	}
+	else
+	{
+		triggerEffects(true);
+		arataRand->Caption="Randul meu";
+		btl->IncresePeriodicCounter(Cards);
+		btl->ActivateOrders(Cards);
+//		endedTurn=0;
+	}
+
     btl->CalculateScore(Cards);
 	btlInamic->CalculateScore(Cards);
-	if(!droppedCard){
-		//randomly delete a card from hand
-	}
+
+
 	droppedCard=nullptr;
    //	UnicodeString myHand=Util::join(hand,"#");
 	if(!passed[0]&&!hand.size())
 	{
 
 		passed[0]=true;
-		sClient->Socket->SendText(IntToStr(C_Pass)+"#");
+	   //	sClient->Socket->SendText(IntToStr(C_Pass)+"#");
 	}
 	if(passed[0]&& passed[1])
 	{
@@ -524,10 +580,60 @@ bool JocGwent::switchTurn()
 		}
 		throw Util(winner);
 	}
-	//placedCard=0;
+
 	return myTurn=!myTurn;
 
 }
+
+ void JocGwent::triggerEffects(bool enemy)
+ {
+       for(int i=0;i<2;i++)
+		{
+			int rowSize= effects[i].size();
+			for(int j=0;j<effects[i].size();j++)
+			{
+				pair current=effects[i][j];
+                if(btl->onBoard(current.first )==!enemy)
+				{
+                   //daca i e zero e bleed, altfel e vitality
+					int sign=i?1:-1;
+					UnitCard* carte=dynamic_cast < UnitCard* >(Cards[current.first]);
+					UnitCardUI* unit=dynamic_cast < UnitCardUI* >(carte->cardInterface);
+				   //	int oldpw=unit->getPower();
+					carte->modificaPower(sign*1);
+					if(unit->getPower()<1)
+					{
+						carte->destroyUI();
+						effects[i].erase( effects[i].begin()+j);
+						btl->freePosition(carte->getIndex());
+						//aici stergi pozitia
+					}
+					else
+					{
+
+						if(current.second==1)
+						{
+						   //s-a dus durata deci scoate-l din sir
+		//				  effects[i].clear();
+						   effects[i].erase( effects[i].begin()+j);
+						   //scoate efectul de pe carte
+						   unit->removeEffect();
+						   j--;
+						}
+						else
+						{
+							effects[i][j].second--;
+							unit->modifyEffect(effects[i][j].second);
+						}
+						unit->AranjeazaPower();
+
+					}
+				}
+
+
+			}
+		}
+ }
 
 void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deckStartIndex)
 {
@@ -539,7 +645,7 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 		if(i>=deckStartIndex&&deckIndexes.size()< CardsInDeck.size())
 		{
 			deckIndexes.push_back(i);
-        }
+		}
 		int index= origin[i];
 		Card* test=nullptr;
 		Card* prototype=prototypes[index];
@@ -559,8 +665,15 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 		int left=C_Left_Start;
 		 //UnicodeString allCards=Util::join(Cards,"#");
 		 UnicodeString myHand=Util::join(hand,"#");
-		int  size= Cards.size();
-	size+=0;
+		 int enemyStartIndex=0;
+		if(!myDeckStartIndex)
+		{
+			enemyStartIndex=deck->cards.size()+hand.size();
+		}
+		UnicodeString enemyFaction=Cards[enemyStartIndex+1]->faction;
+//		int  size= Cards.size();
+//		size+=0;
+		TPngImage* img = new TPngImage();
 		for(int i=0;i<hand.size();i++)
 		{
 			int index= hand[i];
@@ -570,12 +683,25 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 			test->buildCardUI(Point(left,C_HandStart),parent);
 			test ->cardInterface->frame->OnMouseDown =cardMouseDown;
 			test ->cardInterface->frame->OnMouseUp =cardClicked;
+
+			TImage* cardback=new TImage(parent);
+		 cardback->Parent = parent;
+
+		 img->LoadFromFile("symbols/"+enemyFaction+"_cardback.png");
+		 cardback->Picture->Assign(img);
+		 cardback->Width=C_Ratio*C_CardHeight;
+		 cardback->Height= C_CardHeight;//C_CardbackRatio* cardback->Width;
+		 cardback->Stretch=true;
+		  cardback->Left=left;
+		 cardback->Top=-C_CardHeight/2;
+		 enemyCardbacks.push_back(cardback);
 			left+=C_CardHeight*C_Ratio;
 
 		}
+		delete img;
  }
 
- void JocGwent::mutaCarteInamic(int indexCarte,TPoint pos)
+ void JocGwent::mutaCarteInamic(int indexCarte,TPoint pos )
 {
 
 	int index= indexCarte;
@@ -588,8 +714,19 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
 	if(enemyCard->ability->type=="order")
 	{
 	  btlInamic->adToOnHold(index);
-    }
+	}
 
+
+}
+
+void JocGwent::stergeDinHandInamic(int indexManaInamic)
+{
+	delete  enemyCardbacks[indexManaInamic];
+	enemyCardbacks.erase( enemyCardbacks.begin()+indexManaInamic);
+     if(!enemyCardbacks.size())
+	{
+		passed[1]=true;
+	}
 }
 
  void JocGwent::triggerEnemyAbility(int trigger,int target)
@@ -608,6 +745,21 @@ void JocGwent::creeazaCartile(vector<int>origin,vector<int> CardsInDeck,int deck
  }
  void JocGwent::opponentPassed()
  {
+//	if(passed[0])
+//	{
+//		int winner=0;
+//		int scorInamic = StrToInt(btlInamic->score->Caption);
+//		int scorulMeu=StrToInt(btl->score->Caption);
+//		if(scorulMeu >scorInamic)
+//		{
+//			winner=C_Eu;
+//		}
+//		else if( scorulMeu<scorInamic)
+//		{
+//			winner=C_Inamic;
+//		}
+//		throw Util(winner);
+//	}
 	 passed[1]=true;
  }
 

@@ -33,6 +33,8 @@ __published:	// IDE-managed Components
 	void __fastcall ScrollBar1Scroll(TObject *Sender, TScrollCode ScrollCode, int &ScrollPos);
 	void __fastcall PutCardInDeck(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall showCardDescription(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
 
 private:	// User declarations
    UnicodeString selectedFaction;

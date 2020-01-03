@@ -423,8 +423,12 @@ void Card::Bleed_Vitality(int effect,int index,UnitCardUI* target, vector<pair<i
 
 void Card::placeOnBattlefield(Battlefield* btl,TPoint pos)
 {
-	TPoint newPos=btl->place(pos,nrInst);
+
+
+	TPoint newPos =btl->place(pos,nrInst);
+
 	cardInterface->Muta(newPos.X,newPos.Y);
+
 }
 
 void  Card::takeCareOfOrder()

@@ -21,11 +21,11 @@ Battlefield::Battlefield(TForm * parent,int inamic)
 	score->Left=15;
 	if(inamic)
 	{
-	  score->Top=C_MyTop-60;
+	  score->Top=C_MyTop-160;
 	}
 	else
 	{
-       score->Top=C_MyTop;
+       score->Top=C_MyTop+80;
     }
 
 

@@ -47570,10 +47570,9 @@ object Form4: TForm4
   object noOfCards: TLabel
     Left = 16
     Top = 64
-    Width = 81
+    Width = 4
     Height = 20
     Alignment = taCenter
-    Caption = 'Carti:0 /25'
     Color = clGrayText
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clHighlightText
@@ -47614,18 +47613,18 @@ object Form4: TForm4
     OnClick = deckCrBtnClick
   end
   object cardDisplayContainer: TPanel
-    Left = 760
+    Left = 536
     Top = 8
-    Width = 673
+    Width = 897
     Height = 409
     Caption = 'cardDisplayContainer'
     TabOrder = 3
     VerticalAlignment = taAlignTop
   end
   object ScrollBox1: TScrollBox
-    Left = 760
+    Left = 536
     Top = 8
-    Width = 673
+    Width = 897
     Height = 409
     BorderStyle = bsNone
     ParentBackground = True

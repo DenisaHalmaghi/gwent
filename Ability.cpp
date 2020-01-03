@@ -19,7 +19,7 @@ Ability::Ability(int name,int qt,TCaption tp){
 	//create description
     	UnicodeString text[]=
 		{"Give bleeding for","Give vitality for","Boost a unit by","Damage a unit by",
-		"Poison a unit","Purify a unit","Lock a unit","Destroy a unit if it has at least 8 power"};
+		"Poison a unit","Purify a unit","Lock a unit","Destroy a unit "};
 
 		UnicodeString abilityDescription[]=
 		{"Bleeding:Damages a unit by 1 on turn end","Vitality:Boosts a unit by 1 on turn end",
@@ -29,7 +29,7 @@ Ability::Ability(int name,int qt,TCaption tp){
 
 		};
 
-		description+=(type=="order"?"\nOrder:":"\nDeploy:")+text[name]+" "+quantum+ (name<2?" rounds":"")
+		description+=(type=="order"?"\nOrder:":"\nDeploy:")+text[name]+" "+(name<4?IntToStr(quantum):"")+ (name<2?" rounds":"")
 		+"\n\n"+abilityDescription[name];
 		description+=(type=="order"?"\nOrder:Lets the player manually trigger the ability":
 	   "\nDeploy:Trigger this ability when played.");

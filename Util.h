@@ -14,7 +14,8 @@ class Util{
 	static  UnicodeString join(vector<int>,UnicodeString );
 	static  UnicodeString join(vector <pair<int,int>>,UnicodeString );
 	static  vector<int> desfaPairs(vector <pair<int,int>>);
-	static  void stergeIndex(vector<int>&,int);
+	static  int stergeIndex(vector<int>&,int);
+	static int randomNumber(int max);
 };
 //---------------------------------------------------------------------------
 #endif
