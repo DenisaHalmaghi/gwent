@@ -18,48 +18,35 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::btnUnuClick(TObject *Sender)
 {
-        btnUnu->Visible=false;
+		btnUnu->Visible=false;
 		UnicodeString deckString=IntToStr(C_Deck)+"#";
 		deckString+=Util::join( deckArray,"#");
 		sClient->Socket->SendText(deckString);
-		//sClient->Socket->SendText("testt");
+
 		Memo1->Lines->Add("sent"+deckString);
 
-	//testShape->Canvas->TextOut(2,3"a");
-
-//	auto fn1 =  bind(myMouseDown, _1, _2, _3,_4,_5,myUICard);
-//	myUICard->cardImg->OnMouseDown = myMouseDown;
-//	Ability* ab2=new Ability(C_Boost,2,0);
-//	Card* card2=new UnitCard("Aglais","monsters","adda_striga",10,1,ab2,6,0);
-//	Cards.push_back(card2);
-//	CardUI* myUICard2=new UnitCardUI(card2,300+myUICard->getWidth()+20,400,this);
-//	UICards.push_back(myUICard2);
-//	myUICard2->cardImg->OnMouseDown =imgTestMouseDown;
-//	myUICard2->cardImg->OnClick =cardClicked;
-//	units.push_back(myUICard2);
-//	//delete myUICard;
-//
-//	Ability* ab3=new Ability(C_Damage,3,0);
-//	Card* card3=new Card("Aglais","scoia","milaen",9,"artefact",1,ab3);
-//	Cards.push_back(card3);
-//	CardUI* myUICard3=new NonUnitCardUI(card3,500+myUICard->getWidth()+20,400,this);
-//	UICards.push_back(myUICard3);
-//	myUICard3->cardImg->OnMouseDown =imgTestMouseDown;
-   //	myUICard3->cardImg->OnClick =cardClicked;
 
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::exitBtnClick(TObject *Sender)
 {
-		sClient->Active=false;
-	  //	delete sClient;
-		delete joc;
-		exit(0);
+
+	   btnUnu->Visible=1;
+	   //a inceput jocul dar nu s-a terminat inca
+	   if(joc&&!gameIsOver)
+	{
+		ShowMessage("Ai pierdut!");
+		sClient->Socket->SendText(IntToStr(C_Forfeit)+"#");
+
+	}
+	sClient->Active=false;
+	  delete joc;
+	   Hide();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 {
-		//To do:
+
 	   //!!!check if any or both players passed and behave accordingly
 	   //!!restrictioneaza in functie de turn
 		turnTimer->Enabled=false;
@@ -71,9 +58,7 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 	   catch(Util u)
 	   {
 			 handleEnd(u.winner);
-//		  UnicodeString mesaj=u.winner?"castigat":"pierdut";
-//				  ShowMessage("Ai"+mesaj);
-		  //return;
+
 	   }
 
 	   Memo1->Lines->Add(turn);
@@ -81,19 +66,12 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 	   {
 		  sClient->Socket->SendText(IntToStr(C_Turn)+"#");
 	   }
-	   //introducem un delay
 
-		//turnTimer->Enabled=true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::passBtnClick(TObject *Sender)
 {
-        	 //daca am pus jos o carte imi pot termina tura
-//		 if(joc->endTurn())
-//		 {
-//			  turnTimer->Enabled=false;
-//			  turnTimer->Enabled=true;
-//		 }
+	//daca am pus jos o carte imi pot termina tura
 		try
 		   {
 			joc->endTurn();
@@ -114,10 +92,6 @@ void __fastcall TForm1::passBtnClick(TObject *Sender)
                         turnTimer->Enabled=false;
 						 handleEnd(u.winner);
 
-
-		//		  UnicodeString mesaj=u.winner?"castigat":"pierdut";
-		//				  ShowMessage("Ai"+mesaj);
-				  //return;
 			   }
 
 		   }
@@ -138,19 +112,9 @@ void __fastcall TForm1::boardImgMouseUp(TObject *Sender, TMouseButton Button, TS
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
-   	sClient->Active=true;
-	int nrOfCards= deckArray.size();
-
-   // sClient->Socket->SendText(Memo->Text);
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::sClientConnect(TObject *Sender, TCustomWinSocket *Socket)
-
-{
-   // sClient->Socket->SendText("testt2");
-	//int nrOfCards= deckArray.size();
-   //	UnicodeString deckString=Util::join( deckArray,"#");
-   //	sClient->Socket->SendText(deckString);
+	joc=nullptr;
+	sClient->Active=true;
+	gameIsOver=0;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
@@ -222,12 +186,10 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 		   }
 			if(joc->didIPass())
 			{
-				//myTurn=1
 
 				 try
 			   {
-			   //	joc->switchTurn();
-				//myTurn=0;
+
 				joc->switchTurn();
 			   }
 			   catch(Util u)
@@ -260,8 +222,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 		case C_TriggerAbility:
 		{
-			UnicodeString joinedMessage=Util::join(message,"__");
-			Memo1->Lines->Add(joinedMessage);
+
 			int first=message[1];
 			int second= message[2];
 			joc->triggerEnemyAbility(message[1],message[2]);
@@ -269,10 +230,12 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 			break;
 		}
 
-			case C_Pass:
+			case C_Forfeit:
 		{
-			joc->opponentPassed();
-
+			//e gata jocul
+//			sClient->Active=false;
+			ShowMessage("Oponentul tau a renuntat.Ai castigat!");
+			gameIsOver=1;
 			break;
 		}
 
@@ -292,6 +255,11 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 void TForm1::handleEnd(int winner)
 {
+    if(winner>2)
+	{
+		return;
+	}
+
 	UnicodeString mesaj;
 	mesaj="Ai pierdut!";
 	if(!winner)
@@ -303,6 +271,7 @@ void TForm1::handleEnd(int winner)
 		mesaj="Ai castigat!";
 	}
 	ShowMessage(mesaj);
+	gameIsOver=1;
 }
 //---------------------------------------------------------------------------
 

@@ -28,10 +28,9 @@ CardUI::~CardUI(){
 
 
 CardUI::CardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString faction,
-TCaption pc, Ability* ab,int nrInst){
-		// card=c;
+TCaption pc, Ability* ab,int nrInst)
+{
 
-		 //luam cartea corespunzatoare din vectorul de carti
 		  description=nullptr;
 		  frame=nullptr;
 		 //initializam imaginile corespunzator
@@ -43,7 +42,6 @@ TCaption pc, Ability* ab,int nrInst){
 
 		 cardImg->Picture->Assign(img);
 		 cardImg->Stretch=true;
-		 //cardImg->Proportional=true;
 		 cardImg->Height=C_CardHeight;
 		 cardImg->Width=C_CardHeight*C_Ratio;
 		 cardImg->Left =pos.x;
@@ -73,17 +71,16 @@ TCaption pc, Ability* ab,int nrInst){
 		provisionCost->Caption=pc;
 		provisionCost->BringToFront();
 
+		img->LoadFromFile("symbols/golden_frame.png");
 
         frame=new TImage(cardImg);
 		frame->Parent= cardImg->Parent;
-		img->LoadFromFile("symbols/golden_frame.png");
 		frame->Picture->Assign(img);
 		frame->Stretch=true;
 		frame->Tag=cardImg->Tag;
-		//cardImg->Proportional=true;
 		frame->Height=C_CardHeight+2;
 		frame->Width=C_CardHeight*C_Ratio+2;
-		//frame->SendToBack();
+
 
 
 		//SET UP FONT
@@ -94,67 +91,13 @@ TCaption pc, Ability* ab,int nrInst){
 		provisionCost->Font=font;
 		font->Size = 11;
 		font->Style = TFontStyles();
-		//set up description label
-//		description=new TLabel(cardImg);
-//		description->Parent=parent;
-//		description->Height=C_CardHeight*1.2;
-//		description->Color=cl3DDkShadow;
-//		description->Transparent=false;
-//		description->AutoSize=false;
-//		description->Width=cardImg->Width*1.3;
-//		description->Font=font;
-//		description->WordWrap=true;
 
 
 		//delete temps
 		delete font;
 		delete img;
 
-		//set up text
-//		UnicodeString text[]=
-//		{"Give bleeding for","Give vitality for","Boost a unit by","Damage a unit by",
-//		"Poison a unit","Purify a unit","Lock a unit","Destroy a unit if it has at least 8 power"};
-//
-//		UnicodeString abilityDescription[]=
-//		{"Bleeding:Damages a unit by 1 on turn end","Vitality:Boosts a unit by 1 on turn end",
-//		"Boost:Increase a Unit's current Power.","Damage:Decrease a Unit's current Power."
-//		,"Poison:If a unit has two Poison statuses, destroy it.","Purify:Remove all statuses.",
-//		"Lock:Status that disables a card's abilities.","Destroy:Remove a card from the battlefied"
-//
-//		};
-//
-//		UnicodeString desc;
-//		UnicodeString descBody;
-//		UnicodeString type=ab->getAbilityType();
-//		int qt= ab->getQuantum();
-//
-//		int name=ab->getName();
-//		descBody=(type=="order"?"\nOrder:":"\nDeploy:")+text[name]+" "+qt+ (name<2?" rounds":"")
-//		+"\n\n"+abilityDescription[name];
-//		if(type=="order")
-//		{
-//			Order* order=(Order*)ab;
-//			descBody+="\nOrder:Lets the player manually trigger the ability";
-//			if(order->getZeal())
-//			{
-//			   desc+="\nZeal";
-//			   descBody+="\nZeal:Order can be used immediately";
-//			}
-//			int charges=order->getNoOfCharges();
-//			if(charges>1)
-//			{
-//			   desc+="\nCharges:"+IntToStr(charges);
-//			   descBody+="\nCharges:Number of times order can be activated";
-//			}
-//		}
-//		else
-//		{
-//			descBody+="\nDeploy:Trigger this ability when played.";
-//		}
-//		desc+=descBody;
-//
-//
-//		description->Caption= desc;
+
 		Aranjeaza();
 }
 
@@ -188,7 +131,7 @@ void CardUI::Aranjeaza() //pozitioneaza toate elementele relativ la cardImg
 }
 
 void CardUI::Muta(int x,int y){
-	   this->cardImg->Left =x;     //aici da eroare
+	   this->cardImg->Left =x;
 	   this->cardImg->Top =y;
 	   Aranjeaza();
 }

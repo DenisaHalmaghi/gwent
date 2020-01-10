@@ -34,7 +34,7 @@ public:
    Card();
    ~Card();
    Ability* getAbility();
-  // int getTarget();
+
    int getIndex();
    void destroyUI();
    UnicodeString getFaction();

@@ -12,14 +12,14 @@
 #define C_Turn 100
 #define C_Muta 101
 #define C_TriggerAbility 102
-#define C_Pass 103
+#define C_Forfeit 103
 #define C_StergeHandInamic 104
 
 class JocGwent
 {
 
 TImage* board;
-TTimer* targetTimer;
+//TTimer* targetTimer;
 TForm* parent;
 vector<Card*> prototypes;
 vector<Card*> Cards;
@@ -33,10 +33,12 @@ TClientSocket * sClient;
 bool placedCard;    //mai trebuie?
 Card* targetedCard;
 Card* droppedCard;
+TImage* dragedImage;
 bool myTurn;
+bool endingDrag;
 TPoint initialPosition;
-int roundNumber;
-int turn;
+//int roundNumber;
+//int turn;
 int myDeckStartIndex;
 Battlefield_Deriv* targetedBattlefield;
 bool passed[2];
@@ -45,14 +47,26 @@ TLabel* arataRand;
 
 //bool endedTurn;
 vector<TImage*>enemyCardbacks;
-//vector<pair<int,int>> positions[2];
-//int pos_top[2];
+void Init(TForm*);
+void triggerEffects(bool);
+
+//events
+void __fastcall cardMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
+ void __fastcall boardDragOver(TObject *Sender, TObject *Source, int X,
+		  int Y, TDragState State, bool &Accept);
+ void __fastcall boardDragDrop(TObject *Sender, TObject *Source, int X,
+		  int Y);
+// void __fastcall targetTimerTimer(TObject *Sender);
+ void __fastcall cardClicked(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
+void __fastcall cardEndDrag(TObject *Sender, TObject *Target, int X,
+int Y);
 
 public:
  JocGwent(TForm*,TImage*,TClientSocket *,vector<Card*>,int);
  ~JocGwent();
- void Init(TForm*);
- void triggerEffects(bool);
+
  bool endTurn();
  bool switchTurn();
  void creeazaCartile(vector<int>origin,vector<int>,int);
@@ -62,15 +76,8 @@ public:
  bool didIPass();
  void opponentPassed();
  void stergeDinHandInamic(int);
- void __fastcall cardMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y);
- void __fastcall boardDragOver(TObject *Sender, TObject *Source, int X,
-		  int Y, TDragState State, bool &Accept);
- void __fastcall boardDragDrop(TObject *Sender, TObject *Source, int X,
-		  int Y);
- void __fastcall targetTimerTimer(TObject *Sender);
- void __fastcall cardClicked(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y);
+ void faCurat();
+
 
 
 };

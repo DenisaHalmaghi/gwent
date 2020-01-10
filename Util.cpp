@@ -15,7 +15,7 @@ vector<int> Util::split(UnicodeString string,UnicodeString delimiter)
 		int stringLength=string.Length();
 		vector<int> elements;
 		int prev=1;
-		//myMemo->Lines->Add(deckString[0]);
+
 		for(int i=prev;i<=stringLength;i++)
 		{
 			if(delimiter==string[i])
@@ -63,7 +63,7 @@ UnicodeString Util::join(vector<pair<int,int>> ints,UnicodeString token )
 			for(int j=0;j<current.second;j++)
 			{
 				returnedValue+=IntToStr(current.first)+token;
-				//deckString+=IntToStr()+"#" ;
+
 			}
 	}
 

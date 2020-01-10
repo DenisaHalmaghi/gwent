@@ -17,7 +17,7 @@ OrderCardUI::OrderCardUI(TPoint pos,TWinControl* parent,UnicodeString image,Unic
 
 		orderBack=new TShape(cardImg);
 		orderBack->Parent=parent;
-		//test->bringTofront();
+
 		orderBack->Shape=stCircle;
 		orderBack->Pen->Color=clWhite;
 		orderBack->Brush->Style=bsClear;

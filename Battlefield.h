@@ -5,7 +5,7 @@
 
 
 #include <vector>
-#define C_MyTop 525
+#define C_MyTop 538
 #define C_Left_Start 200
 #define C_Left_End 1720
 
@@ -29,6 +29,7 @@ protected:
 	vector<int> onHold;
 	public:
 	Battlefield(TForm *,int inamic=0);
+    ~Battlefield();
 	void pushPeriodic(int);
 	void freePosition(int);
 	void freeAllPositions();
@@ -36,9 +37,6 @@ protected:
 	void clearOnHold();
 	void adToOnHold(int);
 	bool onBoard(int);
-//	vector<int> getPeriodic();
-//	vector<int> getOnHold();
-
 	TPoint place(TPoint,int);
 
 

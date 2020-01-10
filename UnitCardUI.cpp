@@ -10,22 +10,14 @@ UnitCardUI::UnitCardUI():CardUI(){
 }
 
 UnitCardUI::~UnitCardUI(){
-//if( cardImg)
-//{
-//	 delete cardImg;
-//}
 
-//	if(effectLabel)
-//	{
-//		delete effectLabel;
-//	}
 }
 
 UnitCardUI::UnitCardUI(TPoint pos,TWinControl* parent,UnicodeString image,UnicodeString faction,
 TCaption pc, Ability* ab,TCaption pw,int nrInst)
 :CardUI(pos,parent,image,faction,pc,ab,nrInst)
 {
-	   //	UnitCard* card=(UnitCard*)c ;
+
 		effectLabel=nullptr;
 		poison=nullptr;
 		lock=nullptr;
@@ -86,22 +78,7 @@ void UnitCardUI::setColor(TColor cl)
 	power->Font->Color=cl;
 }
 
-//
-//void UnitCardUI::triggerAbility(CardUI* tg){
-//	UnitCardUI* target= dynamic_cast<UnitCardUI*>(tg);
-//	Ability* ab=card->getAbility();
-//	string abName=ab->getName();
-//
-//	if(abName=="boost"){
-//	   int oldPower= target->getPower();
-//	   target->setPower(oldPower+ab->getQuantum());
-//	}
-//	else if(abName=="damage"){
-//		int oldPower= target->getPower();
-//	   target->setPower(oldPower-ab->getQuantum());
-//	}
-//    target->AranjeazaPower();
-//}
+
 
 void UnitCardUI::highlightSelf()
 {

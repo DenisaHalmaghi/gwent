@@ -11,10 +11,6 @@ NonUnitCardUI::NonUnitCardUI():CardUI(){
 }
 
 NonUnitCardUI::~NonUnitCardUI(){
-//if(cardImg)
-//{
-//	delete cardImg;
-//}
 
 }
 

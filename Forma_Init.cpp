@@ -16,12 +16,12 @@ TForm4 *Form4;
 __fastcall TForm4::TForm4(TComponent* Owner)
 	: TForm(Owner)
 {
-	//Button1->Caption="henlo";
+
 	factions.push_back("monsters");
 	factions.push_back("scoia");
 	 cardNr=0;
 	 provCost=0;
-	//cardDisplayContainer->AutoScroll =true;
+
 	Target * target1=new Target(C_Enemy,"unit");
 	Target * target2=new Target(C_Ally,"unit");
 	Target * target3=new Target(C_Self,"unit");
@@ -133,7 +133,7 @@ void __fastcall TForm4::playBtnClick(TObject *Sender)
 		//pass variables
 		Form1->prototypes=prototypes;
 		Form1->deckArray=Util::desfaPairs(currentDeck);
-
+		cleanUp();
 		Form1->Show();
 }
 //---------------------------------------------------------------------------
@@ -141,13 +141,8 @@ void __fastcall TForm4::playBtnClick(TObject *Sender)
 void __fastcall TForm4::deckCrBtnClick(TObject *Sender)
 {
 
-	  //remove all previously displayed cards
-		for(int i=0;i<displayedCards.size();i++)
-		{
-			displayedCards[i]->destroyUI();
-		}
-		displayedCards.clear();
 
+		cleanUp();
 
 		//show faction cardbacks
 	   for(int i=0;i<factions.size();i++)
@@ -190,7 +185,7 @@ void __fastcall TForm4::ChooseFaction(TObject *Sender)
 		  cardNr=0;
 			currentDeck.clear();
 		  selectedFaction=  factions[img->Tag];
-		 // Button1->Caption=selectedFaction;
+
 		  //delete faction cardbacks
 		  for(int i=0;i<cardbacks.size();i++)
 		  {
@@ -201,8 +196,8 @@ void __fastcall TForm4::ChooseFaction(TObject *Sender)
 		  noOfCards->Visible=true;
 		  playBtn ->Visible=true;
 
-		  int top=5;//cardDisplayContainer->Top;//24
-		  int side_left=15;//cardDisplayContainer->Left; //533
+		  int top=5;
+		  int side_left=15;
 		  int side_right=side_left+cardDisplayContainer->Width;
 		  int left=side_left;
 		  int cardWidth= C_CardHeight*C_Ratio;
@@ -234,15 +229,6 @@ void __fastcall TForm4::ChooseFaction(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm4::ScrollBar1Scroll(TObject *Sender, TScrollCode ScrollCode,
-		  int &ScrollPos)
-{
-   //	cardDisplayContainer->ScrollBy(0,-ScrollPos);
-   // cardDisplayContainer->Top+=5;
-}
-//---------------------------------------------------------------------------
-
 
 
 
@@ -282,17 +268,10 @@ void __fastcall TForm4::PutCardInDeck(TObject *Sender)
 		}
 
 
-   //	TForm* forma=new TForm(this);
-	//forma->Show();
+
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm4::Button2Click(TObject *Sender)
-{
-	//currentDeck=standard deck
-	playBtn->Click();
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TForm4::showCardDescription(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
@@ -307,4 +286,15 @@ void __fastcall TForm4::showCardDescription(TObject *Sender, TMouseButton Button
 	}
 }
 //---------------------------------------------------------------------------
-
+void TForm4::cleanUp()
+{
+        //remove all previously displayed cards
+		for(int i=0;i<displayedCards.size();i++)
+		{
+			displayedCards[i]->destroyUI();
+		}
+		displayedCards.clear();
+		noOfCards->Caption="";
+		cardNr=0;
+		currentDeck.clear();
+}

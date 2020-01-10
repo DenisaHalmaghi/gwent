@@ -33,10 +33,9 @@ __published:	// IDE-managed Components
 		  int X, int Y);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall sClientRead(TObject *Sender, TCustomWinSocket *Socket);
-	void __fastcall sClientConnect(TObject *Sender, TCustomWinSocket *Socket);
 private:	// User declarations
 	JocGwent* joc;
-
+    bool gameIsOver;
 	void handleEnd(int);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

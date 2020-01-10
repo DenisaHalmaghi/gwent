@@ -26,7 +26,7 @@ protected:
 	 int name;
 	 int quantum;
 	 TCaption type;
-	 bool repeatable;     //wat is dis? :))
+
 	 UnicodeString description;
 public:
 	 Ability();
@@ -34,7 +34,7 @@ public:
 	 TCaption getAbilityType();
 	 void triggerAbility();
 	 int getName();
-	 bool getRep();
+
 	 void virtual CopiazaAbility(Ability*&);
      int getQuantum();
 	 int virtual getZeal();
@@ -43,7 +43,7 @@ public:
 	 void virtual prepare(Battlefield* btl,int){return;};     //battlefield baza
 	 UnicodeString getAbilityDescription();
 
-   //	 ~Ability();
+
 
 };
 //---------------------------------------------------------------------------

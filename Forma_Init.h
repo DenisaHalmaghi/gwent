@@ -30,9 +30,7 @@ __published:	// IDE-managed Components
 	void __fastcall deckCrBtnClick(TObject *Sender);
 	void __fastcall exitBtnClick(TObject *Sender);
 	void __fastcall ChooseFaction(TObject *Sender);
-	void __fastcall ScrollBar1Scroll(TObject *Sender, TScrollCode ScrollCode, int &ScrollPos);
 	void __fastcall PutCardInDeck(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall showCardDescription(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 
@@ -43,7 +41,7 @@ private:	// User declarations
 	vector<Card*> displayedCards;
 	int cardNr;
 	int provCost;
-
+    void cleanUp();
 
 public:		// User declarations
 	__fastcall TForm4(TComponent* Owner);

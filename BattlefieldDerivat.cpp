@@ -26,10 +26,10 @@ void Battlefield_Deriv::IncresePeriodicCounter(vector<Card*> Cards)
 {
    for(int i=0;i<periodic.size();i++)
 	{
-//
+
 		Card* currCard= Cards[periodic[i]];
 		OrderCardUI* currentCardUI=(OrderCardUI* ) (currCard->cardInterface);
-//
+
 		Periodic* current= static_cast<Periodic*>(currCard->getAbility());
 		++(*current);
 		currentCardUI->modifyOrderUI(current->getNoOfCharges());

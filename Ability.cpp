@@ -8,7 +8,7 @@ Ability::Ability(){
 	name=C_Boost;
 	quantum=3;
 	type="deploy";
-	repeatable=0;
+
 }
 
 Ability::Ability(int name,int qt,TCaption tp){
@@ -39,7 +39,7 @@ Ability::Ability(int name,int qt,TCaption tp){
 			description="\nNo ability";
 		}
 
-   //	repeatable=rep;
+
 }
 
 TCaption Ability::getAbilityType(){
@@ -66,9 +66,6 @@ int Ability::getZeal(){
 	return -1;
 }
 
- bool Ability::getRep(){
-	return repeatable;
- }
 
  int  Ability::getCooldown(){
 	return 0;

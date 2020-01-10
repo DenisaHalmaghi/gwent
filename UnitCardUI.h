@@ -27,7 +27,7 @@ class UnitCardUI:public CardUI{
 	void removePoison_Lock(int);
 	bool hasPoison();
 	bool hasLock();
-   //	void triggerAbility(CardUI*);
+
 	void highlightSelf();
 
 

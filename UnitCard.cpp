@@ -92,10 +92,8 @@ void Special_Card::placeOnBattlefield(Battlefield* btl,TPoint pos)
 	cardInterface->Muta(C_Left_End+30,435);
 }
 
-//void Special_Card::buildCardUI(TPoint pos,TForm* parent)
-//{
-//	cardInterface=new NonUnitCardUI(pos,parent,image,faction,provisionCost,ability,"artefact",nrInst);
-//}
+
+
 void Special_Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield* btl,Battlefield* btlInamic){
 	Card::triggerAbility(tg,effects,btl,btlInamic);
 	destroyUI();

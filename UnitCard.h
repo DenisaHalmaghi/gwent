@@ -3,7 +3,7 @@
 #ifndef UnitCardH
 #define UnitCardH
 #include "Card.h"
-//#include "Unit1.h"
+
 
 class UnitCard:public Card
 {   public:
@@ -24,7 +24,7 @@ public:
    void virtual Copiaza(Card*&,int);
    void virtual takeCareOfSpecialCard();
    void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*,Battlefield*);
-//   void virtual buildCardUI(TPoint,TForm*);
+
 };
 //---------------------------------------------------------------------------
 #endif

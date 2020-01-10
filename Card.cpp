@@ -47,11 +47,8 @@ Ability* Card::getAbility(){
 UnicodeString Card::getFaction(){
  return faction;
 }
-//
-//int Card::getTarget()
-//{
-//	return target->side;
-//}void Card::copiazaEsentiale(Ability*& ab_copy,Target*& tg_copy){	 ability->CopiazaAbility(ab_copy);
+
+void Card::copiazaEsentiale(Ability*& ab_copy,Target*& tg_copy){	 ability->CopiazaAbility(ab_copy);
 	 tg_copy=new Target(target->side,target->type);
 
 }
@@ -90,163 +87,26 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 	{
 		case C_Boost:
 		{
-		   //	int oldPower= target->getPower();
+			//+ cat trebuie boostata
 			tg->modificaPower(ability->getQuantum());
-		   //target->setPower(0);
 			break;
 		 }
 		case C_Damage:
 		{
-			int oldPower= target->getPower();
+			//power+= - damage
 			tg->modificaPower(-ability->getQuantum());
 			break;
 		}
 		case C_Bleed:
 		{
-		   //	int quantum= ability->getQuantum();
-//			bool gasit=0;
-//			int effect=C_Bleed;
-//			//cauta cartea in matrice
-//			for(int i=0;i<2;i++)
-//			{
-//				for(int j=0;j<effects[i].size();j++)
-//				{
-//					pair current=effects[i][j];
-//					if(current.first==tg->getIndex())
-//					{
-//						gasit=1;
-//						//modifica durata corespunzator
-////
-//						int semn=(!i)?1:-1;
-//						quantum+=semn*current.second; //daca e pe bleed stack effect altfel vezi diferenta
-//
-//						if(quantum>0)//ramane bleed
-//						{
-//						effects[i].erase( effects[i].begin()+j);
-//						effects[effect].push_back(make_pair(tg->getIndex(),quantum));
-//						target->appendEffect(effect,quantum);
-//							//modificam doar durata
-////							if(semn>0)  //==1 ,adica l-am gasit pe randul bleed
-////							{
-////								effects[i][j].second= quantum;
-////								target->appendEffect(effect,quantum);
-////							}
-////							else //e pe randul opus dar nu se se schimba efectul
-////							{
-////								effects[i].erase( effects[i].begin()+j);
-////								effects[C_Bleed].push_back(make_pair(tg->getIndex(),quantum));
-////							}
-//
-//						}
-//						else if(quantum==0)//se anuleaza
-//						{
-//							effects[i][j].second= quantum;
-//							target->appendEffect(effect,effects[i][j].second);
-//						   effects[i].erase( effects[i].begin()+j);
-//						   target->removeEffect();
-//						}
-//						else //ramane cel vechi  aka vitality in cazul acesta
-//						{
-//							effect=C_Vitality;
-//							quantum*=(-1);
-//							//stergem cel vechi
-//							effects[i].erase( effects[i].begin()+j);
-//							//introducem cel nou
-//							effects[C_Vitality].push_back(make_pair(tg->getIndex(),quantum));
-//							target->appendEffect(effect,quantum);
-//						}
-//
-//						return;   //grija ca daca facem return si avem mai multe tinte(viitor)-> buba
-//					}
-//				}
-//
-////				if(gasit)
-////				{
-////					break;
-////				}
-//			}
 
 			Bleed_Vitality(C_Bleed,tg->getIndex(),target,effects);
-
-//			if(!gasit)
-//			{
-//				 //push it into the effects matrix (indexul din vectorul de carti,ca sa putem gasi cartea)
-//				 effects[C_Bleed].push_back(make_pair(tg->getIndex(),quantum));
-//				 //add something to signal this for the user
-//				 target->appendEffect(C_Bleed,quantum);
-//			}
-
-
-			 break;
-
+			break;
 
 		}
 
-
-
 		case C_Vitality:
 		{
-
-//			int quantum= ability->getQuantum();
-//			bool gasit=0;
-//			int effect=C_Vitality;
-//			//cauta cartea in matrice
-//			for(int i=0;i<2;i++)
-//			{
-//				for(int j=0;j<effects[i].size();j++)
-//				{
-//					pair current=effects[i][j];
-//					if(current.first==tg->getIndex())
-//					{
-//						gasit=1;
-//						//modifica durata corespunzator
-////
-//						int semn=(i)?1:-1;
-//						quantum+=semn*current.second;
-//
-//						if(quantum>0)//ramane efectul nou
-//						{
-//							//modificam doar durata
-//							effects[i].erase( effects[i].begin()+j);
-//							effects[effect].push_back(make_pair(tg->getIndex(),quantum));
-//							target->appendEffect(effect,quantum);
-//						}
-//						else if(quantum==0)//se anuleaza
-//						{
-//							effects[i][j].second= quantum;
-//							target->appendEffect(effect,effects[i][j].second);
-//						   effects[i].erase( effects[i].begin()+j);
-//						   target->removeEffect();
-//						}
-//						else //ramane cel vechi  aka vitality in cazul acesta
-//						{
-//							effect=C_Bleed;
-//							quantum*=(-1);
-//							//stergem cel vechi
-//							effects[i].erase( effects[i].begin()+j);
-//							//introducem cel nou
-//							effects[effect].push_back(make_pair(tg->getIndex(),quantum));
-//							target->appendEffect(effect,quantum);
-//						}
-//
-//						return;
-//					}
-//				}
-//
-////				if(gasit)
-////				{
-////					break;
-////				}
-//			}
-//
-//			if(!gasit)
-//			{
-//			//push it into the effects matrix (indexul din vectorul de carti,ca sa putem gasi cartea)
-//			 effects[C_Vitality].emplace_back(tg->getIndex(),quantum);
-//			 //add something to signal this for the user
-//			 target->appendEffect(C_Vitality,quantum);
-//			 break;
-//		   }
 
 			Bleed_Vitality(C_Vitality,tg->getIndex(),target,effects);
 			break;
@@ -254,6 +114,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		}
 		case C_Purify:
 		{
+		//cauta si scoate toate efectele de pe ea
 		   for(int i=0;i<2;i++)
 			{
 				for(int j=0;j<effects[i].size();j++)
@@ -270,9 +131,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 
 			   target->removePoison_Lock(C_Poison);
 			   target->removePoison_Lock(C_Lock);
-
-
-			 break;
+			   break;
 		}
 
 		case C_Poison:
@@ -280,8 +139,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		{
 		   if(target->hasPoison())
 		   {
-			   tg->destroyUI();
-			   return;
+				target->setPower(0);
 		   }
 		   else
 		   {
@@ -307,20 +165,8 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 
 		case C_Destroy:
 		{
-			tg->clearFromEffects(effects);
-			tg->destroyUI();
-			btl->freePosition(tg->getIndex());
-			btlInamic->freePosition(tg->getIndex());
-			return;
-		//target->getPower();
-//		   if(target->getPower()>8)
-//		   {
-//				target->setPower(0);
-//			   //	return;
-//			  // target->appendPoison_Lock(C_Lock,25);
-//		   }
-//
-//		   break;
+			target->setPower(0);
+			 break;
 		}
 
 	}
@@ -335,7 +181,7 @@ void Card::triggerAbility(Card* tg, vector<pair<int, int>>effects[3],Battlefield
 		}
 
 		//cartea mai exista
-		//takeCareOfOrder();
+
 		target->AranjeazaPower();
 
 }

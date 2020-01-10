@@ -33,7 +33,7 @@ Battlefield::Battlefield(TForm * parent,int inamic)
 	int width=C_CardHeight*C_Ratio;
 	int left=C_Left_Start;
 	int s= positions[0].size();
-	//vector<pair<int,int>> temp;
+
 	while(left+width+5<C_Left_End)
 	{
 	   pair entry=make_pair(left,-1);
@@ -76,7 +76,7 @@ TPoint Battlefield::place(TPoint currPos,int cardIndex)
 		top=C_MyTop- C_CardHeight-50;
 		if(index)
 		{
-			top-=C_CardHeight+10;
+			top-=C_CardHeight+15;
         }
       }
 	  positions[index][minIndex].second= cardIndex;//punem indexul cartii in vector
@@ -185,13 +185,8 @@ void Battlefield::adToOnHold(int index)
 	onHold.push_back(index);
 }
 
-//vector<int> Battlefield::getPeriodic()
-//{
-//
-//	return periodic;
-//}
-//
-//vector<int> Battlefield::getOnHold()
-//{
-//    return onHold;
-//}
+ Battlefield::~Battlefield()
+{
+	delete score;
+}
+
