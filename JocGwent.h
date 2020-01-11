@@ -19,12 +19,11 @@ class JocGwent
 {
 
 TImage* board;
-//TTimer* targetTimer;
 TForm* parent;
 vector<Card*> prototypes;
 vector<Card*> Cards;
 vector<int> hand;
-vector<pair<int,int>> effects[3];
+vector<pair<int,int>> effects[2];
 Battlefield_Deriv* btl;
 Battlefield_Deriv* btlInamic;
 Deck* deck;
@@ -76,7 +75,7 @@ public:
  bool didIPass();
  void opponentPassed();
  void stergeDinHandInamic(int);
- void faCurat();
+ //void faCurat();
 
 
 

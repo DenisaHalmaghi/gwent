@@ -32,7 +32,7 @@ __fastcall TForm4::TForm4(TComponent* Owner)
 
 	prototypes.push_back(new Card(i++,"Adda Striga","monsters","adda_striga",6,target1,new Ability(C_Destroy,2)));
 
-	prototypes.push_back(new UnitCard(i++,"Aglais","monsters","katakan",8,target1,new Periodic(C_Damage,10,1),10));
+	prototypes.push_back(new UnitCard(i++,"Katakan","monsters","katakan",8,target1,new Periodic(C_Damage,1,2),8));
 
 	prototypes.push_back(new UnitCard(i++,"Nekurat","monsters","Nekurat",5,target1,new Periodic(C_Bleed,2,2),3));
 
@@ -127,7 +127,7 @@ void __fastcall TForm4::playBtnClick(TObject *Sender)
 		UnicodeString deckString="deck#"+IntToStr(cardNr)+"#";
 		deckString+=Util::join( currentDeck,"#");
 
-		myMemo->Lines->Add(deckString);
+
 
 
 		//pass variables

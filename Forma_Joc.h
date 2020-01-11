@@ -18,7 +18,6 @@ __published:	// IDE-managed Components
 	TButton *exitBtn;
 	TButton *btnUnu;
 	TTimer *turnTimer;
-	TMemo *Memo1;
 	TLabel *Label1;
 	TButton *passBtn;
 	TImage *boardImg;
@@ -28,9 +27,6 @@ __published:	// IDE-managed Components
 	void __fastcall exitBtnClick(TObject *Sender);
 	void __fastcall turnTimerTimer(TObject *Sender);
 	void __fastcall passBtnClick(TObject *Sender);
-	void __fastcall boardImgClick(TObject *Sender);
-	void __fastcall boardImgMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall sClientRead(TObject *Sender, TCustomWinSocket *Socket);
 private:	// User declarations

@@ -24,7 +24,6 @@ __published:	// IDE-managed Components
 	TPanel *cardDisplayContainer;
 	TScrollBox *ScrollBox1;
 	TLabel *noOfCards;
-	TMemo *myMemo;
 
 	void __fastcall playBtnClick(TObject *Sender);
 	void __fastcall deckCrBtnClick(TObject *Sender);

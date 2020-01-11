@@ -1,7 +1,7 @@
 object Form4: TForm4
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'Card Selection'
   ClientHeight = 856
   ClientWidth = 1810
   Color = clBtnFace
@@ -47157,14 +47157,14 @@ object Form4: TForm4
       CF1D7A1A825B5B2D852A4738CE3A7D738E9E841F7A6B7B3D1315F4F31C0E08E3
       8EA4F3DC0E327A0E0536EFABFEBFAD456B8ACCBC119E3B0C9CE4FD791C7E62A6
       C3B3D6FB11899CF1C1F76079C1CFA7639A636B4D2EBFAD4FFFD9}
-    ExplicitWidth = 2560
-    ExplicitHeight = 1280
+    ExplicitLeft = 8
+    ExplicitTop = 8
   end
   object noOfCards: TLabel
-    Left = 16
-    Top = 64
-    Width = 4
-    Height = 20
+    Left = 25
+    Top = 48
+    Width = 3
+    Height = 1
     Alignment = taCenter
     Color = clGrayText
     Font.Charset = DEFAULT_CHARSET
@@ -47222,14 +47222,5 @@ object Form4: TForm4
     BorderStyle = bsNone
     ParentBackground = True
     TabOrder = 4
-  end
-  object myMemo: TMemo
-    Left = 208
-    Top = 104
-    Width = 185
-    Height = 89
-    Lines.Strings = (
-      'myMemo')
-    TabOrder = 5
   end
 end

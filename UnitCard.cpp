@@ -7,17 +7,17 @@
 
 UnitCard::UnitCard():Card(){
 
-	rowRestriction=0;
+
 	power=4;
 
 }
 
 UnitCard::UnitCard(int index,TCaption name,UnicodeString faction,UnicodeString image,int pc,
-Target* target,Ability* ab,int pw,int rs)
+Target* target,Ability* ab,int pw)
 :Card(index,name,faction,image,pc,target,ab,"unit")
 {
 	  power=pw;
-	  rowRestriction=rs;
+
 }
 
 void UnitCard::buildCardUI(TPoint pos,TWinControl* parent)
@@ -63,7 +63,7 @@ void UnitCard::Copiaza(Card*& copie,int index)
 	Ability* ab;
 	Target* tg;
 	copiazaEsentiale(ab,tg);
-	copie=new UnitCard(index,name,faction,image,provisionCost,tg,ab,power,rowRestriction);
+	copie=new UnitCard(index,name,faction,image,provisionCost,tg,ab,power);
 }
 
 void Special_Card::takeCareOfSpecialCard()

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.120,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit7.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.806,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\ServerHandler.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit7.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.418,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_ServerPCH1.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.806,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\ServerHandler.dfm=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit7.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.653,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_ServerSocket.cbproj=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Project5.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.806,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\ServerHandler.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit7.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.066,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
+  </Transactions>
+</BorlandProject>

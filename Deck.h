@@ -8,9 +8,9 @@ using namespace std;
 class Deck
 {
 	friend class JocGwent;
-
+	 vector<int> cards;
 	public:
-    vector<int> cards;
+
 	Deck(vector<int>);
 
 	vector<int> imparteCartile(int);

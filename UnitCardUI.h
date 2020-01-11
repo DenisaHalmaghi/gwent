@@ -10,12 +10,12 @@ class UnitCardUI:public CardUI{
 	TLabel* effectLabel;
 	TImage* poison;
 	TImage* lock;
+	void Aranjeaza();
 	public:
 	UnitCardUI();
 	~UnitCardUI();
 	UnitCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString,TCaption, Ability*,TCaption,int);
-    void AranjeazaPower();
-	void Aranjeaza();
+	void AranjeazaPower();
 	void Muta(int,int);
 	void setPower(int);
 	int getPower();

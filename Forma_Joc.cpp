@@ -23,7 +23,7 @@ void __fastcall TForm1::btnUnuClick(TObject *Sender)
 		deckString+=Util::join( deckArray,"#");
 		sClient->Socket->SendText(deckString);
 
-		Memo1->Lines->Add("sent"+deckString);
+	  //	Memo1->Lines->Add("sent"+deckString);
 
 
 }
@@ -61,7 +61,7 @@ void __fastcall TForm1::turnTimerTimer(TObject *Sender)
 
 	   }
 
-	   Memo1->Lines->Add(turn);
+	  // Memo1->Lines->Add(turn);
 	   if(!turn)
 	   {
 		  sClient->Socket->SendText(IntToStr(C_Turn)+"#");
@@ -97,19 +97,6 @@ void __fastcall TForm1::passBtnClick(TObject *Sender)
 		   }
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::boardImgClick(TObject *Sender)
-{
-	Label1->Caption=Mouse->CursorPos.y;
-	 Memo1->Lines->Add("click");
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::boardImgMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y)
-{
-		   Memo1->Lines->Add("up");
-
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
 	joc=nullptr;
@@ -122,7 +109,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 	UnicodeString text= Socket->ReceiveText();
 	vector<int> message=Util::split(text,"#");
 	int size=  message.size();
-	Memo1->Lines->Add(text);
+
 	size+=0;
 	int firstPart=message[0];
 	if(message[0]==C_TriggerAbility)
@@ -153,14 +140,12 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 		   UnicodeString deckCards=Util::join(deckArray,"#");
 			UnicodeString merged=Util::join(mergedDecks,"#");
-			Memo1->Lines->Add(merged);
-			Memo1->Lines->Add(myDeckStartIndex);
-			Memo1->Lines->Add(deckCards);
+
 		   joc->creeazaCartile(mergedDecks,deckArray,myDeckStartIndex);
 		   joc->afiseazaCartile(this);
             if(message[1])
 		   {
-				Memo1->Lines->Add(joc->switchTurn());
+				joc->switchTurn();
 				turnTimer->Enabled=true;
 
 		   }
@@ -177,7 +162,7 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 
 			try
 		   {
-			Memo1->Lines->Add(joc->switchTurn());
+			joc->switchTurn();
 		   }
 		   catch(Util u)
 		   {
@@ -198,9 +183,8 @@ void __fastcall TForm1::sClientRead(TObject *Sender, TCustomWinSocket *Socket)
 				  return;
 			   }
 
-				Memo1->Lines->Add("am dat pass");
+
 				sClient->Socket->SendText(IntToStr(C_Turn)+"#");
-                Memo1->Lines->Add("am trimis passul");
 				return;
 			}
 

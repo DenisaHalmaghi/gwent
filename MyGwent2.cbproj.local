@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.392,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.918,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.077,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Target.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.454,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Ability.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.951,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Card.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.395,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.674,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.548,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.630,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.652,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.029,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.703,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.674,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.422,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.661,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.440,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\nou.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\First_Form.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.060,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\NonRep.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\OrderTypes.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.005,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit4.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit4.cpp</Transaction>
@@ -31,16 +31,16 @@
     <Transaction>1899.12.30 00:00:00.000.005,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Unit4.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit4.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.030,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\NonRep.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.734,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\UnitCardUI.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.948,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.887,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.551,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.395,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.830,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.918,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.873,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Battlefield.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.045,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.661,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.422,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.703,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.392,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.551,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.873,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Battlefield.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.652,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.887,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.948,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.630,=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.515,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\BattlefieldDerivat.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Deck.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.707,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\vechi.h=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\Initial_Form.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.440,C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\nou.dfm=C:\Users\DENISA\Documents\Embarcadero\Studio\Projects\Gwent_v2\First_Form.dfm</Transaction>

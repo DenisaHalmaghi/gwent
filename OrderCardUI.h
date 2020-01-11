@@ -8,9 +8,10 @@ class OrderCardUI:public UnitCardUI
 {
 	TShape * orderBack;
 	TLabel * orderFront;
+    void Aranjeaza();
 	public:
 	OrderCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString ,TCaption , Ability* ,TCaption ,int );
-	void Aranjeaza();
+
 	void Muta(int,int);
 	void modifyOrderUI(int);
 };

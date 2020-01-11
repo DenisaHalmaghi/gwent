@@ -9,11 +9,12 @@
 class NonUnitCardUI:public CardUI{
 	protected:
 	TImage* symbol;
+    void Aranjeaza();
 	public:
 	NonUnitCardUI();
 	NonUnitCardUI(TPoint,TWinControl*,UnicodeString,UnicodeString,TCaption, Ability*,UnicodeString,int);
 	~NonUnitCardUI();
-	void Aranjeaza();
+
 	void Muta(int,int);
 	bool hasLock();
 	void virtual hideUI();

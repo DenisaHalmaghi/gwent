@@ -15,10 +15,7 @@ CardUI::CardUI(){
   //	card=nullptr;
 }
 
-int CardUI::getWidth(){
 
-	return cardImg->Width;
-}
 CardUI::~CardUI(){
 
 	delete cardImg;

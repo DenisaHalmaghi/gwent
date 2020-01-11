@@ -19,6 +19,7 @@ using namespace std;
 
 class Card
 {
+	friend class JocGwent;
 protected:
 
    TCaption name;
@@ -27,31 +28,35 @@ protected:
    Ability* ability;
    Target* target;
    int nrInst;
+
+   void copiazaEsentiale(Ability*&,Target*&);
+   void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[2]);
+
 public:
 	CardUI* cardInterface;
-	 friend class JocGwent;
-   Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*,UnicodeString cardType="artefact");
-   Card();
-   ~Card();
-   Ability* getAbility();
 
-   int getIndex();
-   void destroyUI();
-   UnicodeString getFaction();
-   int getProvisionCost();
-   void copiazaEsentiale(Ability*&,Target*&);
-   void virtual Copiaza(Card*&,int);
-   void takeCareOfOrder();
-   void virtual takeCareOfSpecialCard(){};
-   void Bleed_Vitality(int ,int ,UnitCardUI*, vector<pair<int, int>>effects[3]);
-   void virtual buildCardUI(TPoint,TWinControl*);
-   void virtual placeOnBattlefield(Battlefield*,TPoint);
-   void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*,Battlefield*);
-   void virtual modificaPower(int);
-   void  clearFromEffects(vector < pair<int,int> > [3]);
-   void toggleDescription();
-   Target* getTargetObject();
-   bool checkTargetMatch(Target*);
+	Card(int,TCaption,UnicodeString ,UnicodeString ,int,Target*,Ability*,UnicodeString cardType="artefact");
+	Card();
+	~Card();
+
+	Ability* getAbility();
+	int getIndex();
+	UnicodeString getFaction();
+	int getProvisionCost();
+
+
+	void destroyUI();
+	void virtual Copiaza(Card*&,int);
+	void takeCareOfOrder();
+	void virtual takeCareOfSpecialCard(){};
+	void virtual buildCardUI(TPoint,TWinControl*);
+	void virtual placeOnBattlefield(Battlefield*,TPoint);
+	void virtual triggerAbility(Card*,vector < pair<int,int> > [3],Battlefield*,Battlefield*);
+	void virtual modificaPower(int);
+	void  clearFromEffects(vector < pair<int,int> > [3]);
+	void toggleDescription();
+	Target* getTargetObject();
+	bool checkTargetMatch(Target*);
 
 };
 

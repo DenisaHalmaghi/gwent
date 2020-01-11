@@ -36,7 +36,7 @@ public:
 	 int getName();
 
 	 void virtual CopiazaAbility(Ability*&);
-     int getQuantum();
+	 int getQuantum();
 	 int virtual getZeal();
 	 int virtual getCooldown();
 	 int  virtual getNoOfCharges();
